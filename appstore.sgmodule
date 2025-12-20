@@ -4,11 +4,11 @@
 #!icon=https://img.iosxy.xin/xiyan.png
 #!system=ios
 #!homepage=https://iosxy.xin
-#!arguments=applist:com.tencent.xin,updateInterval:300
+#!arguments=APPLIST:com.tencent.xin,UPDATAEINTERVAL:300
 #!arguments-desc=applist: 填写app的包名，一行一个（必须手动填写，不能为空）\nupdateInterval: 自动更新间隔(秒)，默认300秒(5分钟)
 
 [Panel]
 appstore_panel = script-name=appstore_panel,update-interval={{{updateInterval}}}
 
 [Script]
-appstore_panel = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.js,argument=applist={{{applist}}}
+appstore_panel = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.js,argument=APPLIST={{{APPLIST}}}
