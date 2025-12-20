@@ -4,9 +4,8 @@
 #!icon=https://img.iosxy.xin/xiyan.png
 #!system=ios
 #!homepage=https://iosxy.xin
-#!arguments=applist:com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.ruikq.decar
-#!arguments=updateInterval:300
-#!arguments-desc=applist: 填写app的包名，多个用逗号分隔\nupdateInterval: 自动更新间隔(秒)，默认300秒(5分钟)
+#!arguments=applist:com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.ruikq.decar,updateInterval:300
+#!arguments-desc=applist: 填写app的包名，多个用逗号分隔（例如：com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios）\nupdateInterval: 自动更新间隔(秒)，默认300秒(5分钟)
 
 [Panel]
 appstore_panel = script-name=appstore_panel,update-interval={{{updateInterval}}}
