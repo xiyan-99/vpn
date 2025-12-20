@@ -394,94 +394,87 @@ async function enhancedFetch(appIdentifier) {
   // 等待所有存储操作完成
   await Promise.all(writePromises);
 
-  // 生成面板内容
+  // 生成面板内容和通知
   const now = new Date();
   const executionTime = ((Date.now() - startTime) / 1000).toFixed(1);
   
   // 判断是否为面板调用
   const isPanel = typeof $trigger !== 'undefined';
   
-  if (isPanel) {
-    // 面板模式：返回面板内容
-    let title = "📱 App Store 更新检测";
-    let content = "";
-    let style = "info";
+  // 面板模式：生成面板内容
+  let panelTitle = "📱 App Store 更新检测";
+  let panelContent = "";
+  let panelStyle = "info";
+  
+  if (hasUpdate) {
+    panelStyle = "alert";
+    panelTitle = "🆕 发现应用更新";
     
-    if (hasUpdate) {
-      style = "alert";
-      title = "🆕 发现应用更新";
-      
-      const updates = results.updated["应用"];
-      if (updates.length > 0) {
-        content += updates.map(u => 
-          `${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`
-        ).join("\n");
-      }
-      
-      if (results.current.length > 0) {
-        content += "\n\n✅ 最新版:\n";
-        content += results.current.map(c => 
-          `${c.app.icon} ${c.app.name}: ${c.version}`
-        ).join("\n");
-      }
-    } else if (results.failed.length > 0) {
-      style = "error";
-      title = "❌ 检测异常";
-      
-      if (results.failed.length > 0) {
-        content += "❌ 查询失败:\n";
-        content += results.failed.map(f => 
-          `${f.app.icon} ${f.app.name}`
-        ).join("\n");
-      }
-      
-      if (results.current.length > 0) {
-        content += "\n\n✅ 查询成功:\n";
-        content += results.current.map(c => 
-          `${c.app.icon} ${c.app.name}: ${c.version}`
-        ).join("\n");
-      }
-    } else {
-      style = "good";
-      title = "✅ 全部最新";
-      
-      content += results.current.map(c => 
-        `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' 🆕' : ''}`
+    const updates = results.updated["应用"];
+    if (updates.length > 0) {
+      panelContent += updates.map(u => 
+        `${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`
       ).join("\n");
     }
     
-    content += `\n\n⏱️ 耗时: ${executionTime}s | 📅 ${now.toLocaleTimeString("zh-CN", { 
-      hour: '2-digit',
-      minute: '2-digit'
-    })}`;
+    if (results.current.length > 0) {
+      panelContent += "\n\n✅ 最新版:\n";
+      panelContent += results.current.map(c => 
+        `${c.app.icon} ${c.app.name}: ${c.version}`
+      ).join("\n");
+    }
+  } else if (results.failed.length > 0) {
+    panelStyle = "error";
+    panelTitle = "❌ 检测异常";
     
-    $done({
-      title: title,
-      content: content,
-      style: style
-    });
+    if (results.failed.length > 0) {
+      panelContent += "❌ 查询失败:\n";
+      panelContent += results.failed.map(f => 
+        `${f.app.icon} ${f.app.name}`
+      ).join("\n");
+    }
     
+    if (results.current.length > 0) {
+      panelContent += "\n\n✅ 查询成功:\n";
+      panelContent += results.current.map(c => 
+        `${c.app.icon} ${c.app.name}: ${c.version}`
+      ).join("\n");
+    }
   } else {
-    // 通知模式
-    // 判断是否为手动刷新
-    // $trigger 可能的值: "按钮" (手动刷新) 或 "自动音程" (自动刷新)
-    const isManualTrigger = typeof $trigger !== 'undefined' && $trigger === '按钮';
+    panelStyle = "good";
+    panelTitle = "✅ 全部最新";
     
-    // 读取是否总是通知参数
-    const args = $argument || "";
-    const alwaysNotifyMatch = args.match(/ALWAYSNOTIFY="?([^"&]*)"?/);
-    const alwaysNotify = alwaysNotifyMatch && alwaysNotifyMatch[1] === 'true';
-    
-    console.log(`🔔 触发方式: ${typeof $trigger !== 'undefined' ? $trigger : '未知'}`);
-    console.log(`🔔 总是通知: ${alwaysNotify ? '开启' : '关闭'}`);
-    
-    // 决定是否发送通知
-    // 1. 手动刷新时总是发送
-    // 2. 开启"总是通知"时总是发送
-    // 3. 有更新或失败时发送
-    const shouldNotify = isManualTrigger || alwaysNotify || hasUpdate || results.failed.length > 0;
-    
-    if (shouldNotify) {
+    panelContent += results.current.map(c => 
+      `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' 🆕' : ''}`
+    ).join("\n");
+  }
+  
+  panelContent += `\n\n⏱️ 耗时: ${executionTime}s | 📅 ${now.toLocaleTimeString("zh-CN", { 
+    hour: '2-digit',
+    minute: '2-digit'
+  })}`;
+  
+  // 通知处理（面板脚本也可以发送通知）
+  // 判断是否为手动刷新
+  // $trigger 可能的值: "按钮" (手动刷新) 或 "自动音程" (自动刷新)
+  const isManualTrigger = isPanel && $trigger === '按钮';
+  
+  // 读取是否总是通知参数
+  const args = $argument || "";
+  const alwaysNotifyMatch = args.match(/ALWAYSNOTIFY="?([^"&]*)"?/);
+  const alwaysNotify = alwaysNotifyMatch && alwaysNotifyMatch[1] === 'true';
+  
+  console.log(`🔔 触发方式: ${isPanel ? $trigger : '非面板模式'}`);
+  console.log(`🔔 总是通知: ${alwaysNotify ? '开启' : '关闭'}`);
+  
+  // 决定是否发送通知
+  // 1. 手动刷新时总是发送
+  // 2. 开启"总是通知"时总是发送
+  // 3. 有更新或失败时发送
+  const shouldNotify = isManualTrigger || alwaysNotify || hasUpdate || results.failed.length > 0;
+  
+  // 发送通知（如果需要）
+  if (shouldNotify) {
       let title, subtitle;
       
       if (hasUpdate) {
@@ -595,39 +588,50 @@ async function enhancedFetch(appIdentifier) {
         action: "open-url",  // 点击通知时打开URL
         url: appStoreUrl  // App Store链接
       });
+      
+      console.log(`📬 已发送通知: ${title}`);
     } else {
       // 自动刷新且没有更新也没有失败且未开启总是通知时，只记录日志
       console.log("✅ 自动检测：所有应用均为最新版本且查询成功，无需通知");
     }
-    
-    // 调试日志
-    console.log("=".repeat(40));
-    console.log(`应用更新检测完成 (${executionTime}s)`);
-    
-    if (results.updated["应用"].length > 0) {
-      console.log("✨ 发现以下更新:");
-      results.updated["应用"].forEach(u => {
-        console.log(`  ${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`);
-      });
-    } else {
-      console.log("✨ 未发现应用更新");
-    }
-    
-    if (results.current.length > 0) {
-      console.log("✅ 检查成功的应用:");
-      results.current.forEach(c => {
-        console.log(`  ${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' (首次记录)' : ''}`);
-      });
-    }
-    
-    if (results.failed.length > 0) {
-      console.log("❌ 查询失败的应用:");
-      results.failed.forEach(f => {
-        console.log(`  ${f.app.icon} ${f.app.name}: ${f.error}`);
-      });
-    }
-    
-    console.log("=".repeat(40));
+  
+  // 调试日志
+  console.log("=".repeat(40));
+  console.log(`应用更新检测完成 (${executionTime}s)`);
+  
+  if (results.updated["应用"].length > 0) {
+    console.log("✨ 发现以下更新:");
+    results.updated["应用"].forEach(u => {
+      console.log(`  ${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`);
+    });
+  } else {
+    console.log("✨ 未发现应用更新");
+  }
+  
+  if (results.current.length > 0) {
+    console.log("✅ 检查成功的应用:");
+    results.current.forEach(c => {
+      console.log(`  ${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' (首次记录)' : ''}`);
+    });
+  }
+  
+  if (results.failed.length > 0) {
+    console.log("❌ 查询失败的应用:");
+    results.failed.forEach(f => {
+      console.log(`  ${f.app.icon} ${f.app.name}: ${f.error}`);
+    });
+  }
+  
+  console.log("=".repeat(40));
+  
+  // 返回面板内容（如果是面板模式）
+  if (isPanel) {
+    $done({
+      title: panelTitle,
+      content: panelContent,
+      style: panelStyle
+    });
+  } else {
     $done();
   }
 })();
