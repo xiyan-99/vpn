@@ -4,7 +4,7 @@
 #!icon=https://img.iosxy.xin/xiyan.png
 #!system=ios
 #!homepage=https://iosxy.xin
-#!arguments=applist:,updateInterval:300
+#!arguments=applist:com.tencent.xin,updateInterval:300
 #!arguments-desc=applist: 填写app的包名，一行一个（必须手动填写，不能为空）\nupdateInterval: 自动更新间隔(秒)，默认300秒(5分钟)
 
 [Panel]
