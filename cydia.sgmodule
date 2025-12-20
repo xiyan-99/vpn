@@ -1,0 +1,16 @@
+#!name=Cydia源更新检测
+#!desc=检测越狱源deb包更新，支持自定义源和包名
+#!author=夕颜 wx: 1418581664
+#!icon=https://img.iosxy.xin/xiyan.png
+#!system=ios
+#!category=iOS夕颜
+#!homepage=https://iosxy.xin
+#!arguments=REPOLIST:"",UPDATEINTERVAL:"3600",ALWAYSNOTIFY:"false"
+#!arguments-desc=REPOLIST: 填写要监控的源和包，格式：源地址#包名#备注\n多个用逗号分隔，例如：\nhttps://repo.chariz.com/#com.ex.substitute#Substitute\n\nUPDATEINTERVAL: 自动更新间隔(秒)，默认3600秒(1小时)\n\nALWAYSNOTIFY: 是否每次都发送通知\n填写 true 开启，false 关闭（默认关闭，只在有更新时通知）
+
+[Panel]
+cydia_panel = script-name=cydia_panel,update-interval={{{UPDATEINTERVAL}}}
+
+[Script]
+cydia_panel = type=generic,timeout=15,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/cydia.js,argument=REPOLIST="{{{REPOLIST}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"
+

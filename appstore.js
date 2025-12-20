@@ -475,22 +475,19 @@ async function enhancedFetch(appIdentifier) {
   
   // 发送通知（如果需要）
   if (shouldNotify) {
-      let title, subtitle;
-      
-      if (hasUpdate) {
-        title = "🚀 应用更新";
-        subtitle = "✨ 发现应用更新";
-      } else if (results.failed.length > 0) {
-        title = "❌ 检测失败";
-        subtitle = "⚠️ 部分应用查询失败";
-      } else {
-        // 手动刷新且没有更新
-        title = "✅ 检测完成";
-        subtitle = "🔍 所有应用均为最新版本";
-      }
-      
-      let body = "";
-      let hasContent = false;
+    let title;
+    
+    if (hasUpdate) {
+      title = "🚀 App Store 应用更新";
+    } else if (results.failed.length > 0) {
+      title = "❌ App Store 检测失败";
+    } else {
+      // 手动刷新且没有更新
+      title = "✅ App Store 检测完成";
+    }
+    
+    let body = "";
+    let hasContent = false;
       
       // 更新详情
       if (hasUpdate) {
@@ -506,7 +503,7 @@ async function enhancedFetch(appIdentifier) {
       
       // 当前版本（手动刷新时总是显示，自动刷新只在有更新时显示）
       if ((isManualTrigger || hasUpdate) && results.current.length > 0) {
-        if (hasContent) body += "\n\n";
+        if (hasContent) body += "\n";
         body += `✅ ${isManualTrigger && !hasUpdate ? '当前版本' : '最新版应用'}:\n`;
         body += results.current.map(c => 
           `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' (首次记录)' : ''}`
@@ -516,7 +513,7 @@ async function enhancedFetch(appIdentifier) {
       
       // 失败应用
       if (results.failed.length > 0) {
-        if (hasContent) body += "\n\n";
+        if (hasContent) body += "\n";
         body += `❌ 查询失败:\n`;
         body += results.failed.map(f => 
           `${f.app.icon} ${f.app.name}: 请检查网络或应用状态`
@@ -526,7 +523,7 @@ async function enhancedFetch(appIdentifier) {
       
       // 如果没有更新但有失败，显示成功查询的应用（仅在自动刷新时）
       if (!isManualTrigger && !hasUpdate && results.failed.length > 0 && results.current.length > 0) {
-        if (hasContent) body += "\n\n";
+        if (hasContent) body += "\n";
         body += `✅ 成功查询:\n`;
         body += results.current.map(c => 
           `${c.app.icon} ${c.app.name}: ${c.version}`
@@ -535,7 +532,7 @@ async function enhancedFetch(appIdentifier) {
       }
       
       // 统计信息
-      body += `\n\n⏱️ 检测耗时: ${executionTime}秒`;
+      body += `\n⏱️ 检测耗时: ${executionTime}秒`;
       body += `\n📅 ${now.toLocaleString("zh-CN", { 
         year: 'numeric',
         month: '2-digit',
@@ -547,7 +544,7 @@ async function enhancedFetch(appIdentifier) {
       
       // 添加提示
       if (results.failed.length > 0) {
-        body += `\n\n💡 提示: ${results.failed.length}个应用查询失败，可能因区域限制或网络问题`;
+        body += `\n💡 提示: ${results.failed.length}个应用查询失败，可能因区域限制或网络问题`;
       }
       
       // 标记触发方式
@@ -583,7 +580,7 @@ async function enhancedFetch(appIdentifier) {
       }
       
       // 发送通知（添加声音提示和跳转链接）
-      $notification.post(title, subtitle, body, {
+      $notification.post(title, "", body, {
         sound: true,  // 启用通知音效
         action: "open-url",  // 点击通知时打开URL
         url: appStoreUrl  // App Store链接
