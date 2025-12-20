@@ -32,13 +32,10 @@ function getAppListFromArgs() {
   // 支持多种分隔符：换行符\n（优先）、竖线|、逗号,、分号;
   const applistMatch = args.match(/applist=([^&]+)/);
   
-  if (!applistMatch || !applistMatch[1]) {
-    // 默认应用列表
-    return [
-      "com.liguangming.Shadowrocket",
-      "com.nssurge.inc.surge-ios",
-      "com.loon0x00.LoonLite"
-    ];
+  if (!applistMatch || !applistMatch[1] || applistMatch[1].trim() === '') {
+    // 没有配置应用列表，返回空数组
+    console.log('⚠️ 未配置应用包名列表，请在模块参数中填写 applist');
+    return [];
   }
   
   // 支持多种分隔符，优先换行符
@@ -80,26 +77,17 @@ function getAppListFromArgs() {
   
   // 清理并过滤空值
   const cleanedIds = bundleIds.map(id => id.trim()).filter(id => id);
+  
+  if (cleanedIds.length === 0) {
+    console.log('⚠️ 应用包名列表为空，请填写至少一个应用包名');
+    return [];
+  }
+  
   console.log(`📱 解析出 ${cleanedIds.length} 个应用: ${cleanedIds.join(', ')}`);
   
   return cleanedIds;
 }
 
-// 构建应用列表
-const bundleIds = getAppListFromArgs();
-const appList = bundleIds.map(bundleId => {
-  const appInfo = appDatabase[bundleId] || {
-    name: bundleId.split('.').pop(),
-    icon: "📱"
-  };
-  return {
-    name: appInfo.name,
-    bundleId: bundleId,
-    icon: appInfo.icon,
-    category: "应用"
-  };
-});
-  
 // 增强版请求函数 - 优化超时和错误处理
 async function enhancedFetch(app) {
   const isSurge = app.bundleId.includes("surge");
@@ -184,6 +172,39 @@ async function enhancedFetch(app) {
 }
   
 (async () => {
+  // 构建应用列表
+  const bundleIds = getAppListFromArgs();
+  
+  // 如果没有配置应用，直接返回提示
+  if (bundleIds.length === 0) {
+    const isPanel = typeof $trigger !== 'undefined';
+    
+    if (isPanel) {
+      $done({
+        title: "⚠️ 未配置应用",
+        content: "请在模块参数中填写要监控的应用包名\n\n一行一个，例如：\ncom.liguangming.Shadowrocket\ncom.nssurge.inc.surge-ios\ncom.loon0x00.LoonLite\n\n💡 如何获取包名：\n访问 tools.lancely.tech/apple/app-info",
+        style: "error"
+      });
+    } else {
+      console.log("⚠️ 未配置应用包名列表");
+      $done();
+    }
+    return;
+  }
+  
+  const appList = bundleIds.map(bundleId => {
+    const appInfo = appDatabase[bundleId] || {
+      name: bundleId.split('.').pop(),
+      icon: "📱"
+    };
+    return {
+      name: appInfo.name,
+      bundleId: bundleId,
+      icon: appInfo.icon,
+      category: "应用"
+    };
+  });
+  
   let hasUpdate = false;
   const results = {
     updated: { "应用": [] },
