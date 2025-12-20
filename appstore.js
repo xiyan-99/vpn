@@ -3,10 +3,12 @@
 // 版本: 面板增强版
 // 
 // 使用说明：
-// 1. 修改模块文件中的 argument 参数来自定义应用包名
-//    格式：argument=applist=包名1|包名2|包名3
-// 2. 修改模块文件中的 update-interval 来自定义检查间隔（秒）
-//    格式：update-interval=300
+// 1. 在 Surge 模块界面填写应用包名，一行一个：
+//    com.liguangming.Shadowrocket
+//    com.nssurge.inc.surge-ios
+//    com.ruikq.decar
+// 2. 修改更新间隔（秒）：例如 300（5分钟）
+// 3. 也支持其他分隔符：竖线|、逗号,、分号;
  
 // 预定义应用信息（用于显示名称和图标）
 const appDatabase = {
@@ -27,7 +29,7 @@ const appDatabase = {
 function getAppListFromArgs() {
   const args = $argument || "";
   
-  // 支持多种分隔符：竖线|、逗号,、分号;
+  // 支持多种分隔符：换行符\n（优先）、竖线|、逗号,、分号;
   const applistMatch = args.match(/applist=([^&]+)/);
   
   if (!applistMatch || !applistMatch[1]) {
@@ -39,11 +41,17 @@ function getAppListFromArgs() {
     ];
   }
   
-  // 支持多种分隔符
+  // 支持多种分隔符，优先换行符
   const applistStr = applistMatch[1];
   let bundleIds;
   
-  if (applistStr.includes('|')) {
+  // 优先处理换行符
+  if (applistStr.includes('\n')) {
+    bundleIds = applistStr.split('\n');
+  } else if (applistStr.includes('%0A')) {
+    // URL编码的换行符
+    bundleIds = applistStr.split('%0A');
+  } else if (applistStr.includes('|')) {
     bundleIds = applistStr.split('|');
   } else if (applistStr.includes(';')) {
     bundleIds = applistStr.split(';');
