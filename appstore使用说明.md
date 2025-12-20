@@ -26,7 +26,7 @@
    修改 `update-interval=` 后的数字（秒）
    
    ```ini
-   argument=applist=com.liguangming.Shadowrocket|com.nssurge.inc.surge-ios|com.ruikq.decar
+   argument=applist=com.liguangming.Shadowrocket|com.nssurge.inc.surge-ios|com.loon0x00.LoonLite
    ```
    修改 `argument=applist=` 后的包名列表，用 `|` 分隔
 
@@ -66,7 +66,7 @@ appstore_custom = type=generic,timeout=10,script-path=https://raw.githubusercont
 |------|--------|------|
 | com.liguangming.Shadowrocket | Shadowrocket | 🚀 |
 | com.nssurge.inc.surge-ios | Surge | ⚡️ |
-| com.ruikq.decar | Loon | 🎈 |
+| com.loon0x00.LoonLite | Loon | 🎈 |
 | ph.telegra.Telegraph | Telegram | ✈️ |
 | com.tencent.xin | 微信 | 💬 |
 | com.ss.iphone.ugc.Aweme | 抖音 | 🎵 |
@@ -121,7 +121,7 @@ argument=applist=包名1|包名2|包名3
 - **默认值**: 
   - com.liguangming.Shadowrocket
   - com.nssurge.inc.surge-ios
-  - com.ruikq.decar
+  - com.loon0x00.LoonLite
 
 ### 自动更新间隔
 

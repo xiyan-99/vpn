@@ -15,7 +15,7 @@ const appDatabase = {
   "com.liguangming.Shadowrocket": { name: "Shadowrocket", icon: "🚀" },
   "com.nssurge.inc.surge-ios": { name: "Surge", icon: "⚡️" },
   "com.nssurge.inc.surge": { name: "Surge", icon: "⚡️" },
-  "com.ruikq.decar": { name: "Loon", icon: "🎈" },
+  "com.loon0x00.LoonLite": { name: "Loon", icon: "🎈" },  // Loon Lite版本
   "com.stairways.alfred.ios": { name: "Alfred", icon: "🎩" },
   "com.apple.mobilesafari": { name: "Safari", icon: "🧭" },
   "ph.telegra.Telegraph": { name: "Telegram", icon: "✈️" },
@@ -37,7 +37,7 @@ function getAppListFromArgs() {
     return [
       "com.liguangming.Shadowrocket",
       "com.nssurge.inc.surge-ios",
-      "com.ruikq.decar"
+      "com.loon0x00.LoonLite"
     ];
   }
   
@@ -97,36 +97,50 @@ async function enhancedFetch(app) {
     ];
   } else {
     urls = [
-      `https://itunes.apple.com/lookup?bundleId=${app.bundleId}`,
+      `https://itunes.apple.com/hk/lookup?bundleId=${app.bundleId}`,
       `https://itunes.apple.com/cn/lookup?bundleId=${app.bundleId}`,
-      `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`
+      `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`,
+      `https://itunes.apple.com/lookup?bundleId=${app.bundleId}`,
+      `https://itunes.apple.com/jp/lookup?bundleId=${app.bundleId}`
     ];
   }
   
   let lastError;
+  let lastResponse;
   
   for (const [index, url] of urls.entries()) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000); // 4秒超时
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 增加到5秒超时
       
       // 增加请求间隔，避免被限流
       if (index > 0) {
-        await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 300));
+        await new Promise(resolve => setTimeout(resolve, 400 + Math.random() * 400));
       }
       
-      const response = await fetch(url, { signal: controller.signal });
+      const response = await fetch(url, { 
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'
+        }
+      });
       clearTimeout(timeoutId);
       
       if (response.status === 200) {
         const data = await response.json();
+        lastResponse = data;
+        
+        console.log(`🔍 ${app.icon} ${app.name} API响应: resultCount=${data.resultCount}, url=${url}`);
+        
         if (data.results && data.results.length > 0) {
           const version = data.results[0].version;
+          const trackName = data.results[0].trackName;
           const usedBundleId = url.includes(surgeAlternativeBundleId) ? surgeAlternativeBundleId : app.bundleId;
-          console.log(`✅ ${app.icon} ${app.name} 成功获取版本: ${version} (${url})`);
+          console.log(`✅ ${app.icon} ${app.name} 成功获取版本: ${version} (应用名: ${trackName})`);
           return { app, version, usedBundleId };
         } else {
-          throw new Error(`API返回空数据`);
+          console.log(`⚠️ ${app.icon} ${app.name} [${index + 1}/${urls.length}] 返回空结果，完整响应: ${JSON.stringify(data).substring(0, 200)}`);
+          throw new Error(`API返回空数据 (resultCount: ${data.resultCount})`);
         }
       } else {
         throw new Error(`HTTP ${response.status}`);
@@ -137,7 +151,13 @@ async function enhancedFetch(app) {
     }
   }
   
-  throw new Error(`所有API请求失败: ${lastError?.message || '未知错误'}`);
+  // 如果所有请求都失败，给出详细的错误信息
+  let errorMsg = `所有API请求失败: ${lastError?.message || '未知错误'}`;
+  if (lastResponse && lastResponse.resultCount === 0) {
+    errorMsg += ` | bundleId可能不正确: ${app.bundleId}`;
+  }
+  
+  throw new Error(errorMsg);
 }
   
 (async () => {

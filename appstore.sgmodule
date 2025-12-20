@@ -4,7 +4,7 @@
 #!icon=https://img.iosxy.xin/xiyan.png
 #!system=ios
 #!homepage=https://iosxy.xin
-#!arguments=applist:com.liguangming.Shadowrocket\ncom.nssurge.inc.surge-ios\ncom.ruikq.decar,updateInterval:300
+#!arguments=applist:com.liguangming.Shadowrocket\ncom.nssurge.inc.surge-ios\ncom.loon0x00.LoonLite,updateInterval:300
 #!arguments-desc=applist: 填写app的包名，一行一个（支持换行填写多个应用）\nupdateInterval: 自动更新间隔(秒)，默认300秒(5分钟)
 
 [Panel]
