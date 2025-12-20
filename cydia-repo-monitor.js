@@ -180,6 +180,122 @@ function getMaxShowFromArgs() {
   return 10; // 默认显示10个
 }
 
+// 获取源的 Release 文件（包含源的名称、描述等信息）
+async function fetchRepoRelease(repoUrl) {
+  const releaseUrls = [
+    `${repoUrl}Release`,
+    `${repoUrl}dists/stable/Release`
+  ];
+  
+  for (const url of releaseUrls) {
+    try {
+      console.log(`🔍 尝试获取 Release: ${url}`);
+      
+      let releaseText;
+      
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15',
+            'Accept': 'text/plain, */*'
+          }
+        });
+        
+        if (response.status === 200) {
+          releaseText = await response.text();
+        }
+      } catch (fetchError) {
+        console.log(`⚠️ fetch Release 失败，尝试 $httpClient`);
+        releaseText = await new Promise((resolve, reject) => {
+          $httpClient.get({
+            url: url,
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'
+            },
+            timeout: 10
+          }, (error, response, data) => {
+            if (!error && response.status === 200) {
+              resolve(data);
+            } else {
+              reject(new Error(error || `HTTP ${response.status}`));
+            }
+          });
+        });
+      }
+      
+      if (releaseText) {
+        // 解析 Release 文件
+        const lines = releaseText.split('\n');
+        const releaseInfo = {};
+        
+        for (const line of lines) {
+          const colonIndex = line.indexOf(':');
+          if (colonIndex === -1) continue;
+          
+          const key = line.substring(0, colonIndex).trim();
+          const value = line.substring(colonIndex + 1).trim();
+          
+          if (key === 'Origin') releaseInfo.origin = value;
+          else if (key === 'Label') releaseInfo.label = value;
+          else if (key === 'Suite') releaseInfo.suite = value;
+          else if (key === 'Description') releaseInfo.description = value;
+        }
+        
+        console.log(`✅ 获取到 Release 信息: ${releaseInfo.origin || releaseInfo.label || '未知'}`);
+        return releaseInfo;
+      }
+    } catch (error) {
+      console.log(`⚠️ 获取 Release 失败: ${error.message}`);
+    }
+  }
+  
+  return null;
+}
+
+// 获取源的图标
+async function fetchRepoIcon(repoUrl) {
+  // 尝试常见的图标位置
+  const iconUrls = [
+    `${repoUrl}CydiaIcon.png`,
+    `${repoUrl}CydiaIcon@2x.png`,
+    `${repoUrl}CydiaIcon@3x.png`
+  ];
+  
+  for (const url of iconUrls) {
+    try {
+      console.log(`🔍 检查图标: ${url}`);
+      
+      // 使用 HEAD 请求检查图标是否存在（不下载内容）
+      const exists = await new Promise((resolve) => {
+        $httpClient.head({
+          url: url,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'
+          },
+          timeout: 3
+        }, (error, response) => {
+          if (!error && response && response.status === 200) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+      });
+      
+      if (exists) {
+        console.log(`✅ 发现图标: ${url}`);
+        return url;
+      }
+    } catch (error) {
+      console.log(`⚠️ 检查图标失败: ${error.message}`);
+    }
+  }
+  
+  console.log(`⚠️ 未找到源图标，使用默认图标`);
+  return null;
+}
+
 // 下载并解析源的 Packages 文件
 async function fetchRepoPackages(repoUrl) {
   const repoInfo = knownRepos[repoUrl] || { name: '自定义源', icon: '📦' };
@@ -271,9 +387,40 @@ async function fetchRepoPackages(repoUrl) {
           throw new Error('解析出的包数量为0');
         }
         
+        // 并行获取 Release 信息和图标
+        console.log(`🔍 正在获取源的详细信息...`);
+        const [releaseInfo, iconUrl] = await Promise.allSettled([
+          fetchRepoRelease(repoUrl),
+          fetchRepoIcon(repoUrl)
+        ]);
+        
+        // 更新 repoInfo
+        const updatedRepoInfo = { ...repoInfo };
+        
+        // 使用 Release 中的名称（优先级：Origin > Label）
+        if (releaseInfo.status === 'fulfilled' && releaseInfo.value) {
+          const release = releaseInfo.value;
+          if (release.origin) {
+            updatedRepoInfo.name = release.origin;
+            console.log(`📝 使用 Release Origin: ${release.origin}`);
+          } else if (release.label) {
+            updatedRepoInfo.name = release.label;
+            console.log(`📝 使用 Release Label: ${release.label}`);
+          }
+          if (release.description) {
+            updatedRepoInfo.description = release.description;
+          }
+        }
+        
+        // 使用找到的图标URL
+        if (iconUrl.status === 'fulfilled' && iconUrl.value) {
+          updatedRepoInfo.iconUrl = iconUrl.value;
+          console.log(`🖼️ 使用图标: ${iconUrl.value}`);
+        }
+        
         return {
           repoUrl,
-          repoInfo,
+          repoInfo: updatedRepoInfo,
           packages,
           packageCount,
           fetchTime: new Date().toISOString()
