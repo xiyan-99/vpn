@@ -13,34 +13,48 @@
 
 ## 安装使用
 
-### 方法一：使用模块文件（推荐）
+### 方法一：本地模块文件（推荐 - 可自定义参数）
 
-1. 在Surge中添加模块：
+1. 下载 `appstore.sgmodule` 文件到本地
+
+2. 修改应用包名和检查间隔：
+   
+   打开文件，找到这两行：
+   ```ini
+   appstore_panel = script-name=appstore_panel,update-interval=300
    ```
-   https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.sgmodule
+   修改 `update-interval=` 后的数字（秒）
+   
+   ```ini
+   argument=applist=com.liguangming.Shadowrocket|com.nssurge.inc.surge-ios|com.ruikq.decar
    ```
+   修改 `argument=applist=` 后的包名列表，用 `|` 分隔
 
-2. 配置参数：
-   - **applist**: 填写要监控的应用包名，多个包名用英文逗号分隔
-   - **updateInterval**: 自动更新间隔（秒），默认300秒（5分钟）
+3. 在Surge中加载本地模块文件
 
-3. 示例配置：
-   ```
-   applist = com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.ruikq.decar
-   updateInterval = 300
-   ```
+### 方法二：在线模块（使用默认配置）
 
-### 方法二：手动配置
+直接添加模块URL：
+```
+https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.sgmodule
+```
 
-在Surge配置文件中添加：
+默认监控：Shadowrocket、Surge、Loon
+默认间隔：300秒（5分钟）
+
+### 方法三：在配置文件中覆盖参数
+
+安装在线模块后，在主配置文件中添加：
 
 ```ini
 [Panel]
-appstore_panel = script-name=appstore_panel,update-interval=300
+appstore_panel = script-name=appstore_custom,update-interval=600
 
 [Script]
-appstore_panel = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.js,argument=applist=com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.ruikq.decar
+appstore_custom = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.js,argument=applist=你的包名1|你的包名2
 ```
+
+这会覆盖模块的默认配置。
 
 ## 支持的应用
 
@@ -94,27 +108,40 @@ https://itunes.apple.com/search?term=应用名&entity=software
 
 ## 参数说明
 
-### applist（必填）
+### 应用包名列表
 
-- **格式**: 逗号分隔的包名列表
-- **示例**: `com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios`
+在模块文件的 Script 部分配置：
+
+```ini
+argument=applist=包名1|包名2|包名3
+```
+
+- **格式**: 用 `|` 分隔的包名列表（也支持逗号`,`和分号`;`）
+- **示例**: `argument=applist=com.liguangming.Shadowrocket|ph.telegra.Telegraph|com.tencent.xin`
 - **默认值**: 
   - com.liguangming.Shadowrocket
   - com.nssurge.inc.surge-ios
   - com.ruikq.decar
 
-### updateInterval（可选）
+### 自动更新间隔
+
+在模块文件的 Panel 部分配置：
+
+```ini
+update-interval=秒数
+```
 
 - **格式**: 整数（秒）
-- **示例**: `300` (5分钟)
+- **示例**: `update-interval=600` (10分钟)
 - **说明**: 
   - 只有在策略选择视图时才会自动更新
-  - 建议设置 1 秒让面板每次都自动更新
-  - 设置过小可能增加流量消耗
+  - 建议设置 60-600 秒
+  - 设置为 1 可以每次都自动更新
 - **推荐值**:
-  - 频繁使用：60-300秒
+  - 频繁使用：60-180秒
   - 一般使用：300-600秒
-  - 省流量：600-3600秒
+  - 省流量：1800-3600秒
+- **默认值**: 300秒（5分钟）
 
 ## 面板显示说明
 

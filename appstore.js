@@ -1,6 +1,12 @@
 // 名称: 增强版App Store更新检测面板
 // 描述: App Store更新检测脚本，支持自定义包名
 // 版本: 面板增强版
+// 
+// 使用说明：
+// 1. 修改模块文件中的 argument 参数来自定义应用包名
+//    格式：argument=applist=包名1|包名2|包名3
+// 2. 修改模块文件中的 update-interval 来自定义检查间隔（秒）
+//    格式：update-interval=300
  
 // 预定义应用信息（用于显示名称和图标）
 const appDatabase = {
@@ -20,6 +26,8 @@ const appDatabase = {
 // 从参数获取包名列表
 function getAppListFromArgs() {
   const args = $argument || "";
+  
+  // 支持多种分隔符：竖线|、逗号,、分号;
   const applistMatch = args.match(/applist=([^&]+)/);
   
   if (!applistMatch || !applistMatch[1]) {
@@ -31,7 +39,19 @@ function getAppListFromArgs() {
     ];
   }
   
-  return applistMatch[1].split(',').map(id => id.trim()).filter(id => id);
+  // 支持多种分隔符
+  const applistStr = applistMatch[1];
+  let bundleIds;
+  
+  if (applistStr.includes('|')) {
+    bundleIds = applistStr.split('|');
+  } else if (applistStr.includes(';')) {
+    bundleIds = applistStr.split(';');
+  } else {
+    bundleIds = applistStr.split(',');
+  }
+  
+  return bundleIds.map(id => id.trim()).filter(id => id);
 }
 
 // 构建应用列表
