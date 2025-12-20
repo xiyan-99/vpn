@@ -191,26 +191,62 @@ async function fetchRepoPackages(repoUrl) {
   
   for (const [index, url] of packagesUrls.entries()) {
     try {
-      console.log(`🔍 尝试: ${url}`);
-      
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 20000); // 20秒超时
+      console.log(`🔍 尝试 [${index + 1}/${packagesUrls.length}]: ${url}`);
       
       if (index > 0) {
         await new Promise(resolve => setTimeout(resolve, 500));
       }
       
-      const response = await fetch(url, {
-        signal: controller.signal,
-        headers: {
-          'User-Agent': 'Cydia/1.1.32 CFNetwork/978.0.7 Darwin/18.7.0'
-        }
-      });
-      clearTimeout(timeoutId);
+      // 优先使用 fetch，如果失败则使用 $httpClient
+      let response;
+      let packagesText;
       
-      if (response.status === 200) {
-        const packagesText = await response.text();
+      try {
+        // 尝试使用 fetch（不使用 AbortController，Surge 可能不支持）
+        response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15',
+            'Accept': 'text/plain, */*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Cache-Control': 'no-cache'
+          }
+        });
         
+        console.log(`📡 响应状态: ${response.status}`);
+        
+        if (response.status === 200) {
+          packagesText = await response.text();
+        } else {
+          throw new Error(`HTTP ${response.status}`);
+        }
+      } catch (fetchError) {
+        console.log(`⚠️ fetch 失败: ${fetchError.message}，尝试使用 $httpClient`);
+        
+        // 使用 Surge 原生的 $httpClient 作为备用
+        packagesText = await new Promise((resolve, reject) => {
+          $httpClient.get({
+            url: url,
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15',
+              'Accept': 'text/plain, */*'
+            },
+            timeout: 30
+          }, (error, response, data) => {
+            if (error) {
+              console.log(`⚠️ $httpClient 也失败: ${error}`);
+              reject(new Error(error));
+            } else if (response.status === 200) {
+              console.log(`✅ $httpClient 成功获取数据`);
+              resolve(data);
+            } else {
+              reject(new Error(`HTTP ${response.status}`));
+            }
+          });
+        });
+      }
+      
+      if (packagesText) {
         // 检查是否为压缩文件（简单判断）
         if (packagesText.startsWith('BZh') || packagesText.charCodeAt(0) === 0x1f) {
           console.log(`⚠️ 检测到压缩文件，跳过: ${url}`);
@@ -235,12 +271,14 @@ async function fetchRepoPackages(repoUrl) {
           packageCount,
           fetchTime: new Date().toISOString()
         };
-      } else {
-        throw new Error(`HTTP ${response.status}`);
       }
     } catch (error) {
       lastError = error;
-      console.log(`⚠️ 请求失败 [${index + 1}/${packagesUrls.length}]: ${error.message}`);
+      console.log(`❌ 请求失败 [${index + 1}/${packagesUrls.length}]: ${error.message}`);
+      console.log(`📍 失败的URL: ${url}`);
+      if (error.stack) {
+        console.log(`📋 错误堆栈: ${error.stack.substring(0, 200)}`);
+      }
     }
   }
   
