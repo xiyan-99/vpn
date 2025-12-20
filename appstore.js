@@ -1,171 +1,256 @@
-// 名称: 增强版代理工具更新检测
-// 描述: 代理工具更新检测脚本
-// 版本: 夏天专用
+// 名称: 增强版App Store更新检测面板
+// 描述: App Store更新检测脚本，支持自定义包名
+// 版本: 面板增强版
  
-const appList = [
-    // 代理工具
-    {
-      name: "Shadowrocket",
-      bundleId: "com.liguangming.Shadowrocket",
-      icon: "🚀",
-      category: "代理工具"
-    },
-    {
-      name: "Surge",
-      bundleId: "com.nssurge.inc.surge-ios",
-      icon: "⚡️",
-      category: "代理工具",
-      // 使用备用 bundleId 提高成功率
-      fallbackUrl: "https://itunes.apple.com/hk/lookup?bundleId=com.nssurge.inc.surge"
-    },
-    {
-      name: "Loon",
-      bundleId: "com.ruikq.decar",
-      icon: "🎈",
-      category: "代理工具",
-      fallbackUrl: "https://itunes.apple.com/hk/lookup?bundleId=com.ruikq.decar" 
-    }
-  ];
+// 预定义应用信息（用于显示名称和图标）
+const appDatabase = {
+  "com.liguangming.Shadowrocket": { name: "Shadowrocket", icon: "🚀" },
+  "com.nssurge.inc.surge-ios": { name: "Surge", icon: "⚡️" },
+  "com.nssurge.inc.surge": { name: "Surge", icon: "⚡️" },
+  "com.ruikq.decar": { name: "Loon", icon: "🎈" },
+  "com.stairways.alfred.ios": { name: "Alfred", icon: "🎩" },
+  "com.apple.mobilesafari": { name: "Safari", icon: "🧭" },
+  "ph.telegra.Telegraph": { name: "Telegram", icon: "✈️" },
+  "com.tencent.xin": { name: "微信", icon: "💬" },
+  "com.ss.iphone.ugc.Aweme": { name: "抖音", icon: "🎵" },
+  "com.zhihu.ios": { name: "知乎", icon: "📖" },
+  "com.tencent.mqq": { name: "QQ", icon: "🐧" }
+};
+
+// 从参数获取包名列表
+function getAppListFromArgs() {
+  const args = $argument || "";
+  const applistMatch = args.match(/applist=([^&]+)/);
   
-  // 增强版请求函数 - 优化超时和错误处理
-  async function enhancedFetch(app) {
-    const isSurge = app.name === "Surge";
-    
-    // 为 Surge 添加备用 bundleId
-    const surgeAlternativeBundleId = "com.nssurge.inc.surge";
-    
-    let urls;
-    
-    if (isSurge) {
-      // Surge 特殊处理：尝试多个 bundleId
-      urls = [
-        `https://itunes.apple.com/hk/lookup?bundleId=${app.bundleId}`,
-        `https://itunes.apple.com/hk/lookup?bundleId=${surgeAlternativeBundleId}`,
-        `https://itunes.apple.com/cn/lookup?bundleId=${app.bundleId}`,
-        `https://itunes.apple.com/cn/lookup?bundleId=${surgeAlternativeBundleId}`,
-        `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`,
-        `https://itunes.apple.com/us/lookup?bundleId=${surgeAlternativeBundleId}`
-      ];
-    } else {
-      urls = [
-        app.fallbackUrl || `https://itunes.apple.com/lookup?bundleId=${app.bundleId}`,
-        `https://itunes.apple.com/cn/lookup?bundleId=${app.bundleId}`,
-        `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`
-      ];
-    }
-    
-    let lastError;
-    
-    for (const [index, url] of urls.entries()) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000); // 4秒超时
-        
-        // 增加请求间隔，避免被限流
-        if (index > 0) {
-          await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 300));
-        }
-        
-        const response = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeoutId);
-        
-        if (response.status === 200) {
-          const data = await response.json();
-          if (data.results && data.results.length > 0) {
-            const version = data.results[0].version;
-            const usedBundleId = url.includes(surgeAlternativeBundleId) ? surgeAlternativeBundleId : app.bundleId;
-            console.log(`✅ ${app.icon} ${app.name} 成功获取版本: ${version} (${url})`);
-            return { app, version, usedBundleId };
-          } else {
-            throw new Error(`API返回空数据`);
-          }
-        } else {
-          throw new Error(`HTTP ${response.status}`);
-        }
-      } catch (error) {
-        lastError = error;
-        console.log(`⚠️ ${app.icon} ${app.name} 请求异常 [${index + 1}/${urls.length}]: ${error.message}`);
-      }
-    }
-    
-    throw new Error(`所有API请求失败: ${lastError?.message || '未知错误'}`);
+  if (!applistMatch || !applistMatch[1]) {
+    // 默认应用列表
+    return [
+      "com.liguangming.Shadowrocket",
+      "com.nssurge.inc.surge-ios",
+      "com.ruikq.decar"
+    ];
   }
   
-  (async () => {
-    let hasUpdate = false;
-    const results = {
-      updated: { "代理工具": [] },
-      failed: [],
-      current: []
-    };
-    
-    const startTime = Date.now();
-    
-    // 并行执行所有请求
-    const promises = appList.map(app => enhancedFetch(app));
-    const outcomes = await Promise.allSettled(promises);
-    
-    const writePromises = [];
+  return applistMatch[1].split(',').map(id => id.trim()).filter(id => id);
+}
+
+// 构建应用列表
+const bundleIds = getAppListFromArgs();
+const appList = bundleIds.map(bundleId => {
+  const appInfo = appDatabase[bundleId] || {
+    name: bundleId.split('.').pop(),
+    icon: "📱"
+  };
+  return {
+    name: appInfo.name,
+    bundleId: bundleId,
+    icon: appInfo.icon,
+    category: "应用"
+  };
+});
   
-    // 处理所有结果
-    outcomes.forEach((outcome, index) => {
-      const app = appList[index];
+// 增强版请求函数 - 优化超时和错误处理
+async function enhancedFetch(app) {
+  const isSurge = app.bundleId.includes("surge");
+  
+  // 为 Surge 添加备用 bundleId
+  const surgeAlternativeBundleId = "com.nssurge.inc.surge";
+  
+  let urls;
+  
+  if (isSurge) {
+    // Surge 特殊处理：尝试多个 bundleId
+    urls = [
+      `https://itunes.apple.com/hk/lookup?bundleId=${app.bundleId}`,
+      `https://itunes.apple.com/hk/lookup?bundleId=${surgeAlternativeBundleId}`,
+      `https://itunes.apple.com/cn/lookup?bundleId=${app.bundleId}`,
+      `https://itunes.apple.com/cn/lookup?bundleId=${surgeAlternativeBundleId}`,
+      `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`
+    ];
+  } else {
+    urls = [
+      `https://itunes.apple.com/lookup?bundleId=${app.bundleId}`,
+      `https://itunes.apple.com/cn/lookup?bundleId=${app.bundleId}`,
+      `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`
+    ];
+  }
+  
+  let lastError;
+  
+  for (const [index, url] of urls.entries()) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000); // 4秒超时
       
-      if (outcome.status === 'fulfilled') {
-        const { version: latest } = outcome.value;
-        const key = `app_ver_${app.bundleId}`;
-        const savedVersion = $persistentStore.read(key);
-        
-        if (!savedVersion) {
-          writePromises.push($persistentStore.write(latest, key));
-          results.current.push({
-            app,
-            version: latest,
-            status: '首次记录'
-          });
-        } else if (savedVersion !== latest) {
-          hasUpdate = true;
-          results.updated[app.category].push({
-            app,
-            oldVersion: savedVersion,
-            newVersion: latest
-          });
-          writePromises.push($persistentStore.write(latest, key));
+      // 增加请求间隔，避免被限流
+      if (index > 0) {
+        await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 300));
+      }
+      
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      
+      if (response.status === 200) {
+        const data = await response.json();
+        if (data.results && data.results.length > 0) {
+          const version = data.results[0].version;
+          const usedBundleId = url.includes(surgeAlternativeBundleId) ? surgeAlternativeBundleId : app.bundleId;
+          console.log(`✅ ${app.icon} ${app.name} 成功获取版本: ${version} (${url})`);
+          return { app, version, usedBundleId };
         } else {
-          results.current.push({
-            app,
-            version: latest,
-            status: '最新版'
-          });
+          throw new Error(`API返回空数据`);
         }
       } else {
-        results.failed.push({
+        throw new Error(`HTTP ${response.status}`);
+      }
+    } catch (error) {
+      lastError = error;
+      console.log(`⚠️ ${app.icon} ${app.name} 请求异常 [${index + 1}/${urls.length}]: ${error.message}`);
+    }
+  }
+  
+  throw new Error(`所有API请求失败: ${lastError?.message || '未知错误'}`);
+}
+  
+(async () => {
+  let hasUpdate = false;
+  const results = {
+    updated: { "应用": [] },
+    failed: [],
+    current: []
+  };
+  
+  const startTime = Date.now();
+  
+  // 并行执行所有请求
+  const promises = appList.map(app => enhancedFetch(app));
+  const outcomes = await Promise.allSettled(promises);
+  
+  const writePromises = [];
+
+  // 处理所有结果
+  outcomes.forEach((outcome, index) => {
+    const app = appList[index];
+    
+    if (outcome.status === 'fulfilled') {
+      const { version: latest } = outcome.value;
+      const key = `app_ver_${app.bundleId}`;
+      const savedVersion = $persistentStore.read(key);
+      
+      if (!savedVersion) {
+        writePromises.push($persistentStore.write(latest, key));
+        results.current.push({
           app,
-          error: outcome.reason.message
+          version: latest,
+          status: '首次记录'
+        });
+      } else if (savedVersion !== latest) {
+        hasUpdate = true;
+        results.updated[app.category].push({
+          app,
+          oldVersion: savedVersion,
+          newVersion: latest
+        });
+        writePromises.push($persistentStore.write(latest, key));
+      } else {
+        results.current.push({
+          app,
+          version: latest,
+          status: '最新版'
         });
       }
-    });
+    } else {
+      results.failed.push({
+        app,
+        error: outcome.reason.message
+      });
+    }
+  });
+
+  // 等待所有存储操作完成
+  await Promise.all(writePromises);
+
+  // 生成面板内容
+  const now = new Date();
+  const executionTime = ((Date.now() - startTime) / 1000).toFixed(1);
   
-    // 等待所有存储操作完成
-    await Promise.all(writePromises);
+  // 判断是否为面板调用
+  const isPanel = typeof $trigger !== 'undefined';
   
-    // 生成通知内容
-    const now = new Date();
-    const executionTime = ((Date.now() - startTime) / 1000).toFixed(1);
+  if (isPanel) {
+    // 面板模式：返回面板内容
+    let title = "📱 App Store 更新检测";
+    let content = "";
+    let style = "info";
     
-    // 修改通知逻辑：只在有更新或查询失败时发送通知
+    if (hasUpdate) {
+      style = "alert";
+      title = "🆕 发现应用更新";
+      
+      const updates = results.updated["应用"];
+      if (updates.length > 0) {
+        content += updates.map(u => 
+          `${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`
+        ).join("\n");
+      }
+      
+      if (results.current.length > 0) {
+        content += "\n\n✅ 最新版:\n";
+        content += results.current.map(c => 
+          `${c.app.icon} ${c.app.name}: ${c.version}`
+        ).join("\n");
+      }
+    } else if (results.failed.length > 0) {
+      style = "error";
+      title = "❌ 检测异常";
+      
+      if (results.failed.length > 0) {
+        content += "❌ 查询失败:\n";
+        content += results.failed.map(f => 
+          `${f.app.icon} ${f.app.name}`
+        ).join("\n");
+      }
+      
+      if (results.current.length > 0) {
+        content += "\n\n✅ 查询成功:\n";
+        content += results.current.map(c => 
+          `${c.app.icon} ${c.app.name}: ${c.version}`
+        ).join("\n");
+      }
+    } else {
+      style = "good";
+      title = "✅ 全部最新";
+      
+      content += results.current.map(c => 
+        `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' 🆕' : ''}`
+      ).join("\n");
+    }
+    
+    content += `\n\n⏱️ 耗时: ${executionTime}s | 📅 ${now.toLocaleTimeString("zh-CN", { 
+      hour: '2-digit',
+      minute: '2-digit'
+    })}`;
+    
+    $done({
+      title: title,
+      content: content,
+      style: style
+    });
+    
+  } else {
+    // 通知模式：发送通知（只在有更新或失败时）
     if (hasUpdate || results.failed.length > 0) {
-      const title = hasUpdate ? "🚀 代理工具更新" : "❌ 代理工具检测失败";
-      let subtitle = hasUpdate ? "✨ 发现代理工具更新" : "⚠️ 部分工具查询失败";
+      const title = hasUpdate ? "🚀 应用更新" : "❌ 检测失败";
+      let subtitle = hasUpdate ? "✨ 发现应用更新" : "⚠️ 部分应用查询失败";
       
       let body = "";
       let hasContent = false;
       
-      // 更新详情（只在有更新时显示）
+      // 更新详情
       if (hasUpdate) {
-        const updates = results.updated["代理工具"];
+        const updates = results.updated["应用"];
         if (updates.length > 0) {
-          body += `🆕 代理工具更新:\n`;
+          body += `🆕 应用更新:\n`;
           body += updates.map(u => 
             `${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`
           ).join("\n");
@@ -173,17 +258,17 @@ const appList = [
         }
       }
       
-      // 当前版本（只在有更新时显示）
+      // 当前版本
       if (hasUpdate && results.current.length > 0) {
         if (hasContent) body += "\n\n";
-        body += `✅ 最新版工具:\n`;
+        body += `✅ 最新版应用:\n`;
         body += results.current.map(c => 
           `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' (首次记录)' : ''}`
         ).join("\n");
         hasContent = true;
       }
       
-      // 失败应用（有失败时显示）
+      // 失败应用
       if (results.failed.length > 0) {
         if (hasContent) body += "\n\n";
         body += `❌ 查询失败:\n`;
@@ -216,39 +301,39 @@ const appList = [
       
       // 添加提示
       if (results.failed.length > 0) {
-        body += `\n\n💡 提示: ${results.failed.length}个工具查询失败，可能因区域限制或网络问题`;
+        body += `\n\n💡 提示: ${results.failed.length}个应用查询失败，可能因区域限制或网络问题`;
       }
       
       body += "\n🔔 自动检测 | 发现更新或失败时通知";
       
       $notification.post(title, subtitle, body);
     } else {
-      // 没有更新且没有失败时，只记录日志，不发送通知
-      console.log("✅ 所有代理工具均为最新版本且查询成功，无需通知");
+      // 没有更新且没有失败时，只记录日志
+      console.log("✅ 所有应用均为最新版本且查询成功，无需通知");
     }
     
     // 调试日志
     console.log("=".repeat(40));
-    console.log(`代理工具更新检测完成 (${executionTime}s)`);
+    console.log(`应用更新检测完成 (${executionTime}s)`);
     
-    if (results.updated["代理工具"].length > 0) {
+    if (results.updated["应用"].length > 0) {
       console.log("✨ 发现以下更新:");
-      results.updated["代理工具"].forEach(u => {
+      results.updated["应用"].forEach(u => {
         console.log(`  ${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`);
       });
     } else {
-      console.log("✨ 未发现代理工具更新");
+      console.log("✨ 未发现应用更新");
     }
     
     if (results.current.length > 0) {
-      console.log("✅ 检查成功的工具:");
+      console.log("✅ 检查成功的应用:");
       results.current.forEach(c => {
         console.log(`  ${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' (首次记录)' : ''}`);
       });
     }
     
     if (results.failed.length > 0) {
-      console.log("❌ 查询失败的工具:");
+      console.log("❌ 查询失败的应用:");
       results.failed.forEach(f => {
         console.log(`  ${f.app.icon} ${f.app.name}: ${f.error}`);
       });
@@ -256,4 +341,5 @@ const appList = [
     
     console.log("=".repeat(40));
     $done();
-  })();
+  }
+})();
