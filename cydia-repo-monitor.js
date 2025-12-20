@@ -80,8 +80,8 @@ function parsePackages(packagesText) {
   return packages;
 }
 
-// 获取源URL
-function getRepoUrlFromArgs() {
+// 获取源URL列表（支持多个源）
+function getRepoUrlsFromArgs() {
   const args = $argument || "";
   
   console.log(`🔍 接收到的完整参数: ${args}`);
@@ -90,19 +90,33 @@ function getRepoUrlFromArgs() {
   
   if (!repoMatch || !repoMatch[1] || repoMatch[1].trim() === '') {
     console.log('⚠️ 未配置源地址，请在模块参数中填写 REPOURL');
-    return null;
+    return [];
   }
   
-  let repoUrl = repoMatch[1].trim();
+  const repoStr = repoMatch[1].trim();
   
-  // 确保以 / 结尾
-  if (!repoUrl.endsWith('/')) {
-    repoUrl += '/';
+  // 支持逗号分隔多个源
+  const repoUrls = repoStr.split(',').map(url => {
+    let trimmed = url.trim();
+    // 确保以 / 结尾
+    if (trimmed && !trimmed.endsWith('/')) {
+      trimmed += '/';
+    }
+    return trimmed;
+  }).filter(url => url); // 过滤空字符串
+  
+  if (repoUrls.length === 0) {
+    console.log('⚠️ 源地址为空');
+    return [];
   }
   
-  console.log(`📋 监控源: ${repoUrl}`);
+  console.log(`📋 监控 ${repoUrls.length} 个源:`);
+  repoUrls.forEach((url, idx) => {
+    const repoInfo = knownRepos[url] || { name: '自定义源' };
+    console.log(`   ${idx + 1}. ${repoInfo.name}: ${url}`);
+  });
   
-  return repoUrl;
+  return repoUrls;
 }
 
 // 获取最大显示数量
@@ -245,16 +259,16 @@ function formatPackageName(pkg) {
 (async () => {
   const startTime = Date.now();
   
-  // 获取源URL
-  const repoUrl = getRepoUrlFromArgs();
+  // 获取源URL列表
+  const repoUrls = getRepoUrlsFromArgs();
   
-  if (!repoUrl) {
+  if (repoUrls.length === 0) {
     const isPanel = typeof $trigger !== 'undefined';
     
     if (isPanel) {
       $done({
         title: "⚠️ 未配置源",
-        content: "请在模块参数中填写要监控的源地址\n\n格式：https://repo.chariz.com/\n\n支持的热门源：\n• Chariz: https://repo.chariz.com/\n• Packix: https://repo.packix.com/\n• Havoc: https://havoc.app/\n• Twickd: https://repo.twickd.com/\n• Bingner: https://apt.bingner.com/\n• Dynastic: https://repo.dynastic.co/",
+        content: "请在模块参数中填写要监控的源地址\n\n单个源：\nhttps://repo.chariz.com/\n\n多个源（逗号分隔）：\nhttps://repo.chariz.com/,https://havoc.app/\n\n支持的热门源：\n• Chariz: https://repo.chariz.com/\n• Packix: https://repo.packix.com/\n• Havoc: https://havoc.app/\n• Twickd: https://repo.twickd.com/\n• Bingner: https://apt.bingner.com/\n• Dynastic: https://repo.dynastic.co/",
         style: "error"
       });
     } else {
@@ -265,47 +279,98 @@ function formatPackageName(pkg) {
   }
   
   try {
-    // 获取当前源的所有包
-    const result = await fetchRepoPackages(repoUrl);
-    const { repoInfo, packages, packageCount } = result;
+    // 并行获取所有源的包信息
+    const repoPromises = repoUrls.map(url => fetchRepoPackages(url));
+    const repoResults = await Promise.allSettled(repoPromises);
     
-    // 读取历史数据
-    const storageKey = `repo_packages_${encodeURIComponent(repoUrl)}`;
-    const savedDataStr = $persistentStore.read(storageKey);
+    // 处理每个源的结果
+    const allRepoData = [];
+    const failedRepos = [];
     
-    let changes = null;
-    let isFirstRun = false;
-    
-    if (!savedDataStr) {
-      // 首次运行
-      isFirstRun = true;
-      console.log('📝 首次运行，保存当前状态');
-    } else {
-      // 对比变更
-      try {
-        const savedData = JSON.parse(savedDataStr);
-        const oldPackages = savedData.packages || {};
-        
-        console.log(`📊 对比变更: 旧=${Object.keys(oldPackages).length} vs 新=${packageCount}`);
-        
-        changes = comparePackageLists(oldPackages, packages);
-        
-        console.log(`📈 变更统计: 新增=${changes.added.length}, 更新=${changes.updated.length}, 降级=${changes.downgraded.length}, 删除=${changes.removed.length}`);
-      } catch (error) {
-        console.log(`⚠️ 解析历史数据失败: ${error.message}，将重新记录`);
-        isFirstRun = true;
+    for (let i = 0; i < repoResults.length; i++) {
+      const result = repoResults[i];
+      const repoUrl = repoUrls[i];
+      
+      if (result.status === 'fulfilled') {
+        allRepoData.push(result.value);
+      } else {
+        const repoInfo = knownRepos[repoUrl] || { name: '自定义源', icon: '📦' };
+        failedRepos.push({
+          repoUrl,
+          repoInfo,
+          error: result.reason.message || '获取失败'
+        });
+        console.log(`❌ ${repoInfo.name} 获取失败: ${result.reason.message}`);
       }
     }
     
-    // 保存当前状态
-    const dataToSave = {
-      packages,
-      packageCount,
-      lastCheck: new Date().toISOString(),
-      repoUrl
-    };
+    // 如果所有源都失败了
+    if (allRepoData.length === 0) {
+      throw new Error('所有源获取失败');
+    }
     
-    $persistentStore.write(JSON.stringify(dataToSave), storageKey);
+    // 对每个成功获取的源进行变更检测
+    const allChanges = [];
+    const writePromises = [];
+    
+    for (const repoData of allRepoData) {
+      const { repoUrl, repoInfo, packages, packageCount } = repoData;
+    
+      // 读取该源的历史数据
+      const storageKey = `repo_packages_${encodeURIComponent(repoUrl)}`;
+      const savedDataStr = $persistentStore.read(storageKey);
+      
+      let changes = null;
+      let isFirstRun = false;
+      
+      if (!savedDataStr) {
+        // 首次运行
+        isFirstRun = true;
+        console.log(`📝 ${repoInfo.name}: 首次运行，保存当前状态`);
+      } else {
+        // 对比变更
+        try {
+          const savedData = JSON.parse(savedDataStr);
+          const oldPackages = savedData.packages || {};
+          
+          console.log(`📊 ${repoInfo.name} 对比变更: 旧=${Object.keys(oldPackages).length} vs 新=${packageCount}`);
+          
+          changes = comparePackageLists(oldPackages, packages);
+          
+          console.log(`📈 ${repoInfo.name} 变更统计: 新增=${changes.added.length}, 更新=${changes.updated.length}, 降级=${changes.downgraded.length}, 删除=${changes.removed.length}`);
+        } catch (error) {
+          console.log(`⚠️ ${repoInfo.name} 解析历史数据失败: ${error.message}，将重新记录`);
+          isFirstRun = true;
+        }
+      }
+      
+      // 保存该源的当前状态
+      const dataToSave = {
+        packages,
+        packageCount,
+        lastCheck: new Date().toISOString(),
+        repoUrl
+      };
+      
+      writePromises.push(
+        new Promise(resolve => {
+          $persistentStore.write(JSON.stringify(dataToSave), storageKey);
+          resolve();
+        })
+      );
+      
+      // 收集该源的变更信息
+      allChanges.push({
+        repoUrl,
+        repoInfo,
+        packageCount,
+        changes,
+        isFirstRun
+      });
+    }
+    
+    // 等待所有存储操作完成
+    await Promise.all(writePromises);
     
     const executionTime = ((Date.now() - startTime) / 1000).toFixed(1);
     const now = new Date();
@@ -314,84 +379,140 @@ function formatPackageName(pkg) {
     const isPanel = typeof $trigger !== 'undefined';
     const maxShow = getMaxShowFromArgs();
     
-    let panelTitle = `${repoInfo.icon} ${repoInfo.name}`;
+    // 统计所有源的变更
+    let totalPackageCount = 0;
+    let totalNewPackages = 0;
+    let totalUpdatedPackages = 0;
+    let totalDowngradedPackages = 0;
+    let totalRemovedPackages = 0;
+    let firstRunRepos = [];
+    let changedRepos = [];
+    let unchangedRepos = [];
+    
+    for (const repoChange of allChanges) {
+      totalPackageCount += repoChange.packageCount;
+      
+      if (repoChange.isFirstRun) {
+        firstRunRepos.push(repoChange);
+      } else if (repoChange.changes) {
+        const changes = repoChange.changes;
+        const totalChanges = changes.added.length + changes.updated.length + 
+                            changes.downgraded.length + changes.removed.length;
+        
+        totalNewPackages += changes.added.length;
+        totalUpdatedPackages += changes.updated.length;
+        totalDowngradedPackages += changes.downgraded.length;
+        totalRemovedPackages += changes.removed.length;
+        
+        if (totalChanges > 0) {
+          changedRepos.push(repoChange);
+        } else {
+          unchangedRepos.push(repoChange);
+        }
+      }
+    }
+    
+    const hasAnyChanges = totalNewPackages > 0 || totalUpdatedPackages > 0 || 
+                          totalDowngradedPackages > 0 || totalRemovedPackages > 0;
+    
+    let panelTitle = "";
     let panelContent = "";
     let panelStyle = "info";
     
-    if (isFirstRun) {
+    // 生成面板标题和样式
+    if (firstRunRepos.length === allChanges.length) {
+      // 全部首次运行
       panelStyle = "good";
-      panelTitle = `✅ ${repoInfo.name} 已记录`;
-      panelContent = `📦 总包数: ${packageCount}\n🆕 首次监控，已记录当前状态`;
-    } else if (changes) {
-      const totalChanges = changes.added.length + changes.updated.length + 
-                          changes.downgraded.length + changes.removed.length;
+      panelTitle = `✅ 已记录 ${allChanges.length} 个源`;
+    } else if (hasAnyChanges) {
+      // 有变更
+      panelStyle = "alert";
+      const totalChanges = totalNewPackages + totalUpdatedPackages + totalDowngradedPackages + totalRemovedPackages;
+      panelTitle = `🆕 发现 ${totalChanges} 个变更`;
+    } else {
+      // 无变更
+      panelStyle = "good";
+      panelTitle = `✅ 全部最新`;
+    }
+    
+    // 生成面板内容
+    if (firstRunRepos.length > 0) {
+      // 显示首次运行的源
+      panelContent += `📝 首次记录 ${firstRunRepos.length} 个源:\n`;
+      for (const repo of firstRunRepos) {
+        panelContent += `  ${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repo.packageCount} 个包\n`;
+      }
+      panelContent += "\n";
+    }
+    
+    if (hasAnyChanges) {
+      // 显示变更统计
+      panelContent += `📊 变更统计:\n`;
+      if (totalNewPackages > 0) panelContent += `➕ 新增: ${totalNewPackages}\n`;
+      if (totalUpdatedPackages > 0) panelContent += `⬆️ 更新: ${totalUpdatedPackages}\n`;
+      if (totalDowngradedPackages > 0) panelContent += `⬇️ 降级: ${totalDowngradedPackages}\n`;
+      if (totalRemovedPackages > 0) panelContent += `➖ 删除: ${totalRemovedPackages}\n`;
+      panelContent += "\n";
       
-      if (totalChanges > 0) {
-        panelStyle = "alert";
-        panelTitle = `🆕 ${repoInfo.name} 有变更`;
+      // 显示每个有变更的源
+      for (const repo of changedRepos) {
+        const changes = repo.changes;
+        const totalChanges = changes.added.length + changes.updated.length + 
+                            changes.downgraded.length + changes.removed.length;
+      
         
-        // 新增的包
-        if (changes.added.length > 0) {
-          panelContent += `➕ 新增 ${changes.added.length} 个:\n`;
-          const showCount = Math.min(changes.added.length, maxShow);
-          for (let i = 0; i < showCount; i++) {
-            const pkg = changes.added[i];
-            panelContent += `  • ${formatPackageName(pkg)} ${pkg.version}\n`;
-          }
-          if (changes.added.length > maxShow) {
-            panelContent += `  ... 还有 ${changes.added.length - maxShow} 个\n`;
-          }
-        }
+        panelContent += `${repo.repoInfo.icon} ${repo.repoInfo.name} (${totalChanges}个变更):\n`;
         
-        // 更新的包
-        if (changes.updated.length > 0) {
-          if (panelContent) panelContent += "\n";
-          panelContent += `⬆️ 更新 ${changes.updated.length} 个:\n`;
-          const showCount = Math.min(changes.updated.length, maxShow);
+        // 显示该源的主要变更（限制显示数量）
+        let shownInRepo = 0;
+        const maxPerRepo = Math.max(3, Math.floor(maxShow / changedRepos.length));
+        
+        if (changes.updated.length > 0 && shownInRepo < maxPerRepo) {
+          const showCount = Math.min(changes.updated.length, maxPerRepo - shownInRepo);
           for (let i = 0; i < showCount; i++) {
             const pkg = changes.updated[i];
-            panelContent += `  • ${formatPackageName(pkg)}\n    ${pkg.oldVersion} → ${pkg.version}\n`;
-          }
-          if (changes.updated.length > maxShow) {
-            panelContent += `  ... 还有 ${changes.updated.length - maxShow} 个\n`;
+            panelContent += `  ⬆️ ${formatPackageName(pkg)}: ${pkg.oldVersion} → ${pkg.version}\n`;
+            shownInRepo++;
           }
         }
         
-        // 降级的包
-        if (changes.downgraded.length > 0) {
-          if (panelContent) panelContent += "\n";
-          panelContent += `⬇️ 降级 ${changes.downgraded.length} 个:\n`;
-          const showCount = Math.min(changes.downgraded.length, maxShow);
+        if (changes.added.length > 0 && shownInRepo < maxPerRepo) {
+          const showCount = Math.min(changes.added.length, maxPerRepo - shownInRepo);
           for (let i = 0; i < showCount; i++) {
-            const pkg = changes.downgraded[i];
-            panelContent += `  • ${formatPackageName(pkg)}\n    ${pkg.oldVersion} → ${pkg.version}\n`;
-          }
-          if (changes.downgraded.length > maxShow) {
-            panelContent += `  ... 还有 ${changes.downgraded.length - maxShow} 个\n`;
+            const pkg = changes.added[i];
+            panelContent += `  ➕ ${formatPackageName(pkg)} ${pkg.version}\n`;
+            shownInRepo++;
           }
         }
         
-        // 删除的包
-        if (changes.removed.length > 0) {
-          if (panelContent) panelContent += "\n";
-          panelContent += `➖ 删除 ${changes.removed.length} 个:\n`;
-          const showCount = Math.min(changes.removed.length, maxShow);
-          for (let i = 0; i < showCount; i++) {
-            const pkg = changes.removed[i];
-            panelContent += `  • ${formatPackageName(pkg)} ${pkg.version}\n`;
-          }
-          if (changes.removed.length > maxShow) {
-            panelContent += `  ... 还有 ${changes.removed.length - maxShow} 个\n`;
-          }
+        if (shownInRepo < totalChanges) {
+          panelContent += `  ... 还有 ${totalChanges - shownInRepo} 个变更\n`;
         }
         
-        panelContent += `\n📦 当前总数: ${packageCount}`;
-      } else {
-        panelStyle = "good";
-        panelTitle = `✅ ${repoInfo.name} 无变更`;
-        panelContent = `📦 总包数: ${packageCount}\n✨ 所有包均无变化`;
+        panelContent += "\n";
       }
     }
+    
+    // 显示无变更的源
+    if (unchangedRepos.length > 0) {
+      panelContent += `✅ 无变更源 (${unchangedRepos.length}个):\n`;
+      for (const repo of unchangedRepos) {
+        panelContent += `  ${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repo.packageCount} 个包\n`;
+      }
+      panelContent += "\n";
+    }
+    
+    // 显示失败的源
+    if (failedRepos.length > 0) {
+      panelContent += `❌ 获取失败 (${failedRepos.length}个):\n`;
+      for (const failed of failedRepos) {
+        panelContent += `  ${failed.repoInfo.icon} ${failed.repoInfo.name}\n`;
+      }
+      panelContent += "\n";
+    }
+    
+    // 总统计
+    panelContent += `📦 总包数: ${totalPackageCount} | 源数: ${allChanges.length}`;
     
     panelContent += `\n\n⏱️ 耗时: ${executionTime}s | 📅 ${now.toLocaleTimeString("zh-CN", {
       hour: '2-digit',
@@ -408,70 +529,61 @@ function formatPackageName(pkg) {
     console.log(`🔔 触发方式: ${isPanel ? $trigger : '非面板模式'}`);
     console.log(`🔔 总是通知: ${alwaysNotify ? '开启' : '关闭'}`);
     
-    const hasChanges = changes && 
-                       (changes.added.length > 0 || changes.updated.length > 0 || 
-                        changes.downgraded.length > 0 || changes.removed.length > 0);
-    
-    const shouldNotify = isManualTrigger || alwaysNotify || hasChanges || isFirstRun;
+    const shouldNotify = isManualTrigger || alwaysNotify || hasAnyChanges || firstRunRepos.length > 0;
     
     // 发送通知
     if (shouldNotify) {
       let title;
       let body = "";
       
-      if (isFirstRun) {
-        title = `✅ ${repoInfo.name} 监控已启动`;
-        body = `📦 已记录 ${packageCount} 个包\n🔔 将自动监控源的所有变更`;
-      } else if (hasChanges) {
-        title = `🚀 ${repoInfo.name} 源更新`;
-        
-        const totalChanges = changes.added.length + changes.updated.length + 
-                            changes.downgraded.length + changes.removed.length;
+      if (firstRunRepos.length === allChanges.length) {
+        // 全部首次运行
+        title = `✅ 监控已启动 (${allChanges.length}个源)`;
+        body = `📦 已记录 ${totalPackageCount} 个包\n🔔 将自动监控所有源的变更\n\n`;
+        for (const repo of firstRunRepos) {
+          body += `${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repo.packageCount}个\n`;
+        }
+      } else if (hasAnyChanges) {
+        // 有变更
+        const totalChanges = totalNewPackages + totalUpdatedPackages + totalDowngradedPackages + totalRemovedPackages;
+        title = `🚀 源更新 (${totalChanges}个变更)`;
         
         body = `📊 变更统计:\n`;
+        if (totalNewPackages > 0) body += `➕ 新增: ${totalNewPackages}\n`;
+        if (totalUpdatedPackages > 0) body += `⬆️ 更新: ${totalUpdatedPackages}\n`;
+        if (totalDowngradedPackages > 0) body += `⬇️ 降级: ${totalDowngradedPackages}\n`;
+        if (totalRemovedPackages > 0) body += `➖ 删除: ${totalRemovedPackages}\n`;
         
-        if (changes.added.length > 0) {
-          body += `➕ 新增: ${changes.added.length} 个\n`;
-        }
-        if (changes.updated.length > 0) {
-          body += `⬆️ 更新: ${changes.updated.length} 个\n`;
-        }
-        if (changes.downgraded.length > 0) {
-          body += `⬇️ 降级: ${changes.downgraded.length} 个\n`;
-        }
-        if (changes.removed.length > 0) {
-          body += `➖ 删除: ${changes.removed.length} 个\n`;
+        body += `\n`;
+        
+        // 显示有变更的源
+        for (const repo of changedRepos) {
+          const changes = repo.changes;
+          const repoTotalChanges = changes.added.length + changes.updated.length + 
+                                   changes.downgraded.length + changes.removed.length;
+          body += `${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repoTotalChanges}个变更\n`;
         }
         
-        body += `\n📦 当前总数: ${packageCount}`;
-        
-        // 显示部分详情
-        if (changes.updated.length > 0) {
-          body += `\n\n🔥 热门更新:`;
-          const showCount = Math.min(changes.updated.length, 3);
-          for (let i = 0; i < showCount; i++) {
-            const pkg = changes.updated[i];
-            body += `\n• ${formatPackageName(pkg)}: ${pkg.oldVersion} → ${pkg.version}`;
+        // 显示部分更新详情
+        if (totalUpdatedPackages > 0) {
+          body += `\n🔥 热门更新:`;
+          let shown = 0;
+          for (const repo of changedRepos) {
+            if (shown >= 5) break;
+            for (const pkg of repo.changes.updated) {
+              if (shown >= 5) break;
+              body += `\n• ${formatPackageName(pkg)}: ${pkg.oldVersion} → ${pkg.version}`;
+              shown++;
+            }
           }
-          if (changes.updated.length > 3) {
-            body += `\n... 还有 ${changes.updated.length - 3} 个更新`;
-          }
-        }
-        
-        if (changes.added.length > 0 && changes.updated.length < 3) {
-          body += `\n\n✨ 新增包:`;
-          const showCount = Math.min(changes.added.length, 3);
-          for (let i = 0; i < showCount; i++) {
-            const pkg = changes.added[i];
-            body += `\n• ${formatPackageName(pkg)} ${pkg.version}`;
-          }
-          if (changes.added.length > 3) {
-            body += `\n... 还有 ${changes.added.length - 3} 个`;
+          if (totalUpdatedPackages > 5) {
+            body += `\n... 还有 ${totalUpdatedPackages - 5} 个`;
           }
         }
       } else {
-        title = `✅ ${repoInfo.name} 检测完成`;
-        body = `📦 总包数: ${packageCount}\n✨ 所有包均无变化`;
+        // 无变更
+        title = `✅ 检测完成 (${allChanges.length}个源)`;
+        body = `📦 总包数: ${totalPackageCount}\n✨ 所有源均无变化`;
       }
       
       body += `\n⏱️ 检测耗时: ${executionTime}秒`;
@@ -492,12 +604,17 @@ function formatPackageName(pkg) {
         body += "\n🔔 自动检测";
       }
       
-      // 构建源链接
-      let url = repoUrl;
-      if (url.startsWith('https://')) {
-        url = url; // 保持https链接
-      } else if (!url.startsWith('cydia://') && !url.startsWith('sileo://')) {
-        url = `cydia://url/${url}`;
+      // 构建源链接（如果有变更的源，跳转到第一个）
+      let url = "cydia://";
+      if (changedRepos.length > 0) {
+        const firstChangedRepo = changedRepos[0];
+        url = firstChangedRepo.repoUrl.startsWith('https://') ? 
+              firstChangedRepo.repoUrl : 
+              `cydia://url/${firstChangedRepo.repoUrl}`;
+      } else if (allChanges.length > 0) {
+        url = allChanges[0].repoUrl.startsWith('https://') ? 
+              allChanges[0].repoUrl : 
+              `cydia://url/${allChanges[0].repoUrl}`;
       }
       
       $notification.post(title, "", body, {
@@ -513,29 +630,39 @@ function formatPackageName(pkg) {
     
     // 调试日志
     console.log("=".repeat(40));
-    console.log(`${repoInfo.name} 源监控完成 (${executionTime}s)`);
-    console.log(`📦 当前包数: ${packageCount}`);
+    console.log(`Cydia源监控完成 (${executionTime}s)`);
+    console.log(`📦 监控源数: ${allChanges.length}`);
+    console.log(`📦 总包数: ${totalPackageCount}`);
     
-    if (changes) {
-      if (hasChanges) {
-        console.log("✨ 发现变更:");
-        if (changes.added.length > 0) {
-          console.log(`  ➕ 新增: ${changes.added.length} 个`);
-        }
-        if (changes.updated.length > 0) {
-          console.log(`  ⬆️ 更新: ${changes.updated.length} 个`);
-        }
-        if (changes.downgraded.length > 0) {
-          console.log(`  ⬇️ 降级: ${changes.downgraded.length} 个`);
-        }
-        if (changes.removed.length > 0) {
-          console.log(`  ➖ 删除: ${changes.removed.length} 个`);
-        }
-      } else {
-        console.log("✨ 无变更");
+    if (firstRunRepos.length > 0) {
+      console.log(`✨ 首次运行: ${firstRunRepos.length} 个源`);
+      for (const repo of firstRunRepos) {
+        console.log(`  ${repo.repoInfo.icon} ${repo.repoInfo.name}`);
       }
-    } else if (isFirstRun) {
-      console.log("✨ 首次运行，已保存初始状态");
+    }
+    
+    if (hasAnyChanges) {
+      console.log("✨ 发现变更:");
+      if (totalNewPackages > 0) console.log(`  ➕ 新增: ${totalNewPackages} 个`);
+      if (totalUpdatedPackages > 0) console.log(`  ⬆️ 更新: ${totalUpdatedPackages} 个`);
+      if (totalDowngradedPackages > 0) console.log(`  ⬇️ 降级: ${totalDowngradedPackages} 个`);
+      if (totalRemovedPackages > 0) console.log(`  ➖ 删除: ${totalRemovedPackages} 个`);
+      
+      for (const repo of changedRepos) {
+        const changes = repo.changes;
+        const totalChanges = changes.added.length + changes.updated.length + 
+                            changes.downgraded.length + changes.removed.length;
+        console.log(`  ${repo.repoInfo.icon} ${repo.repoInfo.name}: ${totalChanges}个变更`);
+      }
+    } else if (firstRunRepos.length === 0) {
+      console.log("✨ 无变更");
+    }
+    
+    if (failedRepos.length > 0) {
+      console.log("❌ 获取失败:");
+      for (const failed of failedRepos) {
+        console.log(`  ${failed.repoInfo.icon} ${failed.repoInfo.name}: ${failed.error}`);
+      }
     }
     
     console.log("=".repeat(40));
