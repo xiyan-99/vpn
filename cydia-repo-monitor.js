@@ -97,7 +97,7 @@ function getRepoUrlsFromArgs() {
   
   console.log(`📋 接收到的REPOURL参数: ${repoStr.substring(0, 100)}${repoStr.length > 100 ? '...' : ''}`);
   
-  // 支持多种分隔符：逗号、换行符、分号
+  // 支持多种分隔符：逗号、换行符、分号、空格
   let rawUrls;
   
   // 优先处理逗号分隔（推荐方式）
@@ -129,6 +129,13 @@ function getRepoUrlsFromArgs() {
   else if (repoStr.includes('|')) {
     console.log('✂️ 使用竖线分隔');
     rawUrls = repoStr.split('|');
+  }
+  // 处理空格分隔（Surge会把换行转换成空格）
+  // 检测是否有多个URL（包含多个 http:// 或 https://）
+  else if ((repoStr.match(/https?:\/\//g) || []).length > 1) {
+    console.log('✂️ 使用空格分隔（检测到多个URL）');
+    // 按空格分隔，然后过滤出以 http 开头的部分
+    rawUrls = repoStr.split(/\s+/).filter(url => url.startsWith('http://') || url.startsWith('https://'));
   }
   // 单个源
   else {
