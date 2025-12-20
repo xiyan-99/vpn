@@ -347,7 +347,7 @@ function formatPackageName(pkg) {
     if (isPanel) {
       $done({
         title: "⚠️ 未配置源",
-        content: "请在模块参数中填写要监控的源地址\n\n单个源：\nhttps://repo.chariz.com/\n\n多个源（逗号分隔）：\nhttps://repo.chariz.com/,https://havoc.app/\n\n支持的热门源：\n• Chariz: https://repo.chariz.com/\n• Packix: https://repo.packix.com/\n• Havoc: https://havoc.app/\n• Twickd: https://repo.twickd.com/\n• Bingner: https://apt.bingner.com/\n• Dynastic: https://repo.dynastic.co/",
+        content: "请在模块参数中填写要监控的源地址\n\n单个源：\nhttps://repo.chariz.com/\n\n多个源（逗号分隔）：\nhttps://repo.chariz.com/,https://havoc.app/",
         style: "error"
       });
     } else {
