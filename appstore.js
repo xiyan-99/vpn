@@ -467,10 +467,19 @@ async function enhancedFetch(appIdentifier) {
     // $trigger 可能的值: "按钮" (手动刷新) 或 "自动音程" (自动刷新)
     const isManualTrigger = typeof $trigger !== 'undefined' && $trigger === '按钮';
     
-    console.log(`🔔 触发方式: ${typeof $trigger !== 'undefined' ? $trigger : '未知'}`);
+    // 读取是否总是通知参数
+    const args = $argument || "";
+    const alwaysNotifyMatch = args.match(/ALWAYSNOTIFY="?([^"&]*)"?/);
+    const alwaysNotify = alwaysNotifyMatch && alwaysNotifyMatch[1] === 'true';
     
-    // 手动刷新时总是发送通知，自动刷新时只在有更新或失败时发送
-    const shouldNotify = isManualTrigger || hasUpdate || results.failed.length > 0;
+    console.log(`🔔 触发方式: ${typeof $trigger !== 'undefined' ? $trigger : '未知'}`);
+    console.log(`🔔 总是通知: ${alwaysNotify ? '开启' : '关闭'}`);
+    
+    // 决定是否发送通知
+    // 1. 手动刷新时总是发送
+    // 2. 开启"总是通知"时总是发送
+    // 3. 有更新或失败时发送
+    const shouldNotify = isManualTrigger || alwaysNotify || hasUpdate || results.failed.length > 0;
     
     if (shouldNotify) {
       let title, subtitle;
@@ -551,16 +560,43 @@ async function enhancedFetch(appIdentifier) {
       // 标记触发方式
       if (isManualTrigger) {
         body += "\n🔄 手动刷新";
+      } else if (alwaysNotify) {
+        body += "\n🔔 自动检测 (总是通知)";
       } else {
         body += "\n🔔 自动检测";
       }
       
-      // 发送通知（添加声音提示）
+      // 构建App Store链接（用于点击通知跳转）
+      let appStoreUrl = "https://apps.apple.com/";
+      
+      // 如果有更新的应用，跳转到第一个更新的应用
+      if (hasUpdate && results.updated["应用"].length > 0) {
+        const firstUpdated = results.updated["应用"][0].app;
+        if (firstUpdated.trackId) {
+          appStoreUrl = `https://apps.apple.com/app/id${firstUpdated.trackId}`;
+        } else if (firstUpdated.bundleId) {
+          // 使用bundleId搜索（不太准确，但可用）
+          appStoreUrl = `https://apps.apple.com/search?term=${encodeURIComponent(firstUpdated.name)}`;
+        }
+      }
+      // 如果没有更新但有当前应用，跳转到第一个应用
+      else if (results.current.length > 0) {
+        const firstApp = results.current[0].app;
+        if (firstApp.trackId) {
+          appStoreUrl = `https://apps.apple.com/app/id${firstApp.trackId}`;
+        } else if (firstApp.bundleId) {
+          appStoreUrl = `https://apps.apple.com/search?term=${encodeURIComponent(firstApp.name)}`;
+        }
+      }
+      
+      // 发送通知（添加声音提示和跳转链接）
       $notification.post(title, subtitle, body, {
-        sound: true  // 启用通知音效
+        sound: true,  // 启用通知音效
+        action: "open-url",  // 点击通知时打开URL
+        url: appStoreUrl  // App Store链接
       });
     } else {
-      // 自动刷新且没有更新也没有失败时，只记录日志
+      // 自动刷新且没有更新也没有失败且未开启总是通知时，只记录日志
       console.log("✅ 自动检测：所有应用均为最新版本且查询成功，无需通知");
     }
     
