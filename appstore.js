@@ -336,10 +336,27 @@ async function enhancedFetch(app) {
     });
     
   } else {
-    // 通知模式：发送通知（只在有更新或失败时）
-    if (hasUpdate || results.failed.length > 0) {
-      const title = hasUpdate ? "🚀 应用更新" : "❌ 检测失败";
-      let subtitle = hasUpdate ? "✨ 发现应用更新" : "⚠️ 部分应用查询失败";
+    // 通知模式
+    // 判断是否为手动刷新
+    const isManualTrigger = typeof $trigger !== 'undefined' && $trigger === 'button';
+    
+    // 手动刷新时总是发送通知，自动刷新时只在有更新或失败时发送
+    const shouldNotify = isManualTrigger || hasUpdate || results.failed.length > 0;
+    
+    if (shouldNotify) {
+      let title, subtitle;
+      
+      if (hasUpdate) {
+        title = "🚀 应用更新";
+        subtitle = "✨ 发现应用更新";
+      } else if (results.failed.length > 0) {
+        title = "❌ 检测失败";
+        subtitle = "⚠️ 部分应用查询失败";
+      } else {
+        // 手动刷新且没有更新
+        title = "✅ 检测完成";
+        subtitle = "🔍 所有应用均为最新版本";
+      }
       
       let body = "";
       let hasContent = false;
@@ -356,10 +373,10 @@ async function enhancedFetch(app) {
         }
       }
       
-      // 当前版本
-      if (hasUpdate && results.current.length > 0) {
+      // 当前版本（手动刷新时总是显示，自动刷新只在有更新时显示）
+      if ((isManualTrigger || hasUpdate) && results.current.length > 0) {
         if (hasContent) body += "\n\n";
-        body += `✅ 最新版应用:\n`;
+        body += `✅ ${isManualTrigger && !hasUpdate ? '当前版本' : '最新版应用'}:\n`;
         body += results.current.map(c => 
           `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' (首次记录)' : ''}`
         ).join("\n");
@@ -376,8 +393,8 @@ async function enhancedFetch(app) {
         hasContent = true;
       }
       
-      // 如果没有更新但有失败，显示成功查询的应用
-      if (!hasUpdate && results.failed.length > 0 && results.current.length > 0) {
+      // 如果没有更新但有失败，显示成功查询的应用（仅在自动刷新时）
+      if (!isManualTrigger && !hasUpdate && results.failed.length > 0 && results.current.length > 0) {
         if (hasContent) body += "\n\n";
         body += `✅ 成功查询:\n`;
         body += results.current.map(c => 
@@ -402,12 +419,17 @@ async function enhancedFetch(app) {
         body += `\n\n💡 提示: ${results.failed.length}个应用查询失败，可能因区域限制或网络问题`;
       }
       
-      body += "\n🔔 自动检测 | 发现更新或失败时通知";
+      // 标记触发方式
+      if (isManualTrigger) {
+        body += "\n🔄 手动刷新";
+      } else {
+        body += "\n🔔 自动检测";
+      }
       
       $notification.post(title, subtitle, body);
     } else {
-      // 没有更新且没有失败时，只记录日志
-      console.log("✅ 所有应用均为最新版本且查询成功，无需通知");
+      // 自动刷新且没有更新也没有失败时，只记录日志
+      console.log("✅ 自动检测：所有应用均为最新版本且查询成功，无需通知");
     }
     
     // 调试日志
