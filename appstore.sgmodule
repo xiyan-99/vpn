@@ -5,7 +5,7 @@
 #!system=ios
 #!homepage=https://iosxy.xin
 #!arguments=APPLIST:"",UPDATEINTERVAL:"300"
-#!arguments-desc=APPLIST: 填写app的包名，多个用逗号分隔（例如：com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.loon0x00.LoonLite）\nUPDATEINTERVAL: 自动更新间隔(秒)，默认300秒(5分钟)
+#!arguments-desc=APPLIST: 填写应用信息，多个用逗号分隔\n支持三种格式：\n1. Bundle ID: com.tencent.xin\n2. App Store链接: https://apps.apple.com/cn/app/id414478124\n3. 带备注: com.tencent.xin#微信 或 链接#备注名\n\nUPDATEINTERVAL: 自动更新间隔(秒)，默认300秒(5分钟)
 
 [Panel]
 appstore_panel = script-name=appstore_panel,update-interval={{{UPDATEINTERVAL}}}

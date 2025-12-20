@@ -23,7 +23,63 @@ const appDatabase = {
   "com.tencent.mqq": { name: "QQ", icon: "🐧" }
 };
 
-// 从参数获取包名列表
+// 从App Store链接提取trackId和country
+function extractTrackId(url) {
+  // 匹配格式：https://apps.apple.com/.../id123456789
+  const match = url.match(/\/id(\d+)/);
+  const trackId = match ? match[1] : null;
+  
+  // 提取country（如 /cn/app 或 /us/app）
+  const countryMatch = url.match(/apps\.apple\.com\/([a-z]{2})\//i);
+  const country = countryMatch ? countryMatch[1].toLowerCase() : null;
+  
+  return { trackId, country };
+}
+
+// 判断是bundleId还是App Store链接
+function parseAppIdentifier(identifier) {
+  identifier = identifier.trim();
+  
+  // 检查是否有备注（用#分隔）
+  let customName = null;
+  if (identifier.includes('#')) {
+    const parts = identifier.split('#');
+    identifier = parts[0].trim();
+    customName = parts[1].trim();
+  }
+  
+  // 如果是链接格式
+  if (identifier.startsWith('http://') || identifier.startsWith('https://')) {
+    const { trackId, country } = extractTrackId(identifier);
+    if (trackId) {
+      return {
+        type: 'trackId',
+        value: trackId,
+        country: country || 'us',  // 默认美国
+        original: identifier,
+        customName: customName
+      };
+    }
+    console.log(`⚠️ 无法从链接中提取trackId: ${identifier}`);
+    return null;
+  }
+  
+  // 如果是bundleId格式
+  if (identifier.includes('.')) {
+    return {
+      type: 'bundleId',
+      value: identifier,
+      country: null,
+      original: identifier,
+      customName: customName
+    };
+  }
+  
+  console.log(`⚠️ 无法识别的格式: ${identifier}`);
+  return null;
+}
+
+// 从参数获取应用列表
 function getAppListFromArgs() {
   const args = $argument || "";
   
@@ -40,7 +96,7 @@ function getAppListFromArgs() {
   
   // 获取应用列表字符串
   const applistStr = applistMatch[1];
-  let bundleIds;
+  let identifiers;
   
   console.log(`📋 接收到的APPLIST参数: ${applistStr}`);
   
@@ -48,77 +104,134 @@ function getAppListFromArgs() {
   // 优先处理逗号分隔（推荐方式）
   if (applistStr.includes(',')) {
     console.log('✂️ 使用逗号分隔');
-    bundleIds = applistStr.split(',');
+    identifiers = applistStr.split(',');
   }
   // 处理竖线分隔
   else if (applistStr.includes('|')) {
     console.log('✂️ 使用竖线分隔');
-    bundleIds = applistStr.split('|');
+    identifiers = applistStr.split('|');
   }
   // 处理分号分隔
   else if (applistStr.includes(';')) {
     console.log('✂️ 使用分号分隔');
-    bundleIds = applistStr.split(';');
+    identifiers = applistStr.split(';');
   }
   // 处理字面的 \n
   else if (applistStr.includes('\\n')) {
     console.log('✂️ 使用 \\n 分隔');
-    bundleIds = applistStr.split('\\n');
+    identifiers = applistStr.split('\\n');
   }
   // 处理真正的换行符
   else if (applistStr.includes('\n')) {
     console.log('✂️ 使用换行符分隔');
-    bundleIds = applistStr.split('\n');
+    identifiers = applistStr.split('\n');
   }
   // 处理URL编码的换行符
   else if (applistStr.includes('%0A')) {
     console.log('✂️ 使用 %0A 分隔');
-    bundleIds = applistStr.split('%0A');
+    identifiers = applistStr.split('%0A');
   }
   // 单个应用
   else {
-    console.log('✂️ 单个应用包名');
-    bundleIds = [applistStr];
+    console.log('✂️ 单个应用');
+    identifiers = [applistStr];
   }
   
-  // 清理并过滤空值
-  const cleanedIds = bundleIds.map(id => id.trim()).filter(id => id);
+  // 解析每个标识符（bundleId或链接）
+  const parsedApps = identifiers
+    .map(id => parseAppIdentifier(id))
+    .filter(app => app !== null);
   
-  if (cleanedIds.length === 0) {
-    console.log('⚠️ 应用包名列表为空，请填写至少一个应用包名');
+  if (parsedApps.length === 0) {
+    console.log('⚠️ 应用列表为空或格式错误');
     return [];
   }
   
-  console.log(`📱 解析出 ${cleanedIds.length} 个应用: ${cleanedIds.join(', ')}`);
+  console.log(`📱 解析出 ${parsedApps.length} 个应用:`);
+  parsedApps.forEach((app, idx) => {
+    if (app.type === 'bundleId') {
+      // 优先使用自定义备注，其次从数据库获取
+      let displayName = '';
+      if (app.customName) {
+        displayName = ` (${app.customName} 📝自定义)`;
+      } else {
+        const knownApp = appDatabase[app.value];
+        if (knownApp) {
+          displayName = ` (${knownApp.name})`;
+        }
+      }
+      console.log(`   ${idx + 1}. 📦 ${app.value}${displayName}`);
+    } else {
+      const region = app.country === 'cn' ? '🇨🇳 中国' : app.country === 'us' ? '🇺🇸 美国' : `🌍 ${app.country?.toUpperCase()}`;
+      const customNote = app.customName ? ` - ${app.customName} 📝` : '';
+      console.log(`   ${idx + 1}. 🔗 id${app.value} (${region}区)${customNote}`);
+    }
+  });
   
-  return cleanedIds;
+  return parsedApps;
 }
 
 // 增强版请求函数 - 优化超时和错误处理
-async function enhancedFetch(app) {
-  const isSurge = app.bundleId.includes("surge");
+async function enhancedFetch(appIdentifier) {
+  const { type, value, country, original, customName } = appIdentifier;
   
-  // 为 Surge 添加备用 bundleId
-  const surgeAlternativeBundleId = "com.nssurge.inc.surge";
-  
-  let urls;
-  
-  if (isSurge) {
-    // Surge 特殊处理：尝试多个 bundleId
-    urls = [
-      `https://itunes.apple.com/hk/lookup?bundleId=${app.bundleId}`,
-      `https://itunes.apple.com/hk/lookup?bundleId=${surgeAlternativeBundleId}`,
-      `https://itunes.apple.com/cn/lookup?bundleId=${app.bundleId}`,
-      `https://itunes.apple.com/cn/lookup?bundleId=${surgeAlternativeBundleId}`,
-      `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`
-    ];
+  // 从数据库获取应用信息（仅bundleId有预定义）
+  let appInfo;
+  if (type === 'bundleId') {
+    const dbInfo = appDatabase[value];
+    appInfo = {
+      name: customName || (dbInfo ? dbInfo.name : value.split('.').pop()),
+      icon: dbInfo?.icon || "📱",
+      bundleId: value,
+      isCustomName: !!customName
+    };
   } else {
+    // trackId模式，先使用占位信息
+    appInfo = {
+      name: customName || `App-${value}`,
+      icon: "📱",
+      trackId: value,
+      isCustomName: !!customName
+    };
+  }
+  
+  let urls = [];
+  
+  if (type === 'bundleId') {
+    const isSurge = value.includes("surge");
+    const surgeAlternativeBundleId = "com.nssurge.inc.surge";
+    
+    if (isSurge) {
+      // Surge 特殊处理：尝试多个 bundleId
+      urls = [
+        `https://itunes.apple.com/hk/lookup?bundleId=${value}`,
+        `https://itunes.apple.com/hk/lookup?bundleId=${surgeAlternativeBundleId}`,
+        `https://itunes.apple.com/cn/lookup?bundleId=${value}&lang=zh_CN`,
+        `https://itunes.apple.com/cn/lookup?bundleId=${surgeAlternativeBundleId}&lang=zh_CN`,
+        `https://itunes.apple.com/us/lookup?bundleId=${value}`
+      ];
+    } else {
+      urls = [
+        `https://itunes.apple.com/hk/lookup?bundleId=${value}`,
+        `https://itunes.apple.com/cn/lookup?bundleId=${value}&lang=zh_CN`,
+        `https://itunes.apple.com/us/lookup?bundleId=${value}`,
+        `https://itunes.apple.com/lookup?bundleId=${value}`,
+        `https://itunes.apple.com/jp/lookup?bundleId=${value}`
+      ];
+    }
+  } else {
+    // trackId 模式：根据链接的country决定语言
+    const langParam = country === 'cn' ? '&lang=zh_CN' : '';
+    const countryPrefix = country || 'us';
+    
+    console.log(`🌍 检测到区域: ${country === 'cn' ? '中国(CN)' : country?.toUpperCase() || 'US'}, 使用${country === 'cn' ? '中文' : '英文'}返回`);
+    
     urls = [
-      `https://itunes.apple.com/hk/lookup?bundleId=${app.bundleId}`,
-      `https://itunes.apple.com/cn/lookup?bundleId=${app.bundleId}`,
-      `https://itunes.apple.com/us/lookup?bundleId=${app.bundleId}`,
-      `https://itunes.apple.com/lookup?bundleId=${app.bundleId}`,
-      `https://itunes.apple.com/jp/lookup?bundleId=${app.bundleId}`
+      `https://itunes.apple.com/lookup?id=${value}${langParam}`,
+      `https://itunes.apple.com/${countryPrefix}/lookup?id=${value}${langParam}`,
+      `https://itunes.apple.com/cn/lookup?id=${value}&lang=zh_CN`,
+      `https://itunes.apple.com/us/lookup?id=${value}`,
+      `https://itunes.apple.com/hk/lookup?id=${value}`
     ];
   }
   
@@ -128,7 +241,7 @@ async function enhancedFetch(app) {
   for (const [index, url] of urls.entries()) {
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 增加到5秒超时
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5秒超时
       
       // 增加请求间隔，避免被限流
       if (index > 0) {
@@ -147,16 +260,33 @@ async function enhancedFetch(app) {
         const data = await response.json();
         lastResponse = data;
         
-        console.log(`🔍 ${app.icon} ${app.name} API响应: resultCount=${data.resultCount}, url=${url}`);
+        console.log(`🔍 ${appInfo.icon} ${appInfo.name} API响应: resultCount=${data.resultCount}, url=${url}`);
         
         if (data.results && data.results.length > 0) {
-          const version = data.results[0].version;
-          const trackName = data.results[0].trackName;
-          const usedBundleId = url.includes(surgeAlternativeBundleId) ? surgeAlternativeBundleId : app.bundleId;
-          console.log(`✅ ${app.icon} ${app.name} 成功获取版本: ${version} (应用名: ${trackName})`);
-          return { app, version, usedBundleId };
+          const result = data.results[0];
+          const version = result.version;
+          const trackName = result.trackName;
+          const bundleId = result.bundleId;
+          const trackId = result.trackId;
+          
+          // 更新应用信息（使用实际获取到的数据）
+          // 如果有自定义名称，保留自定义名称；否则使用API返回的名称
+          const finalAppInfo = {
+            name: customName || trackName,
+            icon: appDatabase[bundleId]?.icon || appInfo.icon,
+            bundleId: bundleId,
+            trackId: trackId,
+            category: "应用",
+            inputFormat: type === 'bundleId' ? `📦 ${value}` : `🔗 id${value}`,
+            isCustomName: !!customName,
+            apiName: trackName  // 保存API返回的原始名称
+          };
+          
+          const nameDisplay = customName ? `${customName} (API: ${trackName})` : trackName;
+          console.log(`✅ ${finalAppInfo.icon} ${nameDisplay} 成功获取版本: ${version} (输入: ${finalAppInfo.inputFormat})`);
+          return { app: finalAppInfo, version };
         } else {
-          console.log(`⚠️ ${app.icon} ${app.name} [${index + 1}/${urls.length}] 返回空结果，完整响应: ${JSON.stringify(data).substring(0, 200)}`);
+          console.log(`⚠️ ${appInfo.icon} ${appInfo.name} [${index + 1}/${urls.length}] 返回空结果`);
           throw new Error(`API返回空数据 (resultCount: ${data.resultCount})`);
         }
       } else {
@@ -164,52 +294,41 @@ async function enhancedFetch(app) {
       }
     } catch (error) {
       lastError = error;
-      console.log(`⚠️ ${app.icon} ${app.name} 请求异常 [${index + 1}/${urls.length}]: ${error.message}`);
+      console.log(`⚠️ ${appInfo.icon} ${appInfo.name} 请求异常 [${index + 1}/${urls.length}]: ${error.message}`);
     }
   }
   
   // 如果所有请求都失败，给出详细的错误信息
   let errorMsg = `所有API请求失败: ${lastError?.message || '未知错误'}`;
   if (lastResponse && lastResponse.resultCount === 0) {
-    errorMsg += ` | bundleId可能不正确: ${app.bundleId}`;
+    errorMsg += ` | ${type}可能不正确: ${value}`;
   }
   
-  throw new Error(errorMsg);
+  // 返回错误但保留应用信息用于显示
+  appInfo.inputFormat = type === 'bundleId' ? `📦 ${value}` : `🔗 id${value}`;
+  throw { error: errorMsg, app: appInfo };
 }
   
 (async () => {
-  // 构建应用列表
-  const bundleIds = getAppListFromArgs();
+  // 获取应用列表
+  const appIdentifiers = getAppListFromArgs();
   
   // 如果没有配置应用，直接返回提示
-  if (bundleIds.length === 0) {
+  if (appIdentifiers.length === 0) {
     const isPanel = typeof $trigger !== 'undefined';
     
     if (isPanel) {
       $done({
         title: "⚠️ 未配置应用",
-        content: "请在模块参数中填写要监控的应用包名\n\n多个包名用逗号分隔，例如：\ncom.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.loon0x00.LoonLite\n\n💡 如何获取包名：\n访问 tools.lancely.tech/apple/app-info",
+        content: "请在模块参数中填写应用信息\n\n支持两种格式：\n\n1️⃣ Bundle ID（推荐）\ncom.tencent.xin\n\n2️⃣ App Store链接\nhttps://apps.apple.com/cn/app/微信/id414478124\n\n多个应用用逗号分隔\n\n💡 如何获取：\n• Bundle ID: tools.lancely.tech/apple/app-info\n• App Store链接: 在App Store中分享应用",
         style: "error"
       });
     } else {
-      console.log("⚠️ 未配置应用包名列表");
+      console.log("⚠️ 未配置应用列表");
       $done();
     }
     return;
   }
-  
-  const appList = bundleIds.map(bundleId => {
-    const appInfo = appDatabase[bundleId] || {
-      name: bundleId.split('.').pop(),
-      icon: "📱"
-    };
-    return {
-      name: appInfo.name,
-      bundleId: bundleId,
-      icon: appInfo.icon,
-      category: "应用"
-    };
-  });
   
   let hasUpdate = false;
   const results = {
@@ -221,17 +340,17 @@ async function enhancedFetch(app) {
   const startTime = Date.now();
   
   // 并行执行所有请求
-  const promises = appList.map(app => enhancedFetch(app));
+  const promises = appIdentifiers.map(appId => enhancedFetch(appId));
   const outcomes = await Promise.allSettled(promises);
   
   const writePromises = [];
 
   // 处理所有结果
   outcomes.forEach((outcome, index) => {
-    const app = appList[index];
+    const appIdentifier = appIdentifiers[index];
     
     if (outcome.status === 'fulfilled') {
-      const { version: latest } = outcome.value;
+      const { app, version: latest } = outcome.value;
       const key = `app_ver_${app.bundleId}`;
       const savedVersion = $persistentStore.read(key);
       
@@ -258,9 +377,16 @@ async function enhancedFetch(app) {
         });
       }
     } else {
+      // 处理错误
+      const error = outcome.reason;
+      const app = error.app || {
+        name: appIdentifier.value,
+        icon: "📱",
+        bundleId: appIdentifier.value
+      };
       results.failed.push({
         app,
-        error: outcome.reason.message
+        error: error.error || error.message || '查询失败'
       });
     }
   });
@@ -429,7 +555,10 @@ async function enhancedFetch(app) {
         body += "\n🔔 自动检测";
       }
       
-      $notification.post(title, subtitle, body);
+      // 发送通知（添加声音提示）
+      $notification.post(title, subtitle, body, {
+        sound: true  // 启用通知音效
+      });
     } else {
       // 自动刷新且没有更新也没有失败时，只记录日志
       console.log("✅ 自动检测：所有应用均为最新版本且查询成功，无需通知");
