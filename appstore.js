@@ -338,7 +338,10 @@ async function enhancedFetch(app) {
   } else {
     // 通知模式
     // 判断是否为手动刷新
-    const isManualTrigger = typeof $trigger !== 'undefined' && $trigger === 'button';
+    // $trigger 可能的值: "按钮" (手动刷新) 或 "自动音程" (自动刷新)
+    const isManualTrigger = typeof $trigger !== 'undefined' && $trigger === '按钮';
+    
+    console.log(`🔔 触发方式: ${typeof $trigger !== 'undefined' ? $trigger : '未知'}`);
     
     // 手动刷新时总是发送通知，自动刷新时只在有更新或失败时发送
     const shouldNotify = isManualTrigger || hasUpdate || results.failed.length > 0;
