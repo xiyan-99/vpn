@@ -3,12 +3,10 @@
 // 版本: 面板增强版
 // 
 // 使用说明：
-// 1. 在 Surge 模块界面填写应用包名，一行一个：
-//    com.liguangming.Shadowrocket
-//    com.nssurge.inc.surge-ios
-//    com.ruikq.decar
-// 2. 修改更新间隔（秒）：例如 300（5分钟）
-// 3. 也支持其他分隔符：竖线|、逗号,、分号;
+// 1. 在 Surge 模块界面的 APPLIST 参数中填写应用包名
+//    多个包名用逗号分隔，例如：
+//    com.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.loon0x00.LoonLite
+// 2. 在 UPDATEINTERVAL 参数中填写更新间隔（秒）：例如 300（5分钟）
  
 // 预定义应用信息（用于显示名称和图标）
 const appDatabase = {
@@ -29,23 +27,41 @@ const appDatabase = {
 function getAppListFromArgs() {
   const args = $argument || "";
   
-  // 支持多种分隔符：换行符\n（优先）、竖线|、逗号,、分号;
-  const applistMatch = args.match(/applist=([^&]+)/);
+  console.log(`🔍 接收到的完整参数: ${args}`);
+  
+  // 匹配 APPLIST 参数（大写）
+  const applistMatch = args.match(/APPLIST="?([^"&]*)"?/);
   
   if (!applistMatch || !applistMatch[1] || applistMatch[1].trim() === '') {
     // 没有配置应用列表，返回空数组
-    console.log('⚠️ 未配置应用包名列表，请在模块参数中填写 applist');
+    console.log('⚠️ 未配置应用包名列表，请在模块参数中填写 APPLIST');
     return [];
   }
   
-  // 支持多种分隔符，优先换行符
+  // 获取应用列表字符串
   const applistStr = applistMatch[1];
   let bundleIds;
   
-  console.log(`📋 接收到的applist参数: ${applistStr}`);
+  console.log(`📋 接收到的APPLIST参数: ${applistStr}`);
   
-  // 优先处理字面的 \n 字符串（Surge传递过来的换行符）
-  if (applistStr.includes('\\n')) {
+  // 支持多种分隔符
+  // 优先处理逗号分隔（推荐方式）
+  if (applistStr.includes(',')) {
+    console.log('✂️ 使用逗号分隔');
+    bundleIds = applistStr.split(',');
+  }
+  // 处理竖线分隔
+  else if (applistStr.includes('|')) {
+    console.log('✂️ 使用竖线分隔');
+    bundleIds = applistStr.split('|');
+  }
+  // 处理分号分隔
+  else if (applistStr.includes(';')) {
+    console.log('✂️ 使用分号分隔');
+    bundleIds = applistStr.split(';');
+  }
+  // 处理字面的 \n
+  else if (applistStr.includes('\\n')) {
     console.log('✂️ 使用 \\n 分隔');
     bundleIds = applistStr.split('\\n');
   }
@@ -53,26 +69,16 @@ function getAppListFromArgs() {
   else if (applistStr.includes('\n')) {
     console.log('✂️ 使用换行符分隔');
     bundleIds = applistStr.split('\n');
-  } 
+  }
   // 处理URL编码的换行符
   else if (applistStr.includes('%0A')) {
     console.log('✂️ 使用 %0A 分隔');
     bundleIds = applistStr.split('%0A');
-  } 
-  // 处理竖线分隔
-  else if (applistStr.includes('|')) {
-    console.log('✂️ 使用 | 分隔');
-    bundleIds = applistStr.split('|');
-  } 
-  // 处理分号分隔
-  else if (applistStr.includes(';')) {
-    console.log('✂️ 使用 ; 分隔');
-    bundleIds = applistStr.split(';');
-  } 
-  // 处理逗号分隔
+  }
+  // 单个应用
   else {
-    console.log('✂️ 使用 , 分隔');
-    bundleIds = applistStr.split(',');
+    console.log('✂️ 单个应用包名');
+    bundleIds = [applistStr];
   }
   
   // 清理并过滤空值
@@ -182,7 +188,7 @@ async function enhancedFetch(app) {
     if (isPanel) {
       $done({
         title: "⚠️ 未配置应用",
-        content: "请在模块参数中填写要监控的应用包名\n\n一行一个，例如：\ncom.liguangming.Shadowrocket\ncom.nssurge.inc.surge-ios\ncom.loon0x00.LoonLite\n\n💡 如何获取包名：\n访问 tools.lancely.tech/apple/app-info",
+        content: "请在模块参数中填写要监控的应用包名\n\n多个包名用逗号分隔，例如：\ncom.liguangming.Shadowrocket,com.nssurge.inc.surge-ios,com.loon0x00.LoonLite\n\n💡 如何获取包名：\n访问 tools.lancely.tech/apple/app-info",
         style: "error"
       });
     } else {
