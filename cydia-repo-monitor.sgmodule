@@ -6,7 +6,7 @@
 #!category=iOS夕颜
 #!homepage=https://iosxy.xin
 #!arguments=REPOURL:"",UPDATEINTERVAL:"7200",ALWAYSNOTIFY:"false",MAXSHOW:"10"
-#!arguments-desc=REPOURL: 填写要监控的源地址，多个源用逗号分隔\n单个源: https://repo.chariz.com/\n多个源: https://repo.chariz.com/,https://havoc.app/\n\nUPDATEINTERVAL: 自动更新间隔(秒)，默认7200秒(2小时)\n\nALWAYSNOTIFY: 是否每次都发送通知（true/false），默认false\n\nMAXSHOW: 面板最多显示的变更数量，默认10个
+#!arguments-desc=REPOURL: 填写要监控的源地址\n支持多种格式：\n• 单个源: https://repo.chariz.com/\n• 逗号分隔: https://repo.chariz.com/,https://havoc.app/\n• 一行一个: 换行分隔多个源（推荐）\n\nUPDATEINTERVAL: 自动更新间隔(秒)，默认7200秒(2小时)\n\nALWAYSNOTIFY: 是否每次都发送通知（true/false），默认false\n\nMAXSHOW: 面板最多显示的变更数量，默认10个
 
 [Panel]
 cydia_repo_monitor = script-name=cydia_repo_monitor,update-interval={{{UPDATEINTERVAL}}}

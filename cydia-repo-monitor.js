@@ -95,8 +95,49 @@ function getRepoUrlsFromArgs() {
   
   const repoStr = repoMatch[1].trim();
   
-  // 支持逗号分隔多个源
-  const repoUrls = repoStr.split(',').map(url => {
+  console.log(`📋 接收到的REPOURL参数: ${repoStr.substring(0, 100)}${repoStr.length > 100 ? '...' : ''}`);
+  
+  // 支持多种分隔符：逗号、换行符、分号
+  let rawUrls;
+  
+  // 优先处理逗号分隔（推荐方式）
+  if (repoStr.includes(',')) {
+    console.log('✂️ 使用逗号分隔');
+    rawUrls = repoStr.split(',');
+  }
+  // 处理换行符分隔（一行一个）
+  else if (repoStr.includes('\n')) {
+    console.log('✂️ 使用换行符分隔');
+    rawUrls = repoStr.split('\n');
+  }
+  // 处理字面的 \n
+  else if (repoStr.includes('\\n')) {
+    console.log('✂️ 使用 \\n 分隔');
+    rawUrls = repoStr.split('\\n');
+  }
+  // 处理URL编码的换行符
+  else if (repoStr.includes('%0A')) {
+    console.log('✂️ 使用 %0A 分隔');
+    rawUrls = repoStr.split('%0A');
+  }
+  // 处理分号分隔
+  else if (repoStr.includes(';')) {
+    console.log('✂️ 使用分号分隔');
+    rawUrls = repoStr.split(';');
+  }
+  // 处理竖线分隔
+  else if (repoStr.includes('|')) {
+    console.log('✂️ 使用竖线分隔');
+    rawUrls = repoStr.split('|');
+  }
+  // 单个源
+  else {
+    console.log('✂️ 单个源');
+    rawUrls = [repoStr];
+  }
+  
+  // 处理每个URL：去空格、添加结尾斜杠
+  const repoUrls = rawUrls.map(url => {
     let trimmed = url.trim();
     // 确保以 / 结尾
     if (trimmed && !trimmed.endsWith('/')) {

@@ -56,7 +56,7 @@ cydia_repo_monitor = type=generic,timeout=30,script-path=https://raw.githubuserc
 
 填写要监控的源地址，**只需要源地址，不需要包名**
 
-**支持监控多个源**，用**逗号**分隔
+**支持监控多个源**，支持多种分隔方式
 
 **示例：**
 
@@ -65,14 +65,23 @@ cydia_repo_monitor = type=generic,timeout=30,script-path=https://raw.githubuserc
 REPOURL = https://repo.chariz.com/
 ```
 
-监控多个源：
+监控多个源（逗号分隔）：
 ```
 REPOURL = https://repo.chariz.com/,https://havoc.app/,https://repo.packix.com/
 ```
 
+监控多个源（一行一个，推荐）：
+```
+REPOURL = https://repo.chariz.com/
+https://havoc.app/
+https://repo.packix.com/
+https://repo.twickd.com/
+```
+
 ⚠️ **注意：** 
 - 地址末尾的 `/` 可加可不加，脚本会自动处理
-- 多个源用**英文逗号**分隔，不要有空格
+- 支持多种分隔方式：**逗号**、**换行**、分号、竖线
+- **一行一个**最方便，直接从其他地方复制粘贴即可
 - 支持同时监控任意数量的源
 
 ### UPDATEINTERVAL（可选）
@@ -174,7 +183,7 @@ ALWAYSNOTIFY = false
 MAXSHOW = 10
 ```
 
-### 示例2：监控多个热门源
+### 示例2：监控多个源（逗号分隔）
 
 ```
 REPOURL = https://repo.chariz.com/,https://havoc.app/,https://repo.packix.com/
@@ -183,16 +192,33 @@ ALWAYSNOTIFY = false
 MAXSHOW = 10
 ```
 
-### 示例3：监控多个源（每小时检查）
+### 示例3：监控多个源（一行一个，推荐）
 
 ```
-REPOURL = https://repo.chariz.com/,https://havoc.app/,https://repo.twickd.com/,https://apt.bingner.com/
+REPOURL = https://repo.chariz.com/
+https://havoc.app/
+https://repo.packix.com/
+https://repo.twickd.com/
+https://apt.bingner.com/
+https://repo.dynastic.co/
+UPDATEINTERVAL = 7200
+ALWAYSNOTIFY = false
+MAXSHOW = 10
+```
+
+### 示例4：监控多个源（每小时检查）
+
+```
+REPOURL = https://repo.chariz.com/
+https://havoc.app/
+https://repo.twickd.com/
+https://apt.bingner.com/
 UPDATEINTERVAL = 3600
 ALWAYSNOTIFY = false
 MAXSHOW = 15
 ```
 
-### 示例4：监控单个源（总是通知）
+### 示例5：监控单个源（总是通知）
 
 ```
 REPOURL = https://havoc.app/
@@ -547,9 +573,18 @@ A: 首次运行时没有历史数据可对比，所以脚本会先记录当前�
 
 ### Q: 可以同时监控多个源吗？
 
-A: **可以！** 只需用逗号分隔多个源地址：
+A: **可以！** 支持多种分隔方式：
+
+**逗号分隔：**
 ```
 REPOURL = https://repo.chariz.com/,https://havoc.app/,https://repo.packix.com/
+```
+
+**一行一个（推荐，最方便）：**
+```
+REPOURL = https://repo.chariz.com/
+https://havoc.app/
+https://repo.packix.com/
 ```
 
 支持监控任意数量的源，它们会并行获取，效率很高。
@@ -638,14 +673,26 @@ Chariz 源监控完成 (4.1s)
 
 ## 高级技巧
 
-### 技巧1：监控多个源（推荐）
+### 技巧1：监控多个源（推荐一行一个）
 
-直接在参数中用逗号分隔：
+**最推荐的方式**：一行一个源地址，方便复制粘贴
 ```
-REPOURL = https://repo.chariz.com/,https://havoc.app/,https://repo.packix.com/,https://repo.twickd.com/
+REPOURL = https://repo.chariz.com/
+https://havoc.app/
+https://repo.packix.com/
+https://repo.twickd.com/
+https://apt.bingner.com/
+https://repo.dynastic.co/
+```
+
+也可以用逗号分隔：
+```
+REPOURL = https://repo.chariz.com/,https://havoc.app/,https://repo.packix.com/
 ```
 
 脚本会自动并行获取所有源的数据，并在一个面板/通知中展示所有变更！
+
+**优势：** 从源列表复制粘贴时不需要手动添加逗号，直接复制即可！
 
 ### 技巧2：根据源的活跃度调整检测间隔
 
