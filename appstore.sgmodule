@@ -5,11 +5,18 @@
 #!system=ios
 #!category=iOS夕颜
 #!homepage=https://iosxy.xin
-#!arguments=APPLIST:"",UPDATEINTERVAL:"3600",ALWAYSNOTIFY:"false"
-#!arguments-desc=APPLIST: 填写应用信息，多个用逗号分隔\n支持三种格式：\n1. Bundle ID: com.tencent.xin\n2. App Store链接: https://apps.apple.com/cn/app/id414478124\n3. 带备注: com.tencent.xin#微信 或 链接#备注名\n\nUPDATEINTERVAL: 自动更新间隔(秒)，默认3600秒(1小时)\n\nALWAYSNOTIFY: 是否每次都发送通知\n填写 true 开启，false 关闭（默认关闭，只在有更新时通知）
+#!arguments=APPLIST:"",UPDATEINTERVAL:"3600",CRON:"0 */2 * * *",ALWAYSNOTIFY:"false"
+#!arguments-desc=APPLIST: 填写应用信息，多个用逗号分隔\n支持三种格式：\n1. Bundle ID: com.tencent.xin\n2. App Store链接: https://apps.apple.com/cn/app/id414478124\n3. 带备注: com.tencent.xin#微信 或 链接#备注名\n\nUPDATEINTERVAL: 面板自动更新间隔(秒)，默认3600秒(1小时)\n\nCRON: 定时任务表达式，默认"0 */2 * * *"(每2小时)\n格式: 分 时 日 月 星期\n常用示例:\n• 0 */2 * * * - 每2小时\n• 0 8,20 * * * - 每天8点和20点\n• 30 9 * * * - 每天9:30\n不需要定时任务可在模块管理中禁用对应脚本\n\nALWAYSNOTIFY: 是否每次都发送通知\n填写 true 开启，false 关闭（默认关闭，只在有更新时通知）
 
 [Panel]
 appstore_panel = script-name=appstore_panel,update-interval={{{UPDATEINTERVAL}}}
 
 [Script]
+# 面板脚本
 appstore_panel = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.js,argument=APPLIST="{{{APPLIST}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"
+
+# 定时任务（需要填写CRON参数才会生效）
+# 格式: 分 时 日 月 星期
+# 示例: 0 */2 * * * (每2小时执行)
+# 示例: 0 8,20 * * * (每天8点和20点执行)
+appstore_panel_cron = type=cron,cronexp="{{{CRON}}}",wake-system=1,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/appstore.js,argument=APPLIST="{{{APPLIST}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"
