@@ -753,13 +753,25 @@ function formatPackageName(pkg) {
     })}`;
     
     // 通知处理
+    // 判断触发方式
+    const triggerType = typeof $trigger !== 'undefined' ? $trigger : 'cron';
     const isManualTrigger = isPanel && $trigger === '按钮';
+    const isCronTrigger = !isPanel || triggerType === 'cron';
     
     const args = $argument || "";
     const alwaysNotifyMatch = args.match(/ALWAYSNOTIFY="?([^"&]*)"?/);
     const alwaysNotify = alwaysNotifyMatch && alwaysNotifyMatch[1] === 'true';
     
-    console.log(`🔔 触发方式: ${isPanel ? $trigger : '非面板模式'}`);
+    let triggerDesc = '未知';
+    if (isManualTrigger) {
+      triggerDesc = '手动刷新';
+    } else if (isCronTrigger) {
+      triggerDesc = 'Cron定时任务';
+    } else if (isPanel) {
+      triggerDesc = '面板自动刷新';
+    }
+    
+    console.log(`🔔 触发方式: ${triggerDesc}`);
     console.log(`🔔 总是通知: ${alwaysNotify ? '开启' : '关闭'}`);
     
     const shouldNotify = isManualTrigger || alwaysNotify || hasAnyChanges || firstRunRepos.length > 0;
@@ -831,6 +843,8 @@ function formatPackageName(pkg) {
       
       if (isManualTrigger) {
         body += "\n🔄 手动刷新";
+      } else if (isCronTrigger) {
+        body += alwaysNotify ? "\n⏰ Cron定时任务 (总是通知)" : "\n⏰ Cron定时任务";
       } else if (alwaysNotify) {
         body += "\n🔔 自动检测 (总是通知)";
       } else {
