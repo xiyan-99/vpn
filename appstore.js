@@ -45,21 +45,44 @@ function getAppListFromArgs() {
   const applistStr = applistMatch[1];
   let bundleIds;
   
-  // 优先处理换行符
-  if (applistStr.includes('\n')) {
+  console.log(`📋 接收到的applist参数: ${applistStr}`);
+  
+  // 优先处理字面的 \n 字符串（Surge传递过来的换行符）
+  if (applistStr.includes('\\n')) {
+    console.log('✂️ 使用 \\n 分隔');
+    bundleIds = applistStr.split('\\n');
+  }
+  // 处理真正的换行符
+  else if (applistStr.includes('\n')) {
+    console.log('✂️ 使用换行符分隔');
     bundleIds = applistStr.split('\n');
-  } else if (applistStr.includes('%0A')) {
-    // URL编码的换行符
+  } 
+  // 处理URL编码的换行符
+  else if (applistStr.includes('%0A')) {
+    console.log('✂️ 使用 %0A 分隔');
     bundleIds = applistStr.split('%0A');
-  } else if (applistStr.includes('|')) {
+  } 
+  // 处理竖线分隔
+  else if (applistStr.includes('|')) {
+    console.log('✂️ 使用 | 分隔');
     bundleIds = applistStr.split('|');
-  } else if (applistStr.includes(';')) {
+  } 
+  // 处理分号分隔
+  else if (applistStr.includes(';')) {
+    console.log('✂️ 使用 ; 分隔');
     bundleIds = applistStr.split(';');
-  } else {
+  } 
+  // 处理逗号分隔
+  else {
+    console.log('✂️ 使用 , 分隔');
     bundleIds = applistStr.split(',');
   }
   
-  return bundleIds.map(id => id.trim()).filter(id => id);
+  // 清理并过滤空值
+  const cleanedIds = bundleIds.map(id => id.trim()).filter(id => id);
+  console.log(`📱 解析出 ${cleanedIds.length} 个应用: ${cleanedIds.join(', ')}`);
+  
+  return cleanedIds;
 }
 
 // 构建应用列表
