@@ -79,6 +79,19 @@ function parseAppIdentifier(identifier) {
   return null;
 }
 
+// 获取最大单独通知数量
+function getMaxNotifyFromArgs() {
+  const args = $argument || "";
+  const maxNotifyMatch = args.match(/MAXNOTIFY="?([^"&]*)"?/);
+  
+  if (maxNotifyMatch && maxNotifyMatch[1]) {
+    const num = parseInt(maxNotifyMatch[1]);
+    return num > 0 ? num : 10;
+  }
+  
+  return 10; // 默认发送10个单独通知
+}
+
 // 从参数获取应用列表
 function getAppListFromArgs() {
   const args = $argument || "";
@@ -346,6 +359,8 @@ async function enhancedFetch(appIdentifier) {
   
   const writePromises = [];
   const notificationPromises = [];  // 用于存储单独通知的Promise
+  let sentNotifications = 0;
+  const maxIndividualNotifications = getMaxNotifyFromArgs();  // 从参数获取最大通知数量
 
   // 处理所有结果
   outcomes.forEach((outcome, index) => {
@@ -372,38 +387,42 @@ async function enhancedFetch(appIdentifier) {
         });
         writePromises.push($persistentStore.write(latest, key));
         
-        // 为每个更新的应用立即发送单独通知
-        const updateTitle = `${app.icon} ${app.name} 发现更新`;
-        const updateBody = `旧版本: ${savedVersion}\n新版本: ${latest}\n\n点击查看详情`;
-        
-        // 构建App Store链接
-        let appStoreUrl = "https://apps.apple.com/";
-        if (app.trackId) {
-          appStoreUrl = `https://apps.apple.com/app/id${app.trackId}`;
-        } else if (app.bundleId) {
-          appStoreUrl = `https://apps.apple.com/search?term=${encodeURIComponent(app.name)}`;
+        // 为每个更新的应用发送单独通知（限制数量）
+        if (sentNotifications < maxIndividualNotifications) {
+          const updateTitle = `${app.icon} ${app.name} 发现更新`;
+          const updateBody = `旧版本: ${savedVersion}\n新版本: ${latest}\n\n点击查看详情`;
+          
+          // 构建App Store链接
+          let appStoreUrl = "https://apps.apple.com/";
+          if (app.trackId) {
+            appStoreUrl = `https://apps.apple.com/app/id${app.trackId}`;
+          } else if (app.bundleId) {
+            appStoreUrl = `https://apps.apple.com/search?term=${encodeURIComponent(app.name)}`;
+          }
+          
+          // 构建通知选项
+          const notifyOptions = {
+            sound: true,
+            action: "open-url",
+            url: appStoreUrl
+          };
+          
+          // 如果有图标URL，添加媒体内容
+          if (app.artworkUrl) {
+            notifyOptions["media-url"] = app.artworkUrl;
+          }
+          
+          // 发送单独通知
+          $notification.post(updateTitle, "", updateBody, notifyOptions);
+          console.log(`📬 已发送单独更新通知: ${app.name} (${savedVersion} → ${latest})`);
+          
+          sentNotifications++;
+          
+          // 添加延迟，避免通知发送过快
+          notificationPromises.push(
+            new Promise(resolve => setTimeout(resolve, 500))
+          );
         }
-        
-        // 构建通知选项
-        const notifyOptions = {
-          sound: true,
-          action: "open-url",
-          url: appStoreUrl
-        };
-        
-        // 如果有图标URL，添加媒体内容
-        if (app.artworkUrl) {
-          notifyOptions["media-url"] = app.artworkUrl;
-        }
-        
-        // 发送单独通知
-        $notification.post(updateTitle, "", updateBody, notifyOptions);
-        console.log(`📬 已发送单独更新通知: ${app.name} (${savedVersion} → ${latest})`);
-        
-        // 添加延迟，避免通知发送过快
-        notificationPromises.push(
-          new Promise(resolve => setTimeout(resolve, 500))
-        );
       } else {
         results.current.push({
           app,
@@ -425,6 +444,10 @@ async function enhancedFetch(appIdentifier) {
       });
     }
   });
+  
+  if (sentNotifications >= maxIndividualNotifications && results.updated["应用"].length > maxIndividualNotifications) {
+    console.log(`⚠️ 已达到单独通知上限 (${maxIndividualNotifications}个)，其余 ${results.updated["应用"].length - maxIndividualNotifications} 个更新将在总结通知中显示`);
+  }
 
   // 等待所有存储操作和通知延迟完成
   await Promise.all([...writePromises, ...notificationPromises]);

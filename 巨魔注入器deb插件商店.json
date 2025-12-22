@@ -1,0 +1,1757 @@
+{
+  "repository_name": "TF Repo - 夕颜",
+  "repository_icon": "https://deb.iosxy.xin/xiyan.png",
+  "packages": [
+    {
+      "name": "120hz",
+      "version": "0.1",
+      "description": "120hz",
+      "author": "x",
+      "section": "实用工具",
+      "size": "36K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/120hz.deb"
+    },
+    {
+      "name": "ClipMaster随意输入激活版",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "1.6M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/ClipMaster%E9%9A%8F%E6%84%8F%E8%BE%93%E5%85%A5%E6%BF%80%E6%B4%BB%E7%89%88.dylib"
+    },
+    {
+      "name": "FLEX_Pro",
+      "version": "1.0.3-5+debug",
+      "description": "FLEX调试",
+      "author": "pxx917144686",
+      "section": "实用工具",
+      "size": "3.8M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/flex_%E4%B8%89%E6%8C%87%E9%95%BF%E6%8C%89%E5%91%BC%E5%87%BA_%E6%97%A0%E6%A0%B9%203.deb"
+    },
+    {
+      "name": "FLEX_ZH",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "9.1M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/FLEX_ZH.dylib"
+    },
+    {
+      "name": "FakeGPS",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "300K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/FakeGPS.dylib"
+    },
+    {
+      "name": "FakeTools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "18M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/FakeTools.dylib"
+    },
+    {
+      "name": "FakeWiFi",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "168K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/FakeWiFi.dylib"
+    },
+    {
+      "name": "HanhuaGGs",
+      "version": "1.1-9+debug",
+      "description": "汉化插件 - 支持长按高亮、文本替换、百度翻译",
+      "author": "mumu",
+      "section": "实用工具",
+      "size": "76K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/%E6%96%87%E6%9C%AC%E6%9B%BF%E6%8D%A2_1.1-9%2B_iphoneos-arm64.deb"
+    },
+    {
+      "name": "RuntimeClassDump",
+      "version": "0.1",
+      "description": "RuntimeClassDump",
+      "author": "x",
+      "section": "实用工具",
+      "size": "188K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/RuntimeClassDump.deb"
+    },
+    {
+      "name": "SandboxTools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "520K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/SandboxTools.dylib"
+    },
+    {
+      "name": "UnderDock_键盘增强1.3",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "228K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/UnderDock_%E9%94%AE%E7%9B%98%E5%A2%9E%E5%BC%BA1.3.dylib"
+    },
+    {
+      "name": "ZImmortalizerJailed真后台",
+      "version": "2.1",
+      "description": "A tweak that keeps apps alive，这个插件的作用可以让你的app即使在后台，也能无限期地运行在前台！无需越狱或TrollStore，您只需将插件注入您想要使用的 IPA 即可。会有一个可以拖动的浮动按钮，你可以点击它来切换 Immortalizer 的状态。",
+      "author": "Axs",
+      "section": "实用工具",
+      "size": "40K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/%E6%96%B0%E7%9C%9F%E5%90%8E%E5%8F%B0%E6%8F%92%E4%BB%B6_2.1_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "logoss",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "140K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/logoss.dylib"
+    },
+    {
+      "name": "巨魔录音机-微信通话助理",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "140K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/%E5%B7%A8%E9%AD%94%E5%BD%95%E9%9F%B3%E6%9C%BA-%E5%BE%AE%E4%BF%A1%E9%80%9A%E8%AF%9D%E5%8A%A9%E7%90%86.dylib"
+    },
+    {
+      "name": "文本替换",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/%E6%96%87%E6%9C%AC%E6%9B%BF%E6%8D%A2.zip"
+    },
+    {
+      "name": "连点器",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "1.4M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/%E8%BF%9E%E7%82%B9%E5%99%A8.dylib"
+    },
+    {
+      "name": "键盘按钮撤销_选择_粘贴",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "实用工具",
+      "size": "432K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/%E9%94%AE%E7%9B%98%E6%8C%89%E9%92%AE%E6%92%A4%E9%94%80_%E9%80%89%E6%8B%A9_%E7%B2%98%E8%B4%B4.dylib"
+    },
+    {
+      "name": "APTV",
+      "version": "0.0.1",
+      "description": "解锁永久SVIP - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "288K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/APTV.deb"
+    },
+    {
+      "name": "AdGuard",
+      "version": "0.0.1",
+      "description": "解锁会员",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "340K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/AdGuard.deb"
+    },
+    {
+      "name": "B612相机",
+      "version": "0.0.1",
+      "description": "解锁VIP - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "60K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.b612_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "CNNoAd",
+      "version": "0.1-3-1",
+      "description": "菜鸟去广告 by Vita",
+      "author": "vita",
+      "section": "应用增强",
+      "size": "8.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.vita.cnnoad_0.1-3_iphoneos-arm64.deb"
+    },
+    {
+      "name": "Charm",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "100K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.charm_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "DazzCamera Crack",
+      "version": "1.1-1",
+      "description": "DazzCamera Crack",
+      "author": "Nets",
+      "section": "应用增强",
+      "size": "120K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/DazzCameraCrack_1.1-1_arm64.deb"
+    },
+    {
+      "name": "DreamFace",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "76K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.dreamface_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "EeveeSpotify_6.1.5_TrollFools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "10M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/EeveeSpotify_6.1.5_TrollFools.zip"
+    },
+    {
+      "name": "EeveeSpotify_6.2.1_TrollFools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "10M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/EeveeSpotify_6.2.1_TrollFools.zip"
+    },
+    {
+      "name": "EeveeSpotify_6.2_TrollFools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "10M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/EeveeSpotify_6.2_TrollFools.zip"
+    },
+    {
+      "name": "FeelFlow",
+      "version": "0.0.1",
+      "description": "解锁VIP - @HelloWorld_1024",
+      "author": "🄷🅆",
+      "section": "应用增强",
+      "size": "212K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.feelflow_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "FitnessOnline",
+      "version": "0.0.1",
+      "description": "解锁订阅",
+      "author": "🄷🅆",
+      "section": "应用增强",
+      "size": "232K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/FitnessOnline.deb"
+    },
+    {
+      "name": "HotspotShield",
+      "version": "0.0.1",
+      "description": "解锁会员权限-@HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "228K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/VPN%20Hotspot%20Shield_%20Super%20VPN.deb"
+    },
+    {
+      "name": "InfusePlus_2.4",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "576K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/InfusePlus_2.4.zip"
+    },
+    {
+      "name": "LoFiCam",
+      "version": "0.0.1",
+      "description": "解锁永久会员 - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "52K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.loficam_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "LunaNoAd",
+      "version": "1.1",
+      "description": "禁止开屏广告、秒过激励式视频",
+      "author": "liwhs",
+      "section": "应用增强",
+      "size": "8.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E6%B1%BD%E6%B0%B4%E9%9F%B3%E4%B9%90%E5%8E%BB%E5%B9%BF%E5%91%8A_1.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "MangaBox Crack",
+      "version": "1.1-3",
+      "description": "MangaBox Crack, Supports version 1.2.4 and above",
+      "author": "Nets",
+      "section": "应用增强",
+      "size": "88K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/MangaBoxCrack_1.1-3_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "MarkMe",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "256K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/MarkMe.deb"
+    },
+    {
+      "name": "NCalcFx",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "316K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/NCalc%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%99%A8%2B.deb"
+    },
+    {
+      "name": "NathanLR_汉化",
+      "version": "0.1",
+      "description": "NathanLR_汉化",
+      "author": "x",
+      "section": "应用增强",
+      "size": "8.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/NathanLR_%E6%B1%89%E5%8C%96.deb"
+    },
+    {
+      "name": "OhiPad",
+      "version": "0.1",
+      "description": "OhiPad",
+      "author": "x",
+      "section": "应用增强",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/OhiPad.deb"
+    },
+    {
+      "name": "OhiPhone",
+      "version": "0.1",
+      "description": "OhiPhone",
+      "author": "x",
+      "section": "应用增强",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/OhiPhone.deb"
+    },
+    {
+      "name": "OldRoll",
+      "version": "0.0.1",
+      "description": "解锁永久会员 - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "56K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.oldrollpro_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "PeakWatch",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "268K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Peakwatch.deb"
+    },
+    {
+      "name": "PhotoBoost",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "100K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.photoboost_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "ProCCD",
+      "version": "0.0.1",
+      "description": "解锁会员",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "84K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.proccd_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "Pyto",
+      "version": "0.0.1",
+      "description": "解锁永久SVIP - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "80K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.pyto_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "ReLens",
+      "version": "0.0.1",
+      "description": "解锁会员 - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "96K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/ReLens%20%2B%20PrettyUp.deb"
+    },
+    {
+      "name": "Runestone",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "304K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Runestone.deb"
+    },
+    {
+      "name": "SnapEdit",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "252K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.snapedit_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "StressWatch",
+      "version": "0.0.1",
+      "description": "解锁永久Pro - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "60K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.stresswatch_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "Swiftgram Crack",
+      "version": "1.1-7",
+      "description": "Swiftgram Pro. 附加解除下载保护/解除截图保护/去除官方广告, 支持当前最新版12.2(解锁Pro首次登录需重启一次应用)",
+      "author": "Nets",
+      "section": "应用增强",
+      "size": "416K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Swiftgramcrack_1.1-7.deb"
+    },
+    {
+      "name": "TGExtra_1.3-1",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "9.4M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/TGExtra_1.3-1.zip"
+    },
+    {
+      "name": "TelegramUID",
+      "version": "0.1",
+      "description": "TelegramUID",
+      "author": "x",
+      "section": "应用增强",
+      "size": "248K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/TelegramUID.deb"
+    },
+    {
+      "name": "Twitter_X_TrollFools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "22M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Twitter_X_TrollFools.zip"
+    },
+    {
+      "name": "VidHub",
+      "version": "0.0.1",
+      "description": "解锁永久SVIP - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "64K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.vidhubpro_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "VideoEditor",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "316K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Video%20Editor.deb"
+    },
+    {
+      "name": "VideoShow",
+      "version": "0.0.1",
+      "description": "解锁SVIP - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "60K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.videoshow_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "VivaCut",
+      "version": "0.0.1",
+      "description": "解锁Pro",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "56K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.vivacut_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "Vmake",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "252K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Vmake_%20AI%20Talking%20Video%20Editor.deb"
+    },
+    {
+      "name": "WBAdKiller",
+      "version": "1.5.5-1",
+      "description": "微博去开屏广告且秒进主页，首页小方块浮窗广告无，首页底栏透明",
+      "author": "ylr <ylr275536387>",
+      "section": "应用增强",
+      "size": "24K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.ylr.wbadkiller_1.5.5-1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "Walli",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "100K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.walli_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WasteCat",
+      "version": "0.1-1",
+      "description": "拦截猫解锁会员，电报频道：https://t.me/iosrxwy",
+      "author": "x",
+      "section": "应用增强",
+      "size": "284K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E6%8B%A6%E6%88%AA%E7%8C%AB_0.1-1_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "X_Twitter_TrollFools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "23M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/X_Twitter_TrollFools.zip"
+    },
+    {
+      "name": "YTPlus_0812",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "8.2M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/YTPlus_0812.zip"
+    },
+    {
+      "name": "YouTube_TF",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "18M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/YouTube_TF.zip"
+    },
+    {
+      "name": "YouTube_TrollFools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "18M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/YouTube_TrollFools.zip"
+    },
+    {
+      "name": "iCost",
+      "version": "0.0.1",
+      "description": "解锁会员 - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "84K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.icost_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "instagram_IGFormat_1.88",
+      "version": "0.1",
+      "description": "instagram_IGFormat_1.88",
+      "author": "x",
+      "section": "应用增强",
+      "size": "224K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/instagram_IGFormat_1.88.deb"
+    },
+    {
+      "name": "tianqiheihei",
+      "version": "1.2-2",
+      "description": "解锁和风天气、墨迹天气（不要点击会员）、windy.app、莉景天气，彩云天气、相雨天气去广告、天气通去广告。TG频道@iosrxwy",
+      "author": "x",
+      "section": "应用增强",
+      "size": "668K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E5%A4%A9%E6%B0%94%E5%98%BF%E5%98%BF%201.2-2_%20%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "农业银行 Hooks",
+      "version": "0.0.2",
+      "description": "去除农业银行升级弹窗，去除系统级越狱检测弹窗提示，适配8.0.0～10.0.0旧版本，去除启动广告",
+      "author": "Huayuarc <xuanhua880@gmail.com>",
+      "section": "应用增强",
+      "size": "8.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E5%86%9C%E4%B8%9A%E9%93%B6%E8%A1%8C%E5%BC%B9%E7%AA%97.deb"
+    },
+    {
+      "name": "千阅",
+      "version": "0.0.1",
+      "description": "解锁会员去除广告",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "60K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.qianyuevip_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "喜马拉雅国际版",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "420K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Himalaya.deb"
+    },
+    {
+      "name": "小红薯",
+      "version": "1.1.6-8",
+      "description": "自用",
+      "author": "x✨",
+      "section": "应用增强",
+      "size": "1.4M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E5%B0%8F%E7%BA%A2%E8%96%AF_1.1.6-8_iphoneos-arm64.deb"
+    },
+    {
+      "name": "悬浮时钟",
+      "version": "0.0.1",
+      "description": "解锁VIP @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "276K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E6%82%AC%E6%B5%AE%E6%97%B6%E9%92%9F.deb"
+    },
+    {
+      "name": "懒人英语阅读",
+      "version": "0.0.1",
+      "description": "去除所有广告-解锁会员书籍",
+      "author": "🄷🅆",
+      "section": "应用增强",
+      "size": "272K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E6%87%92%E4%BA%BA%E8%8B%B1%E8%AF%AD%E9%98%85%E8%AF%BB.deb"
+    },
+    {
+      "name": "懒猫记账",
+      "version": "0.0.1",
+      "description": "解锁会员 - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "68K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.lmjz_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "汽水音乐",
+      "version": "1.1",
+      "description": "禁止开屏广告、秒过激励式视频",
+      "author": "liwhs",
+      "section": "应用增强",
+      "size": "8.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E6%B1%BD%E6%B0%B4%E9%9F%B3%E4%B9%90_1.1_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "炫影",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "424K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/Filto.deb"
+    },
+    {
+      "name": "疯狂背单词",
+      "version": "0.0.1",
+      "description": "解锁vip - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "336K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E7%96%AF%E7%8B%82%E8%83%8C%E5%8D%95%E8%AF%8D.deb"
+    },
+    {
+      "name": "瘦身旅程",
+      "version": "0.0.1",
+      "description": "@HelloWorld_1024",
+      "author": "🄷🅆",
+      "section": "应用增强",
+      "size": "200K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E7%98%A6%E8%BA%AB%E6%97%85%E7%A8%8B.deb"
+    },
+    {
+      "name": "相册助手",
+      "version": "0.0.1",
+      "description": "解锁VIP",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "248K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E7%9B%B8%E5%86%8C%E5%8A%A9%E6%89%8B.deb"
+    },
+    {
+      "name": "私人健身教练",
+      "version": "0.0.1",
+      "description": "解锁 Premium权限",
+      "author": "<>",
+      "section": "应用增强",
+      "size": "92K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.srjsjl_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "精简文件App界面",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "104K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E7%B2%BE%E7%AE%80%E6%96%87%E4%BB%B6App%E7%95%8C%E9%9D%A2.dylib"
+    },
+    {
+      "name": "绕录屏",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "164K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E7%BB%95%E5%BD%95%E5%B1%8F.dylib"
+    },
+    {
+      "name": "美颜相机",
+      "version": "0.0.1",
+      "description": "解锁会员 - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "80K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/com.hw.myxjvip_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "解压小橙子",
+      "version": "0.0.1",
+      "description": "解锁永久会员 - @HelloWorld_1024",
+      "author": "🅷🆆",
+      "section": "应用增强",
+      "size": "212K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E8%A7%A3%E5%8E%8B%E5%B0%8F%E6%A9%99%E5%AD%90.deb"
+    },
+    {
+      "name": "计算器货币转换_TrollFools",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "应用增强",
+      "size": "96K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA.jpg",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BA%94%E7%94%A8%E5%A2%9E%E5%BC%BA/%E8%AE%A1%E7%AE%97%E5%99%A8%E8%B4%A7%E5%B8%81%E8%BD%AC%E6%8D%A2_TrollFools.zip"
+    },
+    {
+      "name": "77Theme-Rootless",
+      "version": "0.1-1",
+      "description": "77Theme-Rootless",
+      "author": "cc@theme77.com",
+      "section": "微信插件",
+      "size": "7.0M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/77Theme-1.1.3-arm64.deb"
+    },
+    {
+      "name": "ActionPro",
+      "version": "1.1.0",
+      "description": "An awesome MobileSubstrate tweak!",
+      "author": "RobustLuo",
+      "section": "微信插件",
+      "size": "52K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/ActionPro_1.1.0_iphoneos-arm64.deb"
+    },
+    {
+      "name": "AmpLify",
+      "version": "1.0-2",
+      "description": "AmpLify - 聚焦美化 焕新体验",
+      "author": "SHTM",
+      "section": "微信插件",
+      "size": "760K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/amplify_1.0-2-arm64.deb"
+    },
+    {
+      "name": "BypassWechatMSG-rootless",
+      "version": "0.0.2",
+      "description": "修改聊天记录外部预览内容文本。",
+      "author": "BypassWechatMSG",
+      "section": "微信插件",
+      "size": "320K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%86%85%E5%AE%B9%E5%A8%B1%E4%B9%90_0.0.2.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.ydw.BypassWechatMSG-rootless/4e6ddaa5ca62ceed6a3d3fffab33f897.jpg"
+      ]
+    },
+    {
+      "name": "ClipMaster",
+      "version": "1.0-3",
+      "description": "智能截图,OCR",
+      "author": "huami && shtm",
+      "section": "微信插件",
+      "size": "292K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/huami.shtm.ClipMaster_1.0-3-arm64.deb"
+    },
+    {
+      "name": "HBB_9.1免费版",
+      "version": "9.1",
+      "description": "使用HBB专用版 巨魔注入器H注入",
+      "author": "HBB",
+      "section": "微信插件",
+      "size": "10M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/HBB_9.1%E5%85%8D%E8%B4%B9%E7%89%88.zip",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/HBB_9.1%E5%85%8D%E8%B4%B9%E7%89%88/HBB.PNG"
+      ]
+    },
+    {
+      "name": "HBB_9.1赞助版",
+      "version": "9.1",
+      "description": "使用HBB专用版 巨魔注入器H注入",
+      "author": "HBB",
+      "section": "微信插件",
+      "size": "10M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/HBB_9.1%E8%B5%9E%E5%8A%A9%E7%89%88.zip",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/HBB_9.1%E8%B5%9E%E5%8A%A9%E7%89%88/HBB1.PNG"
+      ]
+    },
+    {
+      "name": "MikotoHelper",
+      "version": "1.3.6",
+      "description": "MikotoHelper",
+      "author": "Mikoto",
+      "section": "微信插件",
+      "size": "19M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/MikotoHelper_%E4%BD%93%E9%AA%8C%E7%89%88V7_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "PKC_无根",
+      "version": "0.8-5-Beta8",
+      "description": "AI对话、AI聊天分析、AI朋友圈分析、AI图像生成、AI视频生成、群管理Pro、标签Pro、显示群友真名字、群管标识、艾特提醒、动态群昵称、自定义API(图、文本、视频)、消息统计、加密对话、Bark消息推送、定时问候、JD自动签到、好友分析、会话分析、每天60s新闻快报、防撤回、退群监控、步数定时修改、朋友圈特别关注、自动更新微信状态、长头像、消息二次确认、拍一拍二次确认、艾特列表置顶群管理、按群员查找列表置顶群管理、群性别统计、关键词自动回复、转账自动收款、收款自动回复、批量退群、批量修改群昵称、自动通过好友请求、自动互删好友、id加好友、匿名艾特等 【提示: 本项目旨在学习 iOS 逆向的一点实践，不可使用于商业和个人其他意图。若使用不当，均由个人承担。如有侵权，请联系本人删除。】",
+      "author": "curtinlv@126.com",
+      "section": "微信插件",
+      "size": "952K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/PKC_%E6%97%A0%E6%A0%B9_0.8-5-Beta8.deb"
+    },
+    {
+      "name": "QQ在线",
+      "version": "0.1",
+      "description": "QQ在线",
+      "author": "x",
+      "section": "微信插件",
+      "size": "40K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/QQ%E5%9C%A8%E7%BA%BF.deb"
+    },
+    {
+      "name": "SuWCFrostedGlass-rootless",
+      "version": "1.0.5",
+      "description": "微信界面上下添加毛玻璃效果",
+      "author": "苏苏",
+      "section": "微信插件",
+      "size": "8.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.susu.wcfrostedglass-rootless_1.0.5_iphoneos-arm64.deb"
+    },
+    {
+      "name": "ThemePro-4.1.9-Rootless",
+      "version": "4.1.9",
+      "description": "由ThemePro团队开发,用于加载微信美化主题,安装完成重启微信生效!",
+      "author": "MustangYM <MustangYM@yeah.net>",
+      "section": "微信插件",
+      "size": "6.1M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/ThemePro-iphoneos-arm64_Rootless.deb"
+    },
+    {
+      "name": "WCABTestGroupNotDisturbNotice",
+      "version": "1.1-2",
+      "description": "WeChat Enable Group Not Disturb Notice, Only 8.0.63+",
+      "author": "Nets",
+      "section": "微信插件",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E7%BE%A4%E7%BB%84%E5%85%8D%E6%89%93%E6%89%B0%E5%BC%BA%E5%BC%80.deb"
+    },
+    {
+      "name": "WCAssetsList",
+      "version": "2.6",
+      "description": "WeChat Assets List",
+      "author": "TiaoTiao",
+      "section": "微信插件",
+      "size": "488K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.tiaotiao.wcassetslist_2.6_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WCChatBot(微信机器人)",
+      "version": "1.0-1-2",
+      "description": "微信 8061 及以上 8063 的官方测试功能",
+      "author": "x",
+      "section": "微信插件",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/Wcchatbot_1.0-1-2_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WCElite",
+      "version": "1.3-7",
+      "description": "微信优化，基于WechatEnhance 1.1-9开源版优化。",
+      "author": "x",
+      "section": "微信插件",
+      "size": "816K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1%E4%BC%98%E5%8C%96_1.3-7_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.rexinxuegao.WCElite/4a0f337cc98a023150803d047c160ba2.jpg",
+        "https://deb.iosxy.xin/screenshots/com.rexinxuegao.WCElite/92fb00e5ca12a5c7e0fabd0c3af9ca3e.jpg"
+      ]
+    },
+    {
+      "name": "WCEnableUndoDel",
+      "version": "1.0.0",
+      "description": "An awesome MobileSubstrate tweak!",
+      "author": "huami",
+      "section": "微信插件",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.huami.wcenableundodel.deb"
+    },
+    {
+      "name": "WCHook",
+      "version": "1.0.2",
+      "description": "微信功能扩展",
+      "author": "vita",
+      "section": "微信插件",
+      "size": "60K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.vita.wchook_1.0.2_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WCMlow",
+      "version": "1.1-9",
+      "description": "自用WeChat Tweak",
+      "author": "mugua",
+      "section": "微信插件",
+      "size": "348K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/WCMlow_1.1-9-arm64.deb"
+    },
+    {
+      "name": "WCNicknameAvatarStyle-rootless",
+      "version": "2.2",
+      "description": "为微信聊天界面标题添加头像。",
+      "author": "x",
+      "section": "微信插件",
+      "size": "72K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.huami.wcnicknameavatarstyle-rootless_2.2_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WCPluginsOrder-rootless",
+      "version": "1.0.2",
+      "description": "微信插件管理排序。",
+      "author": "x",
+      "section": "微信插件",
+      "size": "16K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.huami.WCPluginsOrder-rootless_1.0.2_iphoneos-arm64.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.huami.WCPluginsOrder-rootless/60d896b1bf9fe72df196e789c9a49818.jpg"
+      ]
+    },
+    {
+      "name": "WCPulse",
+      "version": "1.3-4",
+      "description": "WCPulse",
+      "author": "huami",
+      "section": "微信插件",
+      "size": "268K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/WCPulse_1.3-4-arm64.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.huami.WCPulse/wcpulse.PNG",
+        "https://deb.iosxy.xin/screenshots/com.huami.WCPulse/wcpulse1.PNG"
+      ]
+    },
+    {
+      "name": "WCPush2Chat",
+      "version": "1.0-2",
+      "description": "WCPush2Chat",
+      "author": "huami",
+      "section": "微信插件",
+      "size": "36K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/WCPush2Chat_1.0-2-arm64.deb"
+    },
+    {
+      "name": "WCRefine",
+      "version": "1.1-8",
+      "description": "微信优化的重制版本，WCRefine基于微信8.0.64版本制作。",
+      "author": "热心网友",
+      "section": "微信插件",
+      "size": "1.8M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/WCRefine_1.1-8_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "WCSVGList",
+      "version": "2.6",
+      "description": "WeChat SVG List",
+      "author": "TiaoTiao",
+      "section": "微信插件",
+      "size": "492K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.tiaotiao.wcsvglist_2.6_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WCSafeMode",
+      "version": "1.0-1",
+      "description": "长按「我」页面头像1秒手动触发微信安全模式（资源清理）",
+      "author": "huami",
+      "section": "微信插件",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/WCSafeMode_1.0-1-arm64.deb"
+    },
+    {
+      "name": "WCSimplify",
+      "version": "1.5.7-1",
+      "description": "本插件仅测试使用，如有传播，请马上删除！",
+      "author": "ylr",
+      "section": "微信插件",
+      "size": "116K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/wcsimplify_1.5.7-1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WCTimeLineReplaceFind",
+      "version": "1.1-3",
+      "description": "使用朋友圈替换发现底栏",
+      "author": "Nets",
+      "section": "微信插件",
+      "size": "332K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1%E6%9B%BF%E6%8D%A2%E5%BA%95%E6%A0%8F%E5%8F%91%E7%8E%B0%E4%B8%BA%E6%9C%8B%E5%8F%8B%E5%9C%88_1.1-3_arm64.deb"
+    },
+    {
+      "name": "WeChat Liquid Glass",
+      "version": "1.0.6-1",
+      "description": "为微信启用系统级 Liquid Glass 效果",
+      "author": "pxx917144686",
+      "section": "微信插件",
+      "size": "12K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.wechat.pxx917144686_1.0.6-1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WeChatDragDropImages",
+      "version": "1.1-2",
+      "description": "WeChat Chat Drag and Drop Images, Only 8.0.50+",
+      "author": "Nets",
+      "section": "微信插件",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BC%BA%E5%BC%80%E6%8B%96%E5%8A%A8%E5%8F%91%E9%80%81_1.1-2_iphoneos-arm64.deb"
+    },
+    {
+      "name": "WeChatEnhance",
+      "version": "1.6-4",
+      "description": "微信插件，支持聊天按钮布局自定义等。",
+      "author": "茶 愫",
+      "section": "微信插件",
+      "size": "304K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/Wechat_%E8%8C%B6%E6%84%AB_1.6-4_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.wechat.enhance/4ad4a0d84a1547b21d7f771dfcae1c18.jpg",
+        "https://deb.iosxy.xin/screenshots/com.wechat.enhance/caa0ad87dcbc0d9f1c55bb501efbb11d.jpg"
+      ]
+    },
+    {
+      "name": "WeChatPopVC-rootless",
+      "version": "0.0.4",
+      "description": "微信全局右滑手势，弥补官方只能屏幕侧边返回上一页局限性，提高用户体验。",
+      "author": "be-huge",
+      "section": "微信插件",
+      "size": "48K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/WeChatPopVC-%E5%8F%B3%E6%BB%91%E8%BF%94%E5%9B%9E.0.0.4.deb"
+    },
+    {
+      "name": "WeChat强制关注-rootless",
+      "version": "2.0",
+      "description": "强制关注",
+      "author": "x",
+      "section": "微信插件",
+      "size": "240K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.FakeFollow-rootless_2.0_iphoneos-arm64.deb"
+    },
+    {
+      "name": "mokeycs",
+      "version": "1.0.0-82+debug",
+      "description": "mokeycs",
+      "author": "mokey",
+      "section": "微信插件",
+      "size": "28K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%97%B6%E9%97%B4%E6%98%9F%E7%A9%BA%E7%89%B9%E6%95%88.deb"
+    },
+    {
+      "name": "xxhook",
+      "version": "1.0.6",
+      "description": "An awesome MobileSubstrate tweak!",
+      "author": "xx",
+      "section": "微信插件",
+      "size": "76K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%A4%A7%E5%B8%83%E4%B8%81.deb"
+    },
+    {
+      "name": "主题盒子",
+      "version": "2.2.0",
+      "description": "微信主题盒子",
+      "author": "WeChat",
+      "section": "微信插件",
+      "size": "6.2M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E4%B8%BB%E9%A2%98%E7%9B%92%E5%AD%90_2.2.0_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.tencent.themebox/c8c0057548a0004979d67c87fe4e7c86.jpg"
+      ]
+    },
+    {
+      "name": "全局圆角",
+      "version": "1.8.6",
+      "description": "微信全局圆角",
+      "author": "WCYuanJiao",
+      "section": "微信插件",
+      "size": "624K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%85%A8%E5%B1%80%E5%9C%86%E8%A7%92_1.8.6_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.hl.yuanjiao/10fd349d45aa356af92c96b5bd03fbd4.jpg",
+        "https://deb.iosxy.xin/screenshots/com.hl.yuanjiao/939cf51ecd568068870d2989ee09c4e0.jpg"
+      ]
+    },
+    {
+      "name": "学海无涯",
+      "version": "1.0.0",
+      "description": "学海无涯苦作舟",
+      "author": "学海无涯",
+      "section": "微信插件",
+      "size": "220K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.xuehaiwuya.enhance_1.0.0_iphoneos-arm64.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.xuehaiwuya.enhance/1.PNG"
+      ]
+    },
+    {
+      "name": "小水印",
+      "version": "0.1",
+      "description": "小水印",
+      "author": "x",
+      "section": "微信插件",
+      "size": "72K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%B0%8F%E6%B0%B4%E5%8D%B0.deb"
+    },
+    {
+      "name": "小薯条",
+      "version": "1.0-2",
+      "description": "小薯条",
+      "author": "fries",
+      "section": "微信插件",
+      "size": "16K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.fries.xiaoshutiao_1.0_iphoneos-arm64.deb"
+    },
+    {
+      "name": "小铭牌-VIP",
+      "version": "0.1",
+      "description": "小铭牌-VIP",
+      "author": "x",
+      "section": "微信插件",
+      "size": "20K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%B0%8F%E9%93%AD%E7%89%8C-VIP.deb"
+    },
+    {
+      "name": "小雪糕",
+      "version": "1.1-6",
+      "description": "全局隐藏底部标签栏，朋友圈双击点赞等实用功能",
+      "author": "xuegao",
+      "section": "微信插件",
+      "size": "2.9M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%B0%8F%E9%9B%AA%E7%B3%95_1.1-6-arm64.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.xuegao.xxuegao/1.PNG"
+      ]
+    },
+    {
+      "name": "强子助手",
+      "version": "1.1.0",
+      "description": "自由更换盒子底栏主题，角标动画改色，底栏动画，svg改色等",
+      "author": "Qiangzi",
+      "section": "微信插件",
+      "size": "84K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BC%BA%E5%AD%90.deb"
+    },
+    {
+      "name": "微信URL扩展-rootless",
+      "version": "0.2-0",
+      "description": "扩展微信URLScheme接口",
+      "author": "admin@25mao.com",
+      "section": "微信插件",
+      "size": "36K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1url%E6%89%A9%E5%B1%95_0.2-0.deb"
+    },
+    {
+      "name": "微信动态角标",
+      "version": "1.0",
+      "description": "微信动态角标",
+      "author": "x",
+      "section": "微信插件",
+      "size": "8.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%8A%A8%E6%80%81%E8%A7%92%E6%A0%871.0.deb"
+    },
+    {
+      "name": "微信助手-Rootless",
+      "version": "3.8-9",
+      "description": "微信助手-Rootless版",
+      "author": "admin@25mao.com",
+      "section": "微信插件",
+      "size": "6.6M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1%E5%8A%A9%E6%89%8B_3.8-9_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.25mao.miyou.rootless/b0817fd6d27fd0e0f5b4e975654edb32.jpg",
+        "https://deb.iosxy.xin/screenshots/com.25mao.miyou.rootless/c1782bdc98b8a4bb10449bf6ff12a56a.jpg"
+      ]
+    },
+    {
+      "name": "微信号",
+      "version": "1.1",
+      "description": "按侧边音量键调用窗口,不显示重启微信",
+      "author": "WCXiuGai",
+      "section": "微信插件",
+      "size": "16K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1%E5%8F%B7_1.1_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "微信增强",
+      "version": "2.0-1",
+      "description": "微信增强,用于优化一些反人类设计和增强功能。",
+      "author": "Lxcloud",
+      "section": "微信插件",
+      "size": "2.5M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/WCEhance_2.0-1_arm64.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.lxcloud.WCEhance/%E5%BE%AE%E4%BF%A1%E5%A2%9E%E5%BC%BA.PNG"
+      ]
+    },
+    {
+      "name": "微信广告净化助手",
+      "version": "0.1",
+      "description": "微信广告净化助手",
+      "author": "x",
+      "section": "微信插件",
+      "size": "24K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1%E5%B9%BF%E5%91%8A%E5%87%80%E5%8C%96%E5%8A%A9%E6%89%8B.deb"
+    },
+    {
+      "name": "微信广告净化助手-rootless",
+      "version": "1.2.0",
+      "description": "去广告",
+      "author": "x",
+      "section": "微信插件",
+      "size": "24K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.apple.wechat.noads-rootless_1.2.0_iphoneos-arm64.deb"
+    },
+    {
+      "name": "微信插件管理-rootless",
+      "version": "0.1-3",
+      "description": "插件管理",
+      "author": "admin@25mao.com",
+      "section": "微信插件",
+      "size": "20K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%861.0.3.deb"
+    },
+    {
+      "name": "微信消息直达-rootless",
+      "version": "0.0.5",
+      "description": "微信插件，弥补点击微信通知无法跳转到聊天界面",
+      "author": "x",
+      "section": "微信插件",
+      "size": "24K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%B6%88%E6%81%AF%E7%9B%B4%E8%BE%BE0.0.5.deb"
+    },
+    {
+      "name": "微信表情",
+      "version": "1.8.0",
+      "description": "微信表情",
+      "author": "WCMeme",
+      "section": "微信插件",
+      "size": "2.9M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1%E8%A1%A8%E6%83%85_1.8.0_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.bqb.bq/4b15a605d2a106dd6238a649be18d7a4.jpg",
+        "https://deb.iosxy.xin/screenshots/com.bqb.bq/cfe6734031c8ce7c256363718aa0f97f.png"
+      ]
+    },
+    {
+      "name": "微信通知横幅美化-rootless",
+      "version": "1.3.3",
+      "description": "微信通知横幅美化",
+      "author": "END",
+      "section": "微信插件",
+      "size": "36K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.end.wechat-rootless_1.3.3_iphoneos-arm64.deb"
+    },
+    {
+      "name": "微小皮-rootless",
+      "version": "1.0-1",
+      "description": "它只会在你的屏幕上跑来跑去。",
+      "author": "x",
+      "section": "微信插件",
+      "size": "420K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E5%B0%8F%E7%9A%AE1.0.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.25mao.wepet-rootless/f6c0613dcb6d56232c4742c8a4a94f97.png"
+      ]
+    },
+    {
+      "name": "插件管理修改",
+      "version": "0.1",
+      "description": "插件管理修改",
+      "author": "x",
+      "section": "微信插件",
+      "size": "20K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%8F%92%E4%BB%B6%E7%AE%A1%E7%90%86%E4%BF%AE%E6%94%B9.deb"
+    },
+    {
+      "name": "斗图助手-rootless",
+      "version": "3.1-6",
+      "description": "斗图助手",
+      "author": "admin@25mao.com",
+      "section": "微信插件",
+      "size": "1.1M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%96%97%E5%9B%BE%E5%8A%A9%E6%89%8B_3.1-6.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.25mao.doutu-rootless/07a10bab7aa6a86031d98f7b7d1fbb4e.jpg",
+        "https://deb.iosxy.xin/screenshots/com.25mao.doutu-rootless/7b4f6f402511efaf2515af3305442b6a.jpg"
+      ]
+    },
+    {
+      "name": "无良素材仓",
+      "version": "0.1",
+      "description": "无良素材仓",
+      "author": "x",
+      "section": "微信插件",
+      "size": "36K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%97%A0%E8%89%AF%E7%B4%A0%E6%9D%90%E4%BB%93.deb"
+    },
+    {
+      "name": "楠桉助手",
+      "version": "0.1",
+      "description": "楠桉助手",
+      "author": "x",
+      "section": "微信插件",
+      "size": "548K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%A5%A0%E5%AE%89%E5%8A%A9%E6%89%8B.deb"
+    },
+    {
+      "name": "消息屏蔽助手-rootless",
+      "version": "1.0-5.1",
+      "description": "消息屏蔽助手",
+      "author": "x",
+      "section": "微信插件",
+      "size": "120K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E6%B6%88%E6%81%AF%E5%B1%8F%E8%94%BD_1.0-5.1.deb"
+    },
+    {
+      "name": "点击动画",
+      "version": "0.1",
+      "description": "点击动画",
+      "author": "x",
+      "section": "微信插件",
+      "size": "20K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB.deb"
+    },
+    {
+      "name": "点歌封面自定义",
+      "version": "2.5.6",
+      "description": "点歌封面自定义",
+      "author": "WCDGDIY",
+      "section": "微信插件",
+      "size": "72K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E7%82%B9%E6%AD%8C%E5%B0%81%E9%9D%A2%E8%87%AA%E5%AE%9A%E4%B9%89_2.5.6_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.hl.wcdgdiy/052cf818d4246e918a8a87571f2ecf40.jpg"
+      ]
+    },
+    {
+      "name": "猪咪",
+      "version": "1.6.9",
+      "description": "关注公众号[猪咪小屋]",
+      "author": "x",
+      "section": "微信插件",
+      "size": "2.5M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E7%8C%AA%E5%92%AA_1.6.9_iphoneos-arm64.deb"
+    },
+    {
+      "name": "白衣の小铭牌-VIP",
+      "version": "0.1",
+      "description": "白衣の小铭牌-VIP",
+      "author": "x",
+      "section": "微信插件",
+      "size": "24K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E7%99%BD%E8%A1%A3%E3%81%AE%E5%B0%8F%E9%93%AD%E7%89%8C-VIP.deb"
+    },
+    {
+      "name": "自动发卡",
+      "version": "1.1-8",
+      "description": "微信自动发卡1.1-8，本地发卡，api发卡...",
+      "author": "xuegao",
+      "section": "微信插件",
+      "size": "8.5M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E8%87%AA%E5%8A%A8%E5%8F%91%E5%8D%A1_1.1-8_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "虚拟视频-rootless",
+      "version": "2.2-1",
+      "description": "虚拟视频。",
+      "author": "平凡",
+      "section": "微信插件",
+      "size": "1.6M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E8%99%9A%E6%8B%9F%E8%A7%86%E9%A2%91_2.2-1.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.pingfan.wechat-rootless/7e41018e52c011d70fca2a0083e2dd41.jpg",
+        "https://deb.iosxy.xin/screenshots/com.pingfan.wechat-rootless/a8fb4a010d3754a8eb0e495e9faf24ea.jpg"
+      ]
+    },
+    {
+      "name": "输入框右侧语音功能",
+      "version": "1.0.0",
+      "description": "聊天界面输入框右边，语音按钮，识别能力很不错。",
+      "author": "huami",
+      "section": "微信插件",
+      "size": "4.0K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E5%BE%AE%E4%BF%A1%E8%BE%93%E5%85%A5%E6%A1%86%E5%8F%B3%E4%BE%A7%E8%AF%AD%E9%9F%B3%E5%8A%9F%E8%83%BD_1.0.0_%E6%97%A0%E6%A0%B9.deb"
+    },
+    {
+      "name": "输入法优化09",
+      "version": "0.1",
+      "description": "输入法优化09",
+      "author": "x",
+      "section": "微信插件",
+      "size": "404K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E8%BE%93%E5%85%A5%E6%B3%95%E4%BC%98%E5%8C%9609.deb"
+    },
+    {
+      "name": "酸果 - Rootless",
+      "version": "6.0.2-1",
+      "description": "本插件安装包来自苏兔源",
+      "author": "Carby <super.cat.sutuplus@gmail.com>",
+      "section": "微信插件",
+      "size": "564K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/com.sutuplus.releasefugu15_6.0.2-1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "锤子助手",
+      "version": "2.2.0",
+      "description": "锤子助手插件",
+      "author": "WeChat",
+      "section": "微信插件",
+      "size": "5.4M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E9%94%A4%E5%AD%90%E5%8A%A9%E6%89%8B_2.2.0_%E6%97%A0%E6%A0%B9%202.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.dumpapp.wechat-rootless/ba32cfc5f29177d945188ddd41f3fb47.jpg"
+      ]
+    },
+    {
+      "name": "锤子助手-Rootless",
+      "version": "2.3.0",
+      "description": "一个很棒的插件",
+      "author": "DumpApp",
+      "section": "微信插件",
+      "size": "5.4M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E9%94%A4%E5%AD%90%E5%8A%A9%E6%89%8B_2.3.0_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.dumpapp.wechat-rootless/ba32cfc5f29177d945188ddd41f3fb47.jpg"
+      ]
+    },
+    {
+      "name": "黄白助手(微信插件)-Rootless",
+      "version": "2.0.1",
+      "description": "黄白助手-微信插件，点歌朋友圈一键点赞，禁用控件，设置布局大小，私聊发抢自己的红包，文本转语音，文案语录，群聊管理，朋友圈保存实况 Live 图，消息防撤回，艾特所有人，朋友圈自定义选取位置，消息双击复读，修改气泡，修改按钮图标，修改显示微信号，自动呼出键盘，微信运动一键点赞，头像转发好友，强制下载 dylib 文件，设置全局圆头像，百变消息小尾巴，朋友圈小尾巴，等诸多功能",
+      "author": "HuangBai <QQ:1343309363@qq.com>",
+      "section": "微信插件",
+      "size": "13M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6/%E9%BB%84%E7%99%BD%E5%8A%A9%E6%89%8B2.0-1_%E6%97%A0%E6%A0%B9.deb",
+      "screenshots": [
+        "https://deb.iosxy.xin/screenshots/com.HBWechatHelper.ailun/c0c490d95002f3f3bddcace174cfe57f.jpg"
+      ]
+    },
+    {
+      "name": "AwemeDisableBar",
+      "version": "1.1-6",
+      "description": "Aweme Disable Top/Bottom/Right Tab Button. Tested only on version 30.3.0 and above",
+      "author": "Nets",
+      "section": "抖音插件",
+      "size": "340K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/com.netskao.awemedisablebar_1.1-6_iphoneos-arm64.deb"
+    },
+    {
+      "name": "AwemeSaveEmoji",
+      "version": "1.1-2",
+      "description": "保存抖音评论区表情到相册",
+      "author": "Nets",
+      "section": "抖音插件",
+      "size": "84K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/awemsaveemoji_1.1-2_iphoneos-arm64.deb"
+    },
+    {
+      "name": "Aweme_PIP",
+      "version": "0.0.1",
+      "description": "Aweme_PIP",
+      "author": "pxx917144686",
+      "section": "抖音插件",
+      "size": "36K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/com.pxx917144686.pip_0.0.1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "DYYY",
+      "version": "2.2-8",
+      "description": "仅供学习交流，请在 24 小时内自觉删除。",
+      "author": "huami",
+      "section": "抖音插件",
+      "size": "484K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/com.huami.dyyy_2.2-8_iphoneos-arm64.deb"
+    },
+    {
+      "name": "Yuki",
+      "version": "0.0-8-1",
+      "description": "免费插件，随缘更新。",
+      "author": "vita",
+      "section": "抖音插件",
+      "size": "60K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/com.vita.yuki_0.0-8-1_iphoneos-arm64.deb"
+    },
+    {
+      "name": "dyyy最新插件分支+7",
+      "version": "v1.0.0",
+      "description": "一个很棒的插件",
+      "author": "x",
+      "section": "抖音插件",
+      "size": "15M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/dyyy%E6%9C%80%E6%96%B0%E6%8F%92%E4%BB%B6%E5%88%86%E6%94%AF%2B7.zip"
+    },
+    {
+      "name": "抖音全屏播放",
+      "version": "1.3-6",
+      "description": "抖音主页全屏。仅支持34.7.0及以上版本",
+      "author": "Nets",
+      "section": "抖音插件",
+      "size": "184K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/com.netskao.awemefullscreen_1.3-6_iphoneos-arm64.deb"
+    },
+    {
+      "name": "抖音助手",
+      "version": "2.0-6",
+      "description": "三指长按/设置页面/长按视频/聊天界面➕菜单 调出！",
+      "author": "XUUᶻ",
+      "section": "抖音插件",
+      "size": "6.4M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/com.xuuz.douyinhelper_2.0-6_iphoneos-arm64.deb"
+    },
+    {
+      "name": "抖音图层",
+      "version": "2.3.3-8",
+      "description": "自用",
+      "author": "𝙓",
+      "section": "抖音插件",
+      "size": "3.4M",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/%E6%8A%96%E9%9F%B3%E5%9B%BE%E5%B1%82_2.3.3-8.deb"
+    },
+    {
+      "name": "抖音聊天列表专用",
+      "version": "1.5.5",
+      "description": "仅供学习交流，如有传播；使用者请在24小时内自觉删除。",
+      "author": "ylr",
+      "section": "抖音插件",
+      "size": "12K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/com.ylr.dyhook_1.5.5_iphoneos-arm64.deb"
+    },
+    {
+      "name": "抖音音频URL获取",
+      "version": "1.0",
+      "description": "抖音音频URL获取",
+      "author": "抖音音频URL获取",
+      "section": "抖音插件",
+      "size": "16K",
+      "icon_url": "https://deb.iosxy.xin/icons/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6.png",
+      "dylib": "https://deb.iosxy.xin/downloads/%E6%8A%96%E9%9F%B3%E6%8F%92%E4%BB%B6/%E6%8A%96%E9%9F%B3%E9%9F%B3%E9%A2%91URL%E8%8E%B7%E5%8F%96_1.0_%E6%97%A0%E6%A0%B9.deb"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+#!name=巨魔注入器deb插件商店监控
+#!desc=监控巨魔注入器deb插件商店的插件更新（新增/更新）
+#!author=夕颜 wx: 1418581664
+#!icon=https://img.iosxy.xin/xiyan.png
+#!system=ios
+#!category=iOS夕颜
+#!homepage=https://iosxy.xin
+#!arguments=SOURCEURL:"https://deb.iosxy.xin/trollfools.json",UPDATEINTERVAL:"7200",CRON:"0 */2 * * *",ALWAYSNOTIFY:"false",MAXNOTIFY:"10"
+#!arguments-desc=SOURCEURL: 填写巨魔deb插件商店源地址\n默认: https://deb.iosxy.xin/trollfools.json\n\nUPDATEINTERVAL: 面板自动更新间隔(秒)，默认7200秒(2小时)\n\nCRON: 定时任务表达式，默认"0 */2 * * *"(每2小时)\n格式: 分 时 日 月 星期\n常用示例:\n• 0 */2 * * * - 每2小时\n• 0 8,20 * * * - 每天8点和20点\n• 30 9 * * * - 每天9:30\n不需要定时任务可在模块管理中禁用对应脚本\n\nALWAYSNOTIFY: 是否每次都发送通知（true/false），默认false\n\nMAXNOTIFY: 单独通知的最大数量，默认10个\n超过此数量的变更将只在总结通知中显示
+
+[Panel]
+trollfools_deb_monitor = script-name=trollfools_deb_monitor,update-interval={{{UPDATEINTERVAL}}}
+
+[Script]
+# 面板脚本
+trollfools_deb_monitor = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/trollfools-deb-monitor.js,argument=SOURCEURL="{{{SOURCEURL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+
+# 定时任务（需要填写CRON参数才会生效）
+# 格式: 分 时 日 月 星期
+# 示例: 0 */2 * * * (每2小时执行)
+# 示例: 0 8,20 * * * (每天8点和20点执行)
+trollfools_deb_monitor_cron = type=cron,cronexp="{{{CRON}}}",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/trollfools-deb-monitor.js,argument=SOURCEURL="{{{SOURCEURL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+
+
