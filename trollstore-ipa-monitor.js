@@ -58,19 +58,51 @@ async function fetchSourceData(sourceUrl) {
   try {
     console.log(`🔍 开始获取源数据: ${sourceUrl}`);
     
-    const response = await fetch(sourceUrl, {
-      method: 'GET',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'
-      }
-    });
+    let sourceText;
     
-    if (response.status === 200) {
-      const data = await response.json();
+    try {
+      // 优先尝试使用 fetch
+      const response = await fetch(sourceUrl, {
+        method: 'GET',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'
+        }
+      });
+      
+      if (response.status === 200) {
+        sourceText = await response.text();
+      } else {
+        throw new Error(`HTTP ${response.status}`);
+      }
+    } catch (fetchError) {
+      console.log(`⚠️ fetch 失败: ${fetchError.message}，尝试使用 $httpClient`);
+      
+      // 使用 Surge 原生的 $httpClient 作为备用
+      sourceText = await new Promise((resolve, reject) => {
+        $httpClient.get({
+          url: sourceUrl,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15'
+          },
+          timeout: 30
+        }, (error, response, data) => {
+          if (error) {
+            console.log(`⚠️ $httpClient 也失败: ${error}`);
+            reject(new Error(error));
+          } else if (response.status === 200) {
+            console.log(`✅ $httpClient 成功获取数据`);
+            resolve(data);
+          } else {
+            reject(new Error(`HTTP ${response.status}`));
+          }
+        });
+      });
+    }
+    
+    if (sourceText) {
+      const data = JSON.parse(sourceText);
       console.log(`✅ 成功获取源数据，应用数: ${data.apps?.length || 0}`);
       return data;
-    } else {
-      throw new Error(`HTTP ${response.status}`);
     }
   } catch (error) {
     console.log(`❌ 获取源数据失败: ${error.message}`);
