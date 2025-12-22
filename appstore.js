@@ -101,9 +101,13 @@ function getAppListFromArgs() {
   // 匹配 APPLIST 参数（大写）
   const applistMatch = args.match(/APPLIST="?([^"&]*)"?/);
   
-  if (!applistMatch || !applistMatch[1] || applistMatch[1].trim() === '') {
-    // 没有配置应用列表，返回空数组
-    console.log('⚠️ 未配置应用包名列表，请在模块参数中填写 APPLIST');
+  if (!applistMatch || !applistMatch[1] || applistMatch[1].trim() === '' || applistMatch[1].trim() === '#') {
+    // 没有配置应用列表或填写了 #，返回空数组
+    if (applistMatch && applistMatch[1].trim() === '#') {
+      console.log('⚠️ App Store 监控已禁用（参数为 #）');
+    } else {
+      console.log('⚠️ 未配置应用包名列表，请在模块参数中填写 APPLIST');
+    }
     return [];
   }
   

@@ -12,7 +12,15 @@ function getSourceUrlFromArgs() {
     return "https://deb.iosxy.xin/trollpackages.json";
   }
   
-  return urlMatch[1].trim();
+  const url = urlMatch[1].trim();
+  
+  // 如果填写了 #，表示禁用此监控
+  if (url === '#') {
+    console.log('⚠️ 巨魔DEB插件商店监控已禁用（参数为 #）');
+    return null;
+  }
+  
+  return url;
 }
 
 // 获取最大单独通知数量
@@ -115,6 +123,20 @@ async function fetchSourceData(sourceUrl) {
   const sourceUrl = getSourceUrlFromArgs();
   
   const isPanel = typeof $trigger !== 'undefined';
+  
+  // 如果返回 null，说明监控已禁用
+  if (sourceUrl === null) {
+    if (isPanel) {
+      $done({
+        title: "⚠️ 监控已禁用",
+        content: "巨魔DEB插件商店监控已禁用\n\n如需启用，请在模块参数中配置 SOURCEURL\n或在统一模块中将 TROLLDEB_URL 改为源地址",
+        style: "info"
+      });
+    } else {
+      $done();
+    }
+    return;
+  }
   
   try {
     // 获取源数据

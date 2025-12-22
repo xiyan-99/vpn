@@ -90,8 +90,12 @@ function getRepoUrlsFromArgs() {
   
   const repoMatch = args.match(/REPOURL="?([^"&]*)"?/);
   
-  if (!repoMatch || !repoMatch[1] || repoMatch[1].trim() === '') {
-    console.log('⚠️ 未配置源地址，请在模块参数中填写 REPOURL');
+  if (!repoMatch || !repoMatch[1] || repoMatch[1].trim() === '' || repoMatch[1].trim() === '#') {
+    if (repoMatch && repoMatch[1].trim() === '#') {
+      console.log('⚠️ Cydia源监控已禁用（参数为 #）');
+    } else {
+      console.log('⚠️ 未配置源地址，请在模块参数中填写 REPOURL');
+    }
     return [];
   }
   
