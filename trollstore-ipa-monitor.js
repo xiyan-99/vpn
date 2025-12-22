@@ -193,12 +193,18 @@ async function fetchSourceData(sourceUrl) {
       if (sentNotifications >= maxIndividualNotifications) break;
       
       const title = `🔄 ${app.name} 已更新`;
-      const body = `旧版本: ${app.oldVersion}\n新版本: ${app.version}\n\n更新时间: ${app.versionDate || '未知'}\n\n点击查看详情`;
+      const body = `旧版本: ${app.oldVersion}\n新版本: ${app.version}\n\n更新时间: ${app.versionDate || '未知'}\n\n点击安装更新`;
+      
+      // 构建 TrollStore 安装链接
+      let installUrl = sourceUrl;
+      if (app.downloadURL) {
+        installUrl = `apple-magnifier://install?url=${encodeURIComponent(app.downloadURL)}`;
+      }
       
       const notifyOptions = {
         sound: true,
         action: "open-url",
-        url: app.downloadURL || sourceUrl
+        url: installUrl
       };
       
       if (app.iconURL) {
@@ -217,12 +223,18 @@ async function fetchSourceData(sourceUrl) {
       if (sentNotifications >= maxIndividualNotifications) break;
       
       const title = `➕ ${app.name} 新应用上架`;
-      const body = `版本: ${app.version}\n\n上架时间: ${app.versionDate || '未知'}\n\n点击查看详情`;
+      const body = `版本: ${app.version}\n\n上架时间: ${app.versionDate || '未知'}\n\n点击立即安装`;
+      
+      // 构建 TrollStore 安装链接
+      let installUrl = sourceUrl;
+      if (app.downloadURL) {
+        installUrl = `apple-magnifier://install?url=${encodeURIComponent(app.downloadURL)}`;
+      }
       
       const notifyOptions = {
         sound: true,
         action: "open-url",
-        url: app.downloadURL || sourceUrl
+        url: installUrl
       };
       
       if (app.iconURL) {
@@ -368,12 +380,24 @@ async function fetchSourceData(sourceUrl) {
       let summaryIcon = null;
       let url = sourceUrl;
       
-      if (results.updated.length > 0 && results.updated[0].iconURL) {
-        summaryIcon = results.updated[0].iconURL;
-        url = results.updated[0].downloadURL || sourceUrl;
-      } else if (results.added.length > 0 && results.added[0].iconURL) {
-        summaryIcon = results.added[0].iconURL;
-        url = results.added[0].downloadURL || sourceUrl;
+      if (results.updated.length > 0) {
+        const firstUpdated = results.updated[0];
+        if (firstUpdated.iconURL) {
+          summaryIcon = firstUpdated.iconURL;
+        }
+        // 构建 TrollStore 安装链接
+        if (firstUpdated.downloadURL) {
+          url = `apple-magnifier://install?url=${encodeURIComponent(firstUpdated.downloadURL)}`;
+        }
+      } else if (results.added.length > 0) {
+        const firstAdded = results.added[0];
+        if (firstAdded.iconURL) {
+          summaryIcon = firstAdded.iconURL;
+        }
+        // 构建 TrollStore 安装链接
+        if (firstAdded.downloadURL) {
+          url = `apple-magnifier://install?url=${encodeURIComponent(firstAdded.downloadURL)}`;
+        }
       } else if (results.current.length > 0 && results.current[0].iconURL) {
         summaryIcon = results.current[0].iconURL;
       }

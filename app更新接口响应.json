@@ -10,7 +10,7 @@ id,number,否,App Store 的 trackId
 country,string,否,国家/地区代码（如 cn、us）
 lang,string,否,返回语言（如 zh_CN）
 
-
+请求 https://itunes.apple.com/lookup?lang=zh_CN&id=414478124
 {
     "resultCount":1,
     "results": [
