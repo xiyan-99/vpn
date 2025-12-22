@@ -1,0 +1,57 @@
+#!name= 微信点歌自定义脚本 by 夕颜
+#!desc= 微信点歌卡片自定义\n支持自动抓取抖音解析音频链接\n支持自动抓取夕颜图床的音频链接\n支持全部自定义参数/api参数
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!system = iOS
+#!tag = by夕颜
+
+[Argument]
+
+pick_music = select, "使用抖音解析音频", "使用快捷指令音频", "使用自定义音频", "不修改音频直接放行", tag=选择音乐链接使用方式, desc=选择类型
+
+music_url = input, "", tag=自定义音频链接, desc=默认音乐链接，仅在未自动捕获时使用
+
+pick_title = select, "使用自定义歌曲名", "使用自定义API", "不修改歌曲名直接放行", tag=选择歌曲名使用方式, desc=选择类型
+title = input, "自定义歌名", tag=自定义歌曲名, desc=将显示在卡片上的歌曲标题
+api_title = input, "自定义歌名api", tag=自定义歌名api, desc=将显示在卡片上的歌曲标题
+
+
+
+pick_singer = select, "使用自定义歌手名", "使用自定义API", "不修改歌手名直接放行", tag=选择歌手名使用方式, desc=选择类型
+song_singer = input, "夕颜电台", tag=自定义歌手名, desc=将显示在卡片上的歌手名
+api_singer = input, "自定义歌手api", tag=自定义歌手api, desc=将显示在卡片上的歌手名
+
+
+pick_cover = select, "使用自定义封面","使用自定义API","使用随机举牌封面", "不修改封面直接放行", tag=选择封面使用方式, desc=选择类型
+cover = input, "http://fmc-75014.picgzc.qpic.cn/consult_viewer_pic__2bbe7547-2ab9-4803-b831-20a865904c79_1744135487999.jpg", tag=自定义封面链接, desc=用于显示在卡片上的封面
+api_cover = input, "自定义封面api", tag=自定义封面api, desc=用于显示在卡片上的封面
+
+
+pick_lyric = select, "使用自定义歌词", "使用自定义API", "不修改歌词直接放行", tag=选择歌词使用方式, desc=选择类型
+lyric = input, "[00:00.00] 这是一首纯音乐", tag=自定义歌词, desc=支持替换默认歌词
+ api_lyric = input, "自定义歌词api", tag=自定义歌词api, desc=替换默认歌词
+ 
+
+[script]
+# 捕获抖音解析音频作为卡片音频链接
+http-request ^https:\/\/.*\.douyinstatic\.com.*\.(mp3|m4a)(\?.*)?$ script-path=https://img.iosxy.xin/js/xy-wxdgdy.js, requires-body=false, timeout=10, tag=捕获抖音解析音频链接
+
+
+# 修复 mk内部 qq点歌自定义接口
+http-response ^https:\/\/a\.aa\.cab\/qq\.music\?msg=.*?(&n=1)?(&type=json)?$ script-path=https://img.iosxy.xin/js/xy-wxdgmknb.js, requires-body = true, timeout=20, tag=mk QQ点歌自定义, argument=[{pick_music},{music_url},{title},{pick_title},{api_title},{song_singer},{pick_singer},{api_singer},{cover},{pick_cover},{api_cover},{lyric},{pick_lyric},{api_lyric}]
+
+# 修复 mk内部 汽水点歌自定义接口
+http-response ^https:\/\/api\.dragonlongzhu\.cn\/+api\/dg_qishuimusic\.php\?msg=.*?&n=\d+&type=json script-path=https://img.iosxy.xin/js/xy-wxdgmkqs.js, requires-body = true, timeout=20, tag=mk汽水点歌自定义, argument=[{pick_music},{music_url},{title},{pick_title},{api_title},{song_singer},{pick_singer},{api_singer},{cover},{pick_cover},{api_cover},{lyric},{pick_lyric},{api_lyric}]
+
+# 修复 黄白 点歌自定义接口
+http-response ^https:\/\/sdkapi.hhlqilongzhu.cn\/api\/juhe_dgmusic\/.* script-path=https://img.iosxy.xin/js/xy-wxdghb.js, requires-body = true, timeout=20, tag=黄白点歌自定义, argument=[{pick_music},{music_url},{title},{pick_title},{api_title},{song_singer},{pick_singer},{api_singer},{cover},{pick_cover},{api_cover},{lyric},{pick_lyric},{api_lyric}]
+
+# 捕获快捷指令音频
+http-response ^https:\/\/img.xiyan.store\/api\/index.php$ script-path=https://img.iosxy.xin/js/xy-wxdgyp.js, requires-body = true, timeout=20, tag=音乐链接快捷指令获取
+
+
+
+
+[mitm]
+hostname = sdkapi.hhlqilongzhu.cn, api.dragonlongzhu.cn, *.douyinstatic.com, img.xiyan.store, img.iosxy.xin, a.aa.cab

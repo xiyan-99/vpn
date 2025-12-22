@@ -1,0 +1,17 @@
+#!name= 巨魔注入器重写 by 夕颜
+#!desc= 巨魔注入器删除默认仓库\n巨魔注入器插件商店https://deb.iosxy.xin
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!input = 夕颜
+#!system = iOS
+#!tag = by夕颜
+
+
+[rewrite]
+^https:\/\/trollfools\.slpmods\.net\/trollpackages.json$ header https://deb.iosxy.xin/trollpackages.json
+^https:\/\/trollfools.slpmods.net\/repo-icon.png$ header https://deb.iosxy.xin/xiyan.png
+^https:\/\/trollfools.slpmods.net\/api\/check_updates.php\/check-update$ header https://deb.iosxy.xin/trollpackages.json
+
+[mitm]
+hostname = trollfools.slpmods.net

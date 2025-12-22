@@ -1,0 +1,65 @@
+#!name= api接口余额定时查询签到 by 夕颜
+#!desc= api接口余额定时查询
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!input = 夕颜
+#!system = iOS
+#!tag = by夕颜
+
+[Argument]
+fineshare_token = input, "你的FV token", tag=Fineshare Token
+
+fineshare_sign_cron = input, "0 9 * * *", tag=Fineshare签到定时, desc=每天早上9点执行
+fi
+fineshare_sign_open = switch, true, tag=是否开启Fineshare签到
+
+
+
+fineshare_redeem_cron = input, "0 9 * * *", tag=Fineshare兑换定时, desc=每天早上9点执行
+
+fineshare_redeem_open = switch, true, tag=是否开启Fineshare兑换
+
+fineshare_cron = input, "0 9 * * 0", tag=Fineshare查询字符定时, desc=每个星期天早上9点执行
+
+fineshare_open = switch, true, tag=是否开启查询Fineshare字符
+
+fineshare_cron = input, "0 9 * * 0", tag=Fineshare查询积分定时, desc=每个星期天早上9点执行
+
+fineshare_open = switch, true, tag=是否开启查询Fineshare积分
+
+fish_cron = input, "0 9 * * 0", tag=Fish查询余额定时, desc=每个星期天早上9点执行
+fish_token = input, "你的fish token", tag=Fish Token
+fish_open = switch, true, tag=是否开启Fish查询
+
+deepseek_cron = input, "0 9 * * 0", tag=DeepSeek查询余额定时, desc=每个星期天9点执行
+deepseek_token = input, "你的deepseek token", tag=DeepSeek Token
+deepseek_open = switch, true, tag=是否开启DeepSeek查询
+
+silicon_cron = input, "0 9 * * 0", tag=Silicon查询余额定时, desc=每个星期天9点执行
+silicon_token = input, "你的silicon token", tag=Silicon Token
+silicon_open = switch, true, tag=是否开启Silicon查询
+
+[Script]
+# FishAudio 余额定时查询
+cron {fish_cron} script-path=https://img.iosxy.xin/js/xy-apifish.js, timeout=60, tag=Fish余额查询, enable={fish_open}, argument=[{fish_token}]
+
+# Fineshare 签到
+cron {fineshare_sign_cron} script-path=https://img.iosxy.xin/js/xy-apifvqd.js, timeout=60, tag=Fineshare签到, enable={fineshare_sign_open}, argument=[{fineshare_token}]
+
+
+# Fineshare 积分兑换字符余额
+cron {fineshare_redeem_cron} script-path=https://img.iosxy.xin/js/xy-apifvdh.js, timeout=60, tag=Fineshare兑换字符, enable={fineshare_redeem_open}, argument=[{fineshare_token}]
+
+
+# Fineshare字符查询
+cron {fineshare_cron} script-path=https://img.iosxy.xin/js/xy-apifvyue.js, timeout=60, tag=Fineshare字符查询, enable={fineshare_open}, argument=[{fineshare_token}]
+
+# Fineshare积分查询
+cron {fineshare_cron} script-path=https://img.iosxy.xin/js/xy-apifv.js, timeout=60, tag=Fineshare积分查询, enable={fineshare_open}, argument=[{fineshare_token}]
+
+# DeepSeek 余额定时查询
+cron {deepseek_cron} script-path=https://img.iosxy.xin/js/xy-apids.js, timeout=60, tag=DeepSeek余额查询, enable={deepseek_open}, argument=[{deepseek_token}]
+
+# SiliconFlow 余额定时查询
+cron {silicon_cron} script-path=https://img.iosxy.xin/js/xy-apigjld.js, timeout=60, tag=Silicon余额查询, enable={silicon_open}, argument=[{silicon_token}]

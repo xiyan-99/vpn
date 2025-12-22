@@ -1,0 +1,51 @@
+#!name= 主题盒子兑换 by 夕颜
+#!desc= 盒子兑换通知\n支持bark推送通知\n支持兑换延迟控制\n仅内部专用
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!system = iOS
+#!tag = by夕颜
+
+[Argument]
+title = input,"来自夕颜的空投盒子主题",tag=通用推送通知标题,desc=定制推送的标题
+
+
+barkKey = input,"可填写bark key一行一个",tag=填写barkkey推送
+
+
+time = input, "1", tag=延迟兑换控制ms, des=延迟盒子兑换请求
+
+pushxyxg = input, "恭喜：主题兑换失败", tag=响应信息修改文本, desc=修改响应
+
+pushxg = switch,false, tag=开启响应信息修改, desc=修改响应
+
+pushys = switch,false,tag=开启盒子兑换通知,desc=单独的通知配合插件使用
+
+zttj = switch,false,tag=主题盒子主题统计,desc=统计数据
+
+qptj = switch,false,tag=主题盒子气泡统计,desc=统计数据
+
+theme = input, "99", tag=修改主题数量响应, des=数据更改
+
+themes = input, "99", tag=修改子包数量响应, des=数据更改
+
+
+[script]
+http-response ^https:\/\/theme\.25mao\.com\/index\/redeem script-path=https://img.iosxy.xin/js/主题盒子响应修改.js, requires-body=true, timeout=20, tag=兑换通知修改, enable={pushxg}, argument=[{barkKey},{title},{time}, {pushxyxg}]
+
+
+
+http-response ^https:\/\/theme\.25mao\.com\/index\/redeem script-path=https://img.iosxy.xin/js/主题盒子通知loon.js, requires-body=true, timeout=20, tag=兑换主题通知, enable={pushys}, argument=[{barkKey},{title},{time}]
+
+
+http-response ^https:\/\/theme.25mao.com\/api\/theme$ script-path=https://img.iosxy.xin/js/主题盒子统计.js, requires-body=true, timeout=20, tag=主题统计, enable={zttj}, argument=[{theme},{themes}]
+
+http-response ^https:\/\/theme.25mao.com\/api\/bubble$ script-path=https://img.iosxy.xin/js/主题气泡统计.js, requires-body=true, timeout=20, tag=气泡统计, enable={qptj}, argument=[{theme},{themes}]
+
+
+
+
+
+
+[mitm]
+hostname = theme.25mao.com

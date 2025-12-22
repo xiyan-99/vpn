@@ -1,0 +1,16 @@
+#!name= fv token抓取
+#!desc= fv token抓取 by 夕颜
+#!author= 夕颜微信 1418581664
+#!homepage= https://cert.xiyan.store
+#!icon= https://img.xiyan.pro/i/u/2025/04/14/IMG_7887.png
+#!system = iOS
+#!tag= api
+
+
+[script]
+# 捕获脚本
+http-request ^https:\/\/usage\.fineshare\.com\/.* script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/fvtoken.js, requires-body=false, timeout=10, tag=fv token抓取
+
+
+[mitm]
+hostname = usage.fineshare.com

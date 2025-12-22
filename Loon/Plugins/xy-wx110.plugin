@@ -1,0 +1,30 @@
+#!name= wechat-举抱违规词修改  by夕颜
+#!desc= wechat举抱\n支持修改违规词/接口参数
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!system = iOS
+#!tag = by夕颜
+
+[Argument]
+open = switch,false,tag=开启修改违规,desc=开关
+
+wxid = input,"wxid",tag=接受违规wxid,desc=fuck
+
+header = input,"520",tag=header接口,desc=接口
+
+referer = input,"520",tag=referer接口,desc=接口
+
+
+wg = input,"表扬书",tag=填写违规词,desc=违规词
+
+
+
+[script]
+http-request ^https:\/\/weixin110\.qq\.com\/security\/exposeh5cgi\?t=reportbilk.* script-path=https://img.iosxy.xin/js/xy-wx110h.js, requires-body=true, binary-body-mode = false, timeout=20, tag=微信娱乐, argument=[{header}, {referer}, {wxid}, {wg}]
+
+
+
+[mitm]
+hostname = weixin110.qq.com
+

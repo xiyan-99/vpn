@@ -1,0 +1,36 @@
+#!name= 微信斗图接口 by 夕颜
+#!desc= 微信斗图接口\nkongxu接口：https://i.kongxu.de/\nlanmao接口：https://apt.25mao.com/dtapi/index.php\naqkj接口：https://doutu2.aqkj77.com\nppy接口：https://dutu.iospaopaoyu.cn/\nxzy接口：https://dt.zyxzy.cn\n9527接口：https://dt.9527cleo.com\n钰哥接口：https://doutu.hai6.live
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!input = 夕颜
+#!system = iOS
+#!system_version = 16.0
+#!loon_version = 3.3.0(850)
+#!tag= 微信，斗图，
+
+[Argument]
+zhuabao = switch,false,tag=是否抓包模版,desc=抓包模版
+wxidkx = input, "wxid_tiaq73nnpz6v41", tag=kongxu有授权wxid, desc=填写kongxu有授权wxid
+wxidmao = input, "wxid_tiaq73nnpz6v41", tag=lanmao有授权wxid, desc=填写lanmao有授权wxid
+
+wxidaqkj = input, "wxid_5t4ypj00k66j22", tag=aqkj有授权wxid, desc=填写aqkj有授权wxid
+
+wxidppy = input, "wxid_mhbjxdsoyiqf12", tag=ppy有授权wxid, desc=填写ppy有授权wxid
+
+wxidxzy = input, "wxid_i91bwhtip3pj12", tag=xzy有授权wxid, desc=填写xzy有授权wxid
+
+wxidhai = input, "暂不使用", tag=hai有授权wxid, desc=填写hai有授权wxid
+
+
+wxid9527 = input, "hy894476729", tag=9527有授权wxid, desc=填写9527有授权wxid
+
+
+[script]
+# 微信斗图接口（三端通用脚本）
+http-request ^https?:\/\/(kongxu\.de|apt\.25mao\.com|dutu\.iospaopaoyu\.cn|dt\.zyxzy\.cn|aqkj77\.com|dt\.9527cleo\.com|doutu\.hai6\.live)\/.*wxid=.* script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/xy-wechat-dt.js, requires-body=false, timeout=10, tag=微信斗图, argument=[{wxidkx},{wxidmao},{wxidppy},{wxidxzy},{wxidaqkj},{wxid9527},{wxidhai}]
+
+
+
+[mitm]
+hostname = i.kongxu.de, apt.25mao.com, doutu2.aqkj77.com, dutu.iospaopaoyu.cn, dt.zyxzy.cn, *.9527cleo.com, doutu.hai6.live

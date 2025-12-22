@@ -1,0 +1,16 @@
+#!name=Telegram
+#!desc=Telegram外部链接跳转，可选择Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram。
+#!author=iOS夕颜
+#!icon=https://img.iosxy.xin/xiyan.png
+#!openUrl=https://apps.apple.com/app/id686449807
+#!system=ios
+#!category=iOS夕颜
+#!homepage=https://iosxy.xin
+#!arguments=t.me_redirect:"Telegram"
+#!arguments-desc= Telegram外部链接跳转，可填写你需要跳转的tg客户端 Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram。
+
+[Script]
+t.me 重定向 = type=http-response, pattern=^https?:\/\/t\.me\/.*, script-path=https://img.iosxy.xin/js/telegram.js, argument=t.me_redirect={{{t.me_redirect}}}, requires-body=true
+
+[MITM]
+hostname = %APPEND% t.me

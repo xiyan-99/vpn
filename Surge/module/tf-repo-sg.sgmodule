@@ -1,0 +1,13 @@
+#!name=巨魔注入器重写 by 夕颜
+#!desc=巨魔注入器删除默认仓库\nhttps://deb.iosxy.xin
+#!author=夕颜wx 1418581664
+#!icon=https://img.iosxy.xin/xiyan.png
+#!homepage=https://iosxy.xin
+#!system=ios
+#!category=iOS夕颜
+
+[URL Rewrite]
+^https:\/\/trollfools\.slpmods\.net\/trollpackages.json$ - reject
+
+[MITM]
+hostname = %APPEND% trollfools.slpmods.net

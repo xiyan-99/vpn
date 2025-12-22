@@ -1,0 +1,44 @@
+#!name= 捕获视频url  - by 夕颜
+#!desc= 捕获部分YBox接口视频url链接
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!system = iOS
+#!tag = by夕颜
+
+
+
+
+[script]
+# 捕获脚本
+http-request ^https:\/\/v5-ali-middle\.douyinvod\.com\/.* script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=抖音
+
+
+http-request ^https:\/\/xyz123lu\.2h3mani\.xyz\/uploads\/.* script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=快猫
+
+
+http-request ^https:\/\/mdsm3\.n6uem8\.xyz\/.*\.m3u8$ script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=麻豆
+
+
+http-request ^https?:\/\/long\.mgwhx\.cn\/.* script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=91=Av，短视频，制片厂，51萝莉，暗网解密，50度灰，成人tk
+
+http-request ^https?:\/\/api\.tixp0gohrf\.com\/lolis\/m3u8\/.* script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=萝莉社
+
+
+http-request ^https?:\/\/txh057\.com\/h5\/m3u8\/.* script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=糖心
+
+http-request ^https?:\/\/la\.btc620\.com\/\/.*\.m3u8$ script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=91pron
+
+
+http-request ^https?:\/\/cdn77-vid\.others-cdn\.com\/.*\.m3u8$ script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=xvideos
+
+
+
+http-request ^https?:\/\/xsfs\.djijik\.com\/video\/.*\.m3u8$ script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=性巴克
+
+http-request ^https?:\/\/surrit\.com\/.*\.m3u8$ script-path=https://img.iosxy.xin/js/videos-url.js, requires-body=false, timeout=10, tag=missav
+
+
+
+[mitm]
+hostname = mdsm3.n6uem8.xyz, xyz123lu.2h3mani.xyz, long.mgwhx.cn, api.tixp0gohrf.com, txh057.com, la.btc620.com, cdn77-vid.others-cdn.com, xsfs.djijik.com, surrit.com, v5-ali-middle.douyinvod.com

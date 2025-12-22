@@ -1,0 +1,19 @@
+#!name= 主题兑换通知 by 夕颜
+#!desc= 主题兑换通知
+#!author= 夕颜wx 1418581664
+#!homepage= https://iosxy.xin
+#!icon= https://img.iosxy.xin/xiyan.png
+#!system = iOS
+#!tag = by夕颜
+
+
+[script]
+http-response ^https:\/\/api\.iosxy\.xin\/tbcode.php script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/xy-pkctb-notify.js, requires-body=true, timeout=20, tag=兑换通知修改 
+
+
+
+
+
+
+[mitm]
+hostname = api.iosxy.xin
