@@ -32,5 +32,5 @@ http-request ^https?:\/\/(kongxu\.de|apt\.25mao\.com|dutu\.iospaopaoyu\.cn|dt\.z
 
 
 
-[mitm]
+[MITM]
 hostname = i.kongxu.de, apt.25mao.com, doutu2.aqkj77.com, dutu.iospaopaoyu.cn, dt.zyxzy.cn, *.9527cleo.com, doutu.hai6.live
