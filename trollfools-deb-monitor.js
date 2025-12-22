@@ -9,7 +9,7 @@ function getSourceUrlFromArgs() {
   
   if (!urlMatch || !urlMatch[1] || urlMatch[1].trim() === '') {
     console.log('⚠️ 未配置源地址，使用默认地址');
-    return "https://deb.iosxy.xin/trollfools.json";
+    return "https://deb.iosxy.xin/trollpackages.json";
   }
   
   return urlMatch[1].trim();
