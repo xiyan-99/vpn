@@ -393,7 +393,7 @@ async function enhancedFetch(appIdentifier) {
         
         // 为每个更新的应用发送单独通知（限制数量）
         if (sentNotifications < maxIndividualNotifications) {
-          const updateTitle = `${app.icon} ${app.name} 发现更新`;
+          const updateTitle = `App Store 监控 - ${app.name} 发现更新`;
           const updateBody = `旧版本: ${savedVersion}\n新版本: ${latest}\n\n点击查看详情`;
           
           // 构建App Store链接
@@ -555,12 +555,12 @@ async function enhancedFetch(appIdentifier) {
     let title;
     
     if (hasUpdate) {
-      title = `📊 更新总结 (${results.updated["应用"].length}个)`;
+      title = `App Store 监控 - 更新总结 (${results.updated["应用"].length}个)`;
     } else if (results.failed.length > 0) {
-      title = "❌ App Store 检测失败";
+      title = "App Store 监控 - 检测失败";
     } else {
       // 手动刷新且没有更新
-      title = "✅ App Store 检测完成";
+      title = "App Store 监控 - 检测完成";
     }
     
     let body = "";
@@ -671,7 +671,7 @@ async function enhancedFetch(appIdentifier) {
         sound: true,  // 启用通知音效
         action: "open-url",  // 点击通知时打开URL
         url: appStoreUrl,  // App Store链接
-        "auto-dismiss": 10  // 10秒后自动关闭总结通知
+        "auto-dismiss": 0  // 不自动关闭总结通知
       };
       
       // 如果有图标，添加到总结通知

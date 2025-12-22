@@ -639,7 +639,7 @@ function formatPackageName(pkg) {
       for (const pkg of changes.updated) {
         if (sentNotifications >= maxIndividualNotifications) break;
         
-        const pkgTitle = `⬆️ ${formatPackageName(pkg)} 已更新`;
+        const pkgTitle = `Sileo源监控 - ${formatPackageName(pkg)} 已更新`;
         const pkgBody = `旧版本: ${pkg.oldVersion}\n新版本: ${pkg.version}\n\n来源: ${repoInfo.name}\n\n点击查看详情`;
         
         const notifyOptions = {
@@ -668,7 +668,7 @@ function formatPackageName(pkg) {
       for (const pkg of changes.added) {
         if (sentNotifications >= maxIndividualNotifications) break;
         
-        const pkgTitle = `➕ ${formatPackageName(pkg)} 新包上架`;
+        const pkgTitle = `Sileo源监控 - ${formatPackageName(pkg)} 新包上架`;
         const pkgBody = `版本: ${pkg.version}\n\n来源: ${repoInfo.name}\n\n点击查看详情`;
         
         const notifyOptions = {
@@ -884,7 +884,7 @@ function formatPackageName(pkg) {
       
       if (firstRunRepos.length === allChanges.length) {
         // 全部首次运行
-        title = `✅ 监控已启动 (${allChanges.length}个源)`;
+        title = `Sileo源监控 - 监控已启动 (${allChanges.length}个源)`;
         body = `📦 已记录 ${totalPackageCount} 个包\n🔔 将自动监控所有源的变更\n\n`;
         for (const repo of firstRunRepos) {
           body += `${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repo.packageCount}个\n`;
@@ -892,7 +892,7 @@ function formatPackageName(pkg) {
       } else if (hasAnyChanges) {
         // 有变更
         const totalChanges = totalNewPackages + totalUpdatedPackages + totalDowngradedPackages + totalRemovedPackages;
-        title = `📊 更新总结 (${totalChanges}个变更)`;
+        title = `Sileo源监控 - 更新总结 (${totalChanges}个变更)`;
         
         body = `📊 变更统计:\n`;
         if (totalNewPackages > 0) body += `➕ 新增: ${totalNewPackages}\n`;
@@ -928,7 +928,7 @@ function formatPackageName(pkg) {
         }
       } else {
         // 无变更
-        title = `✅ 检测完成 (${allChanges.length}个源)`;
+        title = `Sileo源监控 - 检测完成 (${allChanges.length}个源)`;
         body = `📦 总包数: ${totalPackageCount}\n✨ 所有源均无变化`;
       }
       
@@ -991,7 +991,7 @@ function formatPackageName(pkg) {
         sound: true,
         action: "open-url",
         url: url,
-        "auto-dismiss": 10  // 10秒后自动关闭
+        "auto-dismiss": 0  // 不自动关闭总结通知
       };
       
       // 如果有图标，添加媒体内容

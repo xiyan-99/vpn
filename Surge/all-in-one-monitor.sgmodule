@@ -1,5 +1,5 @@
 #!name=iOS全能更新监控
-#!desc=整合App Store、Cydia源、巨魔IPA源、巨魔DEB插件商店的监控（填写#禁用对应脚本）
+#!desc=App Store、Sileo源、巨魔IPA源、巨魔DEB插件商店的监控（填写#禁用对应脚本）作者：iOS夕颜
 #!author=夕颜 wx: 1418581664
 #!icon=https://img.iosxy.xin/xiyan.png
 #!system=ios
