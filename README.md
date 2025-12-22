@@ -265,7 +265,7 @@
 
 - 将 `QX/rewrite/*.conf` 导入 Quantumult X 的配置（或复制其中段落到你的配置文件）。
 - QX 的脚本入口通常在：
-  - `[rewrite_local]`：`script-request-header / script-request-body / script-response-body`
+  - `[rewrite_remote]`：`script-request-header / script-request-body / script-response-body`
   - `[task_local]`：定时任务
 - **注意：QX 不支持 `$argument`**，无法像 Surge/Loon 一样从配置向脚本传入自定义参数。
 

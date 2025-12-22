@@ -129,7 +129,7 @@ http-request ^https?:\/\/(ai\.cios\.top|gpt\.cios\.top|...)/.* script-path=https
 **示例：`xy-aiqx.conf`**
 
 ```ini
-[rewrite_local]
+[rewrite_remote]
 ^https?:\/\/(ai\.cios\.top|...)/.* url script-request-header https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/xy-ai-auth.js
 ```
 
