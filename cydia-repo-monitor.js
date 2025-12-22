@@ -70,6 +70,8 @@ function parsePackages(packagesText) {
       else if (key === 'Description') pkg.description = value;
       else if (key === 'Section') pkg.section = value;
       else if (key === 'Author') pkg.author = value;
+      else if (key === 'Icon') pkg.icon = value;  // 添加图标字段
+      else if (key === 'Depiction') pkg.depiction = value;  // 添加详情页字段
     }
     
     if (pkg.package && pkg.version) {
@@ -178,6 +180,19 @@ function getMaxShowFromArgs() {
   }
   
   return 10; // 默认显示10个
+}
+
+// 获取最大单独通知数量
+function getMaxNotifyFromArgs() {
+  const args = $argument || "";
+  const maxNotifyMatch = args.match(/MAXNOTIFY="?([^"&]*)"?/);
+  
+  if (maxNotifyMatch && maxNotifyMatch[1]) {
+    const num = parseInt(maxNotifyMatch[1]);
+    return num > 0 ? num : 10;
+  }
+  
+  return 10; // 默认发送10个单独通知
 }
 
 // 获取源的 Release 文件（包含源的名称、描述等信息）
@@ -605,6 +620,83 @@ function formatPackageName(pkg) {
     // 等待所有存储操作完成
     await Promise.all(writePromises);
     
+    // 发送单独通知（为每个有变更的包）
+    const notificationPromises = [];
+    let sentNotifications = 0;
+    const maxIndividualNotifications = getMaxNotifyFromArgs();  // 从参数获取最大通知数量
+    
+    for (const repoChange of allChanges) {
+      if (repoChange.isFirstRun || !repoChange.changes) continue;
+      if (sentNotifications >= maxIndividualNotifications) break;
+      
+      const { repoInfo, changes } = repoChange;
+      
+      // 为每个更新的包发送通知
+      for (const pkg of changes.updated) {
+        if (sentNotifications >= maxIndividualNotifications) break;
+        
+        const pkgTitle = `⬆️ ${formatPackageName(pkg)} 已更新`;
+        const pkgBody = `旧版本: ${pkg.oldVersion}\n新版本: ${pkg.version}\n\n来源: ${repoInfo.name}\n\n点击查看详情`;
+        
+        const notifyOptions = {
+          sound: true,
+          action: "open-url",
+          url: `sileo://package/${pkg.package}`
+        };
+        
+        // 如果有图标，添加媒体内容
+        if (pkg.icon) {
+          notifyOptions["media-url"] = pkg.icon;
+        }
+        
+        $notification.post(pkgTitle, "", pkgBody, notifyOptions);
+        console.log(`📬 已发送更新通知: ${formatPackageName(pkg)} (${pkg.oldVersion} → ${pkg.version})`);
+        
+        sentNotifications++;
+        
+        // 添加延迟，避免通知发送过快
+        notificationPromises.push(
+          new Promise(resolve => setTimeout(resolve, 500))
+        );
+      }
+      
+      // 为每个新增的包发送通知
+      for (const pkg of changes.added) {
+        if (sentNotifications >= maxIndividualNotifications) break;
+        
+        const pkgTitle = `➕ ${formatPackageName(pkg)} 新包上架`;
+        const pkgBody = `版本: ${pkg.version}\n\n来源: ${repoInfo.name}\n\n点击查看详情`;
+        
+        const notifyOptions = {
+          sound: true,
+          action: "open-url",
+          url: `sileo://package/${pkg.package}`
+        };
+        
+        // 如果有图标，添加媒体内容
+        if (pkg.icon) {
+          notifyOptions["media-url"] = pkg.icon;
+        }
+        
+        $notification.post(pkgTitle, "", pkgBody, notifyOptions);
+        console.log(`📬 已发送新增通知: ${formatPackageName(pkg)} (${pkg.version})`);
+        
+        sentNotifications++;
+        
+        // 添加延迟
+        notificationPromises.push(
+          new Promise(resolve => setTimeout(resolve, 500))
+        );
+      }
+    }
+    
+    if (sentNotifications >= maxIndividualNotifications) {
+      console.log(`⚠️ 已达到单独通知上限 (${maxIndividualNotifications}个)，其余变更将在总结通知中显示`);
+    }
+    
+    // 等待所有单独通知的延迟完成
+    await Promise.all(notificationPromises);
+    
     const executionTime = ((Date.now() - startTime) / 1000).toFixed(1);
     const now = new Date();
     
@@ -776,8 +868,13 @@ function formatPackageName(pkg) {
     
     const shouldNotify = isManualTrigger || alwaysNotify || hasAnyChanges || firstRunRepos.length > 0;
     
-    // 发送通知
+    // 发送总结通知
     if (shouldNotify) {
+      // 添加延迟，让单独通知先显示
+      if (hasAnyChanges && notificationPromises.length > 0) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+      
       let title;
       let body = "";
       
@@ -791,7 +888,7 @@ function formatPackageName(pkg) {
       } else if (hasAnyChanges) {
         // 有变更
         const totalChanges = totalNewPackages + totalUpdatedPackages + totalDowngradedPackages + totalRemovedPackages;
-        title = `🚀 源更新 (${totalChanges}个变更)`;
+        title = `📊 更新总结 (${totalChanges}个变更)`;
         
         body = `📊 变更统计:\n`;
         if (totalNewPackages > 0) body += `➕ 新增: ${totalNewPackages}\n`;
@@ -811,18 +908,18 @@ function formatPackageName(pkg) {
         
         // 显示部分更新详情
         if (totalUpdatedPackages > 0) {
-          body += `\n🔥 热门更新:`;
+          body += `\n🔥 热门更新:\n`;
           let shown = 0;
           for (const repo of changedRepos) {
             if (shown >= 5) break;
             for (const pkg of repo.changes.updated) {
               if (shown >= 5) break;
-              body += `\n• ${formatPackageName(pkg)}: ${pkg.oldVersion} → ${pkg.version}`;
+              body += `• ${formatPackageName(pkg)}: ${pkg.oldVersion} → ${pkg.version}\n`;
               shown++;
             }
           }
           if (totalUpdatedPackages > 5) {
-            body += `\n... 还有 ${totalUpdatedPackages - 5} 个`;
+            body += `... 还有 ${totalUpdatedPackages - 5} 个`;
           }
         }
       } else {
@@ -831,7 +928,7 @@ function formatPackageName(pkg) {
         body = `📦 总包数: ${totalPackageCount}\n✨ 所有源均无变化`;
       }
       
-      body += `\n⏱️ 检测耗时: ${executionTime}秒`;
+      body += `\n\n⏱️ 检测耗时: ${executionTime}秒`;
       body += `\n📅 ${now.toLocaleString("zh-CN", {
         year: 'numeric',
         month: '2-digit',
@@ -851,26 +948,56 @@ function formatPackageName(pkg) {
         body += "\n🔔 自动检测";
       }
       
-      // 构建源链接（如果有变更的源，跳转到第一个）
-      let url = "cydia://";
+      // 构建通知选项
+      let summaryIcon = null;
+      let url = "sileo://";
+      
+      // 获取第一个有变更的包的图标和链接
       if (changedRepos.length > 0) {
         const firstChangedRepo = changedRepos[0];
-        url = firstChangedRepo.repoUrl.startsWith('https://') ? 
-              firstChangedRepo.repoUrl : 
-              `cydia://url/${firstChangedRepo.repoUrl}`;
-      } else if (allChanges.length > 0) {
-        url = allChanges[0].repoUrl.startsWith('https://') ? 
-              allChanges[0].repoUrl : 
-              `cydia://url/${allChanges[0].repoUrl}`;
+        
+        // 优先使用更新的包
+        if (firstChangedRepo.changes.updated.length > 0) {
+          const firstPkg = firstChangedRepo.changes.updated[0];
+          if (firstPkg.icon) {
+            summaryIcon = firstPkg.icon;
+          }
+          url = `sileo://package/${firstPkg.package}`;
+        }
+        // 其次使用新增的包
+        else if (firstChangedRepo.changes.added.length > 0) {
+          const firstPkg = firstChangedRepo.changes.added[0];
+          if (firstPkg.icon) {
+            summaryIcon = firstPkg.icon;
+          }
+          url = `sileo://package/${firstPkg.package}`;
+        }
+        // 如果有源图标，使用源图标
+        else if (firstChangedRepo.repoInfo.iconUrl) {
+          summaryIcon = firstChangedRepo.repoInfo.iconUrl;
+          url = firstChangedRepo.repoUrl;
+        }
+      } else if (allChanges.length > 0 && allChanges[0].repoInfo.iconUrl) {
+        summaryIcon = allChanges[0].repoInfo.iconUrl;
+        url = allChanges[0].repoUrl;
       }
       
-      $notification.post(title, "", body, {
+      // 构建总结通知选项
+      const summaryOptions = {
         sound: true,
         action: "open-url",
-        url: url
-      });
+        url: url,
+        "auto-dismiss": 10  // 10秒后自动关闭
+      };
       
-      console.log(`📬 已发送通知: ${title}`);
+      // 如果有图标，添加媒体内容
+      if (summaryIcon) {
+        summaryOptions["media-url"] = summaryIcon;
+      }
+      
+      $notification.post(title, "", body, summaryOptions);
+      
+      console.log(`📬 已发送总结通知: ${title}`);
     } else {
       console.log("✅ 自动检测：源无变更，无需通知");
     }
