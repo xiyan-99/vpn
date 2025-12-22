@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surge / Loon / Quantumult X 配置仓库 - by 夕颜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            background: #f9f9f9;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+        
+        .icon-link {
+            display: inline-block;
+            text-decoration: none;
+            border-bottom: none !important;
+            margin: 0 5px;
+            transition: transform 0.2s;
+        }
+        
+        .icon-link:hover {
+            transform: scale(1.1);
+        }
+        
+        .icon-link img {
+            display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .icon-group {
+            margin: 15px 0;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 5px;
+        }
+        
+        .divider {
+            margin: 0 8px;
+            color: #ccc;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #3498db;
+            color: white;
+            border-radius: 3px;
+            font-size: 0.85em;
+            margin-right: 5px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+            color: #0c5460;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 30px 0;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            text-align: center;
+            color: #999;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Surge / Loon / Quantumult X 配置仓库</h1>
+        
+        <div class="section">
+            <h2>📦 说明</h2>
+            <p>这是一个面向 <strong>Surge / Loon / Quantumult X（QX）</strong> 的配置与脚本仓库。</p>
+            <p><strong>仓库地址</strong>: <code>https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main</code></p>
+            
+            <h3>包含内容</h3>
+            <ul>
+                <li><strong>Surge</strong>：<code>.sgmodule</code> 模块 + 相关脚本</li>
+                <li><strong>Loon</strong>：<code>.plugin</code> 插件（含 <code>[Argument]</code> 参数面板）</li>
+                <li><strong>Quantumult X</strong>：<code>.conf</code> 重写配置 + 相关脚本</li>
+            </ul>
+            
+            <h3>🎯 仓库目标</h3>
+            <p><strong>同一份 JS 逻辑尽量做到三端通用</strong>（同域名/同接口的重写脚本，尽可能只维护一份），并给出统一的参数/存储/网络请求封装规范。</p>
+            
+            <blockquote class="warning">
+                <strong>关键差异</strong>：<strong>Surge 与 Loon 支持 <code>$argument</code> 传入自定义参数；QX 不支持 <code>$argument</code>。</strong><br>
+                本仓库要求：脚本必须兼容三端运行，即使 QX 没有 <code>$argument</code> 也要能正常工作（通过"默认值/持久化存储/单独配置段"兜底）。
+            </blockquote>
+            
+            <h3>🚀 快速开始</h3>
+            <p>点击下方图标即可一键导入配置，应用会自动打开并添加模块/插件！</p>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>📁 目录结构</h2>
+            <ul>
+                <li><strong><code>Surge/</code></strong>
+                    <ul>
+                        <li><strong><code>Surge/module/</code></strong>：Surge 模块（<code>.sgmodule</code>）</li>
+                        <li><strong><code>Surge/js/</code></strong>：Surge 相关脚本（部分为 Panel/Cron 脚本）</li>
+                    </ul>
+                </li>
+                <li><strong><code>Loon/</code></strong>
+                    <ul>
+                        <li><strong><code>Loon/Plugins/</code></strong>：Loon 插件（<code>.plugin</code>）</li>
+                        <li><strong><code>Loon/js/</code></strong>：Loon 相关脚本（如有）</li>
+                    </ul>
+                </li>
+                <li><strong><code>QX/</code></strong>
+                    <ul>
+                        <li><strong><code>QX/rewrite/</code></strong>：Quantumult X 重写配置（<code>.conf</code>）</li>
+                        <li><strong><code>QX/js/</code></strong>：Quantumult X 脚本（如有）</li>
+                    </ul>
+                </li>
+                <li><strong><code>js/</code></strong>
+                    <ul>
+                        <li>建议作为"<strong>通用脚本</strong>"目录（三端共用的 JS 放这里；如需按平台区分，建议命名带后缀：<code>*.sg.js / *.loon.js / *.qx.js</code>，但优先做成单文件三端兼容）</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>🚀 一键导入（推荐）</h2>
+            <p>点击对应平台的图标即可一键导入配置，应用会自动打开并添加模块/插件。</p>
+            
+            <h3>📱 核心功能</h3>
+            <p><strong>iOS 全能更新监控</strong> - 包含 App Store、Cydia 源、巨魔 IPA、巨魔 DEB 四大监控功能</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Fios-xiyan.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" title="一键导入 Surge 模块" height="28">
+                </a>
+                <span class="divider">|</span>
+                <span style="color: #999; font-size: 14px;">Loon/QX 需手动配置 CRON 任务</span>
+            </div>
+            
+            <h3>🔓 解锁功能</h3>
+            <p><strong>Emby 会员解锁</strong> - 点击"恢复购买"即可解锁 Emby 会员功能</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Femby.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Femby.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Femby.conf%2C%20tag%3DEmby%E8%A7%A3%E9%94%81%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <h3>🔑 授权/Token</h3>
+            <p><strong>AI 接口授权</strong> - 支持多个 AI 接口的 wxid 自动注入（ai.cios.top、gpt.9527cleo.com 等）</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Fxy-ai.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Fxy-ai.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Fxy-aiqx.conf%2C%20tag%3DAI%E6%8E%A5%E5%8F%A3%E6%8E%88%E6%9D%83%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <p><strong>FineShare Token 抓取</strong> - 自动抓取并保存 FineShare Token</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Ffvtoken.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Ffvtoken.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Ffvtoken.conf%2C%20tag%3DFV%20Token%E6%8A%93%E5%8F%96%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <h3>💬 微信功能</h3>
+            <p><strong>微信斗图接口</strong> - 自动替换微信斗图接口的 wxid</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Fxy-wxdg.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Fxy-wxdt.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Fxy-dtqx.conf%2C%20tag%3D%E5%BE%AE%E4%BF%A1%E6%96%97%E5%9B%BE%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <p><strong>微信举报修改</strong> - 修改微信举报违规词和参数</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Fxy-wx110.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Fxy-wx110.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Fxy-wx110.conf%2C%20tag%3D%E5%BE%AE%E4%BF%A1%E4%B8%BE%E6%8A%A5%E4%BF%AE%E6%94%B9%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <h3>🎨 主题盒子</h3>
+            <p><strong>主题盒子兑换通知</strong> - 自动通知主题盒子兑换结果</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Fxy-themebox.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Fxy-themebox.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Fxy-themeboxqx.conf%2C%20tag%3D%E4%B8%BB%E9%A2%98%E7%9B%92%E5%AD%90%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <p><strong>PKC 主题盒子</strong> - PKC 主题盒子兑换通知</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Fxy-pkctb.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Fxy-pkctb.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Fxy-pkctbqx.conf%2C%20tag%3DPKC%E4%B8%BB%E9%A2%98%E7%9B%92%E5%AD%90%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <h3>🎬 视频/链接</h3>
+            <p><strong>Telegram 跳转</strong> - Telegram 外部链接一键跳转到客户端（支持多种 TG 客户端）</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Ftelegram.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Ftelegram.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Ftelegram.conf%2C%20tag%3DTelegram%E8%B7%B3%E8%BD%AC%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <p><strong>抖音链接捕获</strong> - 自动捕获并保存抖音音视频直链</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Fvideos-url-simple.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Fxy-dyurl.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Fdouyin.conf%2C%20tag%3D%E6%8A%96%E9%9F%B3%E9%93%BE%E6%8E%A5%E6%8D%95%E8%8E%B7%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <p><strong>巨魔注入器重写</strong> - 重写巨魔注入器默认源为夕颜源</p>
+            <div class="icon-group">
+                <a href="surge:///install-module?url=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FSurge%2Fmodule%2Ftf-repo-sg.sgmodule" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/surge.jpg" alt="Surge" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FLoon%2FPlugins%2Ftf-repo-loon.plugin" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/loon.jpg" alt="Loon" height="28">
+                </a>
+                <span class="divider">|</span>
+                <a href="quantumult-x:///add-resource?remote-resource=%7B%0A%20%20%20%20%22rewrite_remote%22%3A%20%5B%0A%20%20%20%20%20%20%20%20%22https%3A%2F%2Fraw.githubusercontent.com%2Fxiyan-99%2Fvpn%2Frefs%2Fheads%2Fmain%2FQX%2Frewrite%2Ftf-repo-qx.conf%2C%20tag%3D%E5%B7%A8%E9%AD%94%E6%B3%A8%E5%85%A5%E5%99%A8%2C%20update-interval%3D86400%2C%20opt-parser%3Dfalse%2C%20enabled%3Dtrue%22%0A%20%20%20%20%5D%0A%7D" class="icon-link">
+                    <img src="https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/quanx.jpg" alt="QX" height="28">
+                </a>
+            </div>
+            
+            <blockquote class="info">
+                <strong>💡 使用说明</strong>：点击图标即可一键导入，应用会自动打开并添加配置。Surge/Loon 会自动弹出安装确认窗口，Quantumult X 会自动添加到远程资源列表。<br><br>
+                <strong>⚠️ QX 用户注意</strong>：由于 QX 不支持参数传递，部分功能需要修改脚本内的默认配置。<br><br>
+                <strong>📚 完整列表</strong>：更多配置请查看 <a href="COMPLETED_CONFIGS.md">COMPLETED_CONFIGS.md</a>
+            </blockquote>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>📱 手动导入方式</h2>
+            
+            <h3>Surge（<code>.sgmodule</code>）</h3>
+            <ul>
+                <li>将 <code>Surge/module/*.sgmodule</code> 导入 Surge 模块管理器启用即可。</li>
+                <li>Surge 支持在脚本配置里通过 <code>argument=</code> 传参，脚本中通过 <code>$argument</code> 读取。</li>
+                <li>示例：<code>Surge/module/ios-xiyan.sgmodule</code> 里大量使用 <code>argument=KEY=...&KEY2=...</code> 传参。</li>
+            </ul>
+            
+            <h3>Loon（<code>.plugin</code>）</h3>
+            <ul>
+                <li>将 <code>Loon/Plugins/*.plugin</code> 导入 Loon 插件管理器启用即可。</li>
+                <li>Loon 支持通过 <code>[Argument]</code> 定义参数面板，并在脚本行上用 <code>argument=[{...}]</code> 传参。</li>
+                <li>示例：<code>Loon/Plugins/xy-themebox.plugin</code> 的 <code>[Argument]</code> + <code>argument=[{barkKey},{title},...]</code>。</li>
+            </ul>
+            
+            <h3>Quantumult X（<code>.conf</code>）</h3>
+            <ul>
+                <li>将 <code>QX/rewrite/*.conf</code> 导入 Quantumult X 的配置（或复制其中段落到你的配置文件）。</li>
+                <li>QX 的脚本入口通常在：
+                    <ul>
+                        <li><code>[rewrite_local]</code>：<code>script-request-header / script-request-body / script-response-body</code></li>
+                        <li><code>[task_local]</code>：定时任务</li>
+                    </ul>
+                </li>
+                <li><strong>注意：QX 不支持 <code>$argument</code></strong>，无法像 Surge/Loon 一样从配置向脚本传入自定义参数。</li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>JS 脚本三端兼容规范（强制）</h2>
+            
+            <h3>运行场景统一判断</h3>
+            <p>脚本必须同时支持三类触发：</p>
+            <ul>
+                <li><strong>请求阶段</strong>：<code>typeof $request !== "undefined"</code> 且 <code>typeof $response === "undefined"</code></li>
+                <li><strong>响应阶段</strong>：<code>typeof $response !== "undefined"</code></li>
+                <li><strong>定时/面板（无请求无响应）</strong>：两者都不存在</li>
+            </ul>
+            
+            <h3>参数策略（Surge/Loon：<code>$argument</code>；QX：兜底）</h3>
+            <p>统一约定参数格式为 <strong>QueryString</strong>：</p>
+            <pre><code>KEY=value&KEY2=value2</code></pre>
+            <ul>
+                <li><strong>Surge/Loon</strong>：优先从 <code>$argument</code> 读取</li>
+                <li><strong>QX</strong>：没有 <code>$argument</code>，必须提供兜底来源（至少一种）：
+                    <ul>
+                        <li><strong>默认参数字符串</strong>（写在脚本里）</li>
+                        <li><strong>持久化存储</strong>（用户先运行一次"设置脚本"写入 <code>$prefs</code>，脚本再读取）</li>
+                        <li><strong>脚本顶部配置对象</strong>（QX 用户改文件即可）</li>
+                    </ul>
+                </li>
+            </ul>
+            <blockquote class="info">
+                本仓库推荐优先级：<code>$argument</code>（Surge/Loon）→ 存储（QX/三端通用）→ 默认值（脚本内）。
+            </blockquote>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>通用脚手架（建议所有新脚本直接复制使用）</h2>
+            <p>下面这段"环境 + 参数 + 存储 + HTTP"封装，适用于三端：</p>
+            <pre><code>/**
+ * Universal Runtime (Surge/Loon/QX)
+ * - Surge/Loon: supports $argument
+ * - QX: no $argument, use storage/default fallback
+ */
+
+const Env = (() => {
+  const isRequest = typeof $request !== "undefined";
+  const isResponse = typeof $response !== "undefined";
+  const isSurge = typeof $httpClient !== "undefined";
+  const isQX = typeof $task !== "undefined";
+  const isLoon = !isSurge && !isQX && typeof $loon !== "undefined"; // 兜底判断
+
+  const platform = isSurge ? "Surge" : isLoon ? "Loon" : isQX ? "QX" : "Unknown";
+
+  const notify = (title, subtitle = "", body = "", opts = {}) => {
+    if (typeof $notification !== "undefined") $notification.post(title, subtitle, body, opts);
+  };
+
+  const read = (key) => {
+    if (typeof $persistentStore !== "undefined") return $persistentStore.read(key);
+    if (typeof $prefs !== "undefined") return $prefs.valueForKey(key);
+    return null;
+  };
+
+  const write = (val, key) => {
+    if (typeof $persistentStore !== "undefined") return $persistentStore.write(val, key);
+    if (typeof $prefs !== "undefined") return $prefs.setValueForKey(String(val), key);
+    return false;
+  };
+
+  const http = (opts) =>
+    new Promise((resolve, reject) => {
+      if (isQX) {
+        $task.fetch(opts).then(resolve, reject);
+        return;
+      }
+      if (isSurge || isLoon) {
+        const method = (opts.method || "GET").toUpperCase();
+        const cb = (err, resp, data) => (err ? reject(err) : resolve({ status: resp?.status, headers: resp?.headers, body: data }));
+        if (method === "POST") $httpClient.post(opts, cb);
+        else $httpClient.get(opts, cb);
+        return;
+      }
+      reject(new Error("Unknown platform"));
+    });
+
+  const done = (val = {}) => $done(val);
+
+  return { platform, isSurge, isLoon, isQX, isRequest, isResponse, notify, read, write, http, done };
+})();
+
+function parseArgs(qs) {
+  const out = {};
+  if (!qs || typeof qs !== "string") return out;
+  const s = qs.trim().replace(/^\?/, "");
+  if (!s) return out;
+
+  for (const part of s.split("&")) {
+    if (!part) continue;
+    const idx = part.indexOf("=");
+    const k = decodeURIComponent((idx >= 0 ? part.slice(0, idx) : part).trim());
+    const v = decodeURIComponent((idx >= 0 ? part.slice(idx + 1) : "").trim());
+    if (k) out[k] = v;
+  }
+  return out;
+}
+
+// 你可以在每个脚本里定义默认参数（给 QX 兜底）
+const DEFAULT_ARGUMENTS = ""; // 例如：'APPLIST="com.tencent.xin"&MAXNOTIFY="10"&ALWAYSNOTIFY="false"'
+
+function getArgumentsString() {
+  // Surge/Loon：有 $argument 就用
+  if (typeof $argument !== "undefined" && $argument) return String($argument);
+
+  // QX/三端兜底：优先读存储，其次默认值
+  const stored = Env.read("script_args"); // 每个脚本建议改成自己的 key
+  return stored || DEFAULT_ARGUMENTS;
+}
+
+const Args = parseArgs(getArgumentsString());
+// Args.KEY / Args.KEY2 ...</code></pre>
+            
+            <h3>参数 key 命名建议</h3>
+            <ul>
+                <li><strong>全大写</strong>（更适合 Surge/Loon 的参数面板展示）：<code>APPLIST / REPOURL / ALWAYSNOTIFY / MAXNOTIFY</code></li>
+                <li>禁用开关建议统一支持 <code>#</code>：例如 <code>APPLIST="#"</code> 代表禁用该功能（见 <code>Surge/module/ios-xiyan.sgmodule</code> 的约定）</li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>关于 QX 无 <code>$argument</code> 的推荐做法</h2>
+            
+            <h3>做法 A：脚本内默认值（最简单）</h3>
+            <p>在脚本中维护 <code>DEFAULT_ARGUMENTS</code> 或一个 <code>DEFAULT_CONFIG</code>，QX 用户直接改文件即可。</p>
+            
+            <h3>做法 B：用存储"模拟参数"（最推荐，最像 Surge/Loon）</h3>
+            <ol>
+                <li>提供一个"设置脚本"（用户在 QX 手动运行一次），把配置写进 <code>$prefs</code>：<br>
+                    <code>Env.write("APPLIST=...&MAXNOTIFY=...", "script_args")</code></li>
+                <li>主脚本运行时 <code>Env.read("script_args")</code> 取到"参数字符串"，再走 <code>parseArgs()</code>，逻辑与 Surge/Loon 一致。</li>
+            </ol>
+            <blockquote class="success">
+                这样可以做到：同一份逻辑用 <code>Args.XYZ</code> 取配置，三端体验一致；QX 只是"配置入口"换成了存储。
+            </blockquote>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>贡献/开发约定（写新脚本必须遵守）</h2>
+            <ul>
+                <li><strong>脚本必须三端兼容</strong>：不能只写 Surge/Loon 的 <code>$httpClient</code> 或只写 QX 的 <code>$task.fetch</code>，需要用封装或条件判断。</li>
+                <li><strong>参数必须有兜底</strong>：不能只依赖 <code>$argument</code>；必须在 QX 下可运行（默认值或存储）。</li>
+                <li><strong>输出尽量统一</strong>：日志用 <code>console.log</code>；结束用 <code>$done()</code>。</li>
+                <li><strong>不要假设一定有请求/响应</strong>：Cron/Panel 场景要能工作（无 <code>$request/$response</code>）。</li>
+            </ul>
+        </div>
+        
+        <hr>
+        
+        <div class="section">
+            <h2>免责声明</h2>
+            <p>本仓库仅用于学习与交流脚本/重写规则的编写方式。请遵守所在地法律法规及相关服务条款，使用脚本造成的后果由使用者自行承担。</p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>作者</strong>: 夕颜<br>
+            <strong>微信</strong>: 1418581664<br>
+            <strong>主页</strong>: <a href="https://iosxy.xin" target="_blank">https://iosxy.xin</a><br>
+            <strong>仓库</strong>: <a href="https://github.com/xiyan-99/vpn" target="_blank">https://github.com/xiyan-99/vpn</a></p>
+        </div>
+    </div>
+    
+    <script>
+        // 确保所有 URL scheme 链接都能正常工作
+        document.addEventListener('DOMContentLoaded', function() {
+            const iconLinks = document.querySelectorAll('.icon-link');
+            iconLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && (href.startsWith('surge://') || href.startsWith('loon://') || href.startsWith('quantumult-x://'))) {
+                        // 直接跳转到 URL scheme，不阻止默认行为
+                        window.location.href = href;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
