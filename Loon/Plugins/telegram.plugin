@@ -1,0 +1,18 @@
+#!name=Telegram 跳转 by 夕颜
+#!desc=Telegram外部链接跳转，可选择Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram
+#!author=iOS夕颜
+#!icon=https://img.iosxy.xin/xiyan.png
+#!homepage=https://iosxy.xin
+#!system=iOS
+#!tag=Telegram
+
+[Argument]
+t.me_redirect = input, "Telegram", tag=跳转客户端, desc=可选：Telegram、Swiftgram、Turrit、iMe、Nicegram、Lingogram
+
+[Script]
+# Telegram 跳转（三端通用脚本）
+http-response ^https?:\/\/t\.me\/.* script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/telegram.js, requires-body=true, timeout=10, tag=Telegram跳转, argument=[{t.me_redirect}]
+
+[MITM]
+hostname = t.me
+

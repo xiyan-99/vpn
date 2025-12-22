@@ -1,0 +1,17 @@
+#!name=微信举报违规词修改 by 夕颜
+#!desc=支持修改违规词/接口参数（三端通用脚本）
+#!author=夕颜 wx: 1418581664
+#!icon=https://img.iosxy.xin/xiyan.png
+#!homepage=https://iosxy.xin
+#!system=ios
+#!category=iOS夕颜
+#!arguments=header:520,referer:520,wxid:wxid,wg:表扬书
+#!arguments-desc=header: header接口参数\nreferer: referer接口参数\nwxid: 接受违规的wxid\nwg: 填写违规词
+
+[Script]
+# 微信举报违规词修改（三端通用脚本）
+微信举报修改 = type=http-request, pattern=^https:\/\/weixin110\.qq\.com\/security\/exposeh5cgi\?t=reportbilk.*, script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/xy-wechat-report.js, requires-body=true, timeout=20, argument=header={{{header}}}&referer={{{referer}}}&wxid={{{wxid}}}&wg={{{wg}}}
+
+[MITM]
+hostname = %APPEND% weixin110.qq.com
+

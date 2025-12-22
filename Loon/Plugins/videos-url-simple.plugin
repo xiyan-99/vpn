@@ -1,0 +1,15 @@
+#!name=抖音视频链接捕获 by 夕颜
+#!desc=捕获抖音视频直链（三端通用脚本）
+#!author=夕颜 wx: 1418581664
+#!homepage=https://iosxy.xin
+#!icon=https://img.iosxy.xin/xiyan.png
+#!system=iOS
+#!tag=抖音
+
+[Script]
+# 抖音视频链接捕获（三端通用脚本）
+http-request ^https:\/\/.*\.(douyinstatic\.com.*\.(mp3|m4a)|douyinvod\.com\/.*\/video) script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/xy-douyin-parser.js, requires-body=false, timeout=10, tag=抖音链接捕获
+
+[MITM]
+hostname = *.douyinstatic.com, *.douyinvod.com
+
