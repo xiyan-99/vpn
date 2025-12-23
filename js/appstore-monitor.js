@@ -13,7 +13,7 @@ const appDatabase = {
   "com.liguangming.Shadowrocket": { name: "Shadowrocket", icon: "🚀" },
   "com.nssurge.inc.surge-ios": { name: "Surge", icon: "⚡️" },
   "com.nssurge.inc.surge": { name: "Surge", icon: "⚡️" },
-  "com.loon0x00.LoonLite": { name: "Loon", icon: "🎈" },  // Loon Lite版本
+  "com.ruikq.decar": { name: "Loon", icon: "🎈" }, 
   "com.stairways.alfred.ios": { name: "Alfred", icon: "🎩" },
   "com.apple.mobilesafari": { name: "Safari", icon: "🧭" },
   "ph.telegra.Telegraph": { name: "Telegram", icon: "✈️" },
@@ -22,6 +22,29 @@ const appDatabase = {
   "com.zhihu.ios": { name: "知乎", icon: "📖" },
   "com.tencent.mqq": { name: "QQ", icon: "🐧" }
 };
+
+// 版本号比较函数
+function compareVersion(v1, v2) {
+  // 返回值：1 表示 v1 > v2，-1 表示 v1 < v2，0 表示相等
+  if (v1 === v2) return 0;
+  
+  // 将版本号分割成数字数组
+  const parts1 = v1.split('.').map(x => parseInt(x) || 0);
+  const parts2 = v2.split('.').map(x => parseInt(x) || 0);
+  
+  // 补齐长度（例如 2.2 vs 2.2.1）
+  const maxLen = Math.max(parts1.length, parts2.length);
+  while (parts1.length < maxLen) parts1.push(0);
+  while (parts2.length < maxLen) parts2.push(0);
+  
+  // 逐段比较
+  for (let i = 0; i < maxLen; i++) {
+    if (parts1[i] > parts2[i]) return 1;
+    if (parts1[i] < parts2[i]) return -1;
+  }
+  
+  return 0;
+}
 
 // 从App Store链接提取trackId和country
 function extractTrackId(url) {
@@ -383,51 +406,75 @@ async function enhancedFetch(appIdentifier) {
           status: '首次记录'
         });
       } else if (savedVersion !== latest) {
-        hasUpdate = true;
-        results.updated[app.category].push({
-          app,
-          oldVersion: savedVersion,
-          newVersion: latest
-        });
-        writePromises.push($persistentStore.write(latest, key));
+        // 比较版本号大小
+        const comparison = compareVersion(latest, savedVersion);
         
-        // 为每个更新的应用发送单独通知（限制数量）
-        if (sentNotifications < maxIndividualNotifications) {
-          const updateTitle = `App Store 监控 - ${app.name} 发现更新`;
-          const updateBody = `旧版本: ${savedVersion}\n新版本: ${latest}\n\n点击查看详情`;
+        if (comparison > 0) {
+          // 新版本更大，是真正的更新
+          hasUpdate = true;
+          results.updated[app.category].push({
+            app,
+            oldVersion: savedVersion,
+            newVersion: latest
+          });
+          writePromises.push($persistentStore.write(latest, key));
+          console.log(`🆙 ${app.icon} ${app.name}: ${savedVersion} → ${latest} (版本升级)`);
           
-          // 构建App Store链接
-          let appStoreUrl = "https://apps.apple.com/";
-          if (app.trackId) {
-            appStoreUrl = `https://apps.apple.com/app/id${app.trackId}`;
-          } else if (app.bundleId) {
-            appStoreUrl = `https://apps.apple.com/search?term=${encodeURIComponent(app.name)}`;
+          // 为每个更新的应用发送单独通知（限制数量）
+          if (sentNotifications < maxIndividualNotifications) {
+            const title = "App Store 监控";
+            const subtitle = `${app.name} 发现更新`;
+            const body = `旧版本: ${savedVersion} → 新版本: ${latest}`;
+            
+            // 构建App Store链接
+            let appStoreUrl = "https://apps.apple.com/";
+            if (app.trackId) {
+              appStoreUrl = `https://apps.apple.com/app/id${app.trackId}`;
+            } else if (app.bundleId) {
+              appStoreUrl = `https://apps.apple.com/search?term=${encodeURIComponent(app.name)}`;
+            }
+            
+            // 构建通知选项
+            const notifyOptions = {
+              sound: true,
+              action: "open-url",
+              url: appStoreUrl
+            };
+            
+            // 如果有图标URL，添加媒体内容
+            if (app.artworkUrl) {
+              notifyOptions["media-url"] = app.artworkUrl;
+            }
+            
+            // 发送单独通知
+            $notification.post(title, subtitle, body, notifyOptions);
+            console.log(`📬 已发送单独更新通知: ${app.name} (${savedVersion} → ${latest})`);
+            
+            sentNotifications++;
+            
+            // 添加延迟，避免通知发送过快
+            notificationPromises.push(
+              new Promise(resolve => setTimeout(resolve, 500))
+            );
           }
-          
-          // 构建通知选项
-          const notifyOptions = {
-            sound: true,
-            action: "open-url",
-            url: appStoreUrl
-          };
-          
-          // 如果有图标URL，添加媒体内容
-          if (app.artworkUrl) {
-            notifyOptions["media-url"] = app.artworkUrl;
-          }
-          
-          // 发送单独通知
-          $notification.post(updateTitle, "", updateBody, notifyOptions);
-          console.log(`📬 已发送单独更新通知: ${app.name} (${savedVersion} → ${latest})`);
-          
-          sentNotifications++;
-          
-          // 添加延迟，避免通知发送过快
-          notificationPromises.push(
-            new Promise(resolve => setTimeout(resolve, 500))
-          );
+        } else if (comparison < 0) {
+          // 新版本更小，可能是API返回了旧版本数据，不更新存储
+          console.log(`⚠️ ${app.icon} ${app.name}: API返回旧版本 ${latest}，当前记录 ${savedVersion}，保持不变`);
+          results.current.push({
+            app,
+            version: savedVersion,  // 保持使用已保存的版本
+            status: '最新版'
+          });
+        } else {
+          // 版本号相同（理论上不会进入这个分支，因为外层已经判断了 savedVersion !== latest）
+          results.current.push({
+            app,
+            version: latest,
+            status: '最新版'
+          });
         }
       } else {
+        // 版本号完全相同
         results.current.push({
           app,
           version: latest,
@@ -552,15 +599,16 @@ async function enhancedFetch(appIdentifier) {
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
     
-    let title;
+    let title = "App Store 监控";
+    let subtitle = "";
     
     if (hasUpdate) {
-      title = `App Store 监控 - 更新总结 (${results.updated["应用"].length}个)`;
+      subtitle = `更新总结 (${results.updated["应用"].length}个)`;
     } else if (results.failed.length > 0) {
-      title = "App Store 监控 - 检测失败";
+      subtitle = "检测失败";
     } else {
       // 手动刷新且没有更新
-      title = "App Store 监控 - 检测完成";
+      subtitle = "检测完成";
     }
     
     let body = "";
@@ -570,7 +618,6 @@ async function enhancedFetch(appIdentifier) {
       if (hasUpdate) {
         const updates = results.updated["应用"];
         if (updates.length > 0) {
-          body += `🆕 应用更新 (${updates.length}个):\n`;
           body += updates.map(u => 
             `${u.app.icon} ${u.app.name}: ${u.oldVersion} → ${u.newVersion}`
           ).join("\n");
@@ -580,59 +627,29 @@ async function enhancedFetch(appIdentifier) {
       
       // 当前版本（手动刷新时总是显示，自动刷新只在有更新时显示）
       if ((isManualTrigger || hasUpdate) && results.current.length > 0) {
-        if (hasContent) body += "\n\n";
-        body += `✅ ${isManualTrigger && !hasUpdate ? '当前版本' : '最新版应用'} (${results.current.length}个):\n`;
+        if (hasContent) body += "\n";
         body += results.current.map(c => 
-          `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' (首次记录)' : ''}`
+          `${c.app.icon} ${c.app.name}: ${c.version}${c.status === '首次记录' ? ' 🆕' : ''}`
         ).join("\n");
         hasContent = true;
       }
       
       // 失败应用
       if (results.failed.length > 0) {
-        if (hasContent) body += "\n\n";
-        body += `❌ 查询失败 (${results.failed.length}个):\n`;
+        if (hasContent) body += "\n";
         body += results.failed.map(f => 
-          `${f.app.icon} ${f.app.name}: 请检查网络或应用状态`
+          `❌ ${f.app.icon} ${f.app.name}: 查询失败`
         ).join("\n");
         hasContent = true;
       }
       
       // 如果没有更新但有失败，显示成功查询的应用（仅在自动刷新时）
       if (!isManualTrigger && !hasUpdate && results.failed.length > 0 && results.current.length > 0) {
-        if (hasContent) body += "\n\n";
-        body += `✅ 成功查询 (${results.current.length}个):\n`;
+        if (hasContent) body += "\n";
         body += results.current.map(c => 
           `${c.app.icon} ${c.app.name}: ${c.version}`
         ).join("\n");
         hasContent = true;
-      }
-      
-      // 统计信息
-      body += `\n\n⏱️ 检测耗时: ${executionTime}秒`;
-      body += `\n📅 ${now.toLocaleString("zh-CN", { 
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      })}`;
-      
-      // 添加提示
-      if (results.failed.length > 0) {
-        body += `\n💡 提示: ${results.failed.length}个应用查询失败，可能因区域限制或网络问题`;
-      }
-      
-      // 标记触发方式
-      if (isManualTrigger) {
-        body += "\n🔄 手动刷新";
-      } else if (isCronTrigger) {
-        body += alwaysNotify ? "\n⏰ Cron定时任务 (总是通知)" : "\n⏰ Cron定时任务";
-      } else if (alwaysNotify) {
-        body += "\n🔔 自动检测 (总是通知)";
-      } else {
-        body += "\n🔔 自动检测";
       }
       
       // 构建App Store链接（用于点击通知跳转）
@@ -680,9 +697,9 @@ async function enhancedFetch(appIdentifier) {
       }
       
       // 发送总结通知
-      $notification.post(title, "", body, summaryOptions);
+      $notification.post(title, subtitle, body, summaryOptions);
       
-      console.log(`📬 已发送总结通知: ${title}`);
+      console.log(`📬 已发送总结通知: ${title} - ${subtitle}`);
     } else {
       // 自动刷新且没有更新也没有失败且未开启总是通知时，只记录日志
       console.log("✅ 自动检测：所有应用均为最新版本且查询成功，无需通知");

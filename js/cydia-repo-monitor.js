@@ -574,6 +574,7 @@ function formatPackageName(pkg) {
       
       let changes = null;
       let isFirstRun = false;
+      let packagesToSave = packages;  // 默认保存API返回的包
       
       if (!savedDataStr) {
         // 首次运行
@@ -590,16 +591,36 @@ function formatPackageName(pkg) {
           changes = comparePackageLists(oldPackages, packages);
           
           console.log(`📈 ${repoInfo.name} 变更统计: 新增=${changes.added.length}, 更新=${changes.updated.length}, 降级=${changes.downgraded.length}, 删除=${changes.removed.length}`);
+          
+          // 合并包列表：保留较高版本
+          packagesToSave = {};
+          
+          // 先复制所有API返回的包
+          for (const [pkgId, pkg] of Object.entries(packages)) {
+            packagesToSave[pkgId] = pkg;
+          }
+          
+          // 对于版本降级的包，保持使用旧版本
+          for (const [pkgId, oldPkg] of Object.entries(oldPackages)) {
+            if (packagesToSave[pkgId]) {
+              const comparison = compareVersion(packagesToSave[pkgId].version, oldPkg.version);
+              if (comparison < 0) {
+                // API 返回的版本更低，保持使用旧版本
+                packagesToSave[pkgId] = oldPkg;
+                console.log(`⚠️ ${pkgId}: 保持版本 ${oldPkg.version}（API 返回 ${packages[pkgId].version}）`);
+              }
+            }
+          }
         } catch (error) {
           console.log(`⚠️ ${repoInfo.name} 解析历史数据失败: ${error.message}，将重新记录`);
           isFirstRun = true;
         }
       }
       
-      // 保存该源的当前状态
+      // 保存该源的当前状态（使用合并后的包列表）
       const dataToSave = {
-        packages,
-        packageCount,
+        packages: packagesToSave,
+        packageCount: Object.keys(packagesToSave).length,
         lastCheck: new Date().toISOString(),
         repoUrl
       };
@@ -615,7 +636,7 @@ function formatPackageName(pkg) {
       allChanges.push({
         repoUrl,
         repoInfo,
-        packageCount,
+        packageCount: Object.keys(packagesToSave).length,
         changes,
         isFirstRun
       });
@@ -639,8 +660,9 @@ function formatPackageName(pkg) {
       for (const pkg of changes.updated) {
         if (sentNotifications >= maxIndividualNotifications) break;
         
-        const pkgTitle = `Sileo源监控 - ${formatPackageName(pkg)} 已更新`;
-        const pkgBody = `旧版本: ${pkg.oldVersion}\n新版本: ${pkg.version}\n\n来源: ${repoInfo.name}\n\n点击查看详情`;
+        const title = "Sileo源监控";
+        const subtitle = `${formatPackageName(pkg)} 已更新`;
+        const body = `${pkg.oldVersion} → ${pkg.version}`;
         
         const notifyOptions = {
           sound: true,
@@ -653,7 +675,7 @@ function formatPackageName(pkg) {
           notifyOptions["media-url"] = pkg.icon;
         }
         
-        $notification.post(pkgTitle, "", pkgBody, notifyOptions);
+        $notification.post(title, subtitle, body, notifyOptions);
         console.log(`📬 已发送更新通知: ${formatPackageName(pkg)} (${pkg.oldVersion} → ${pkg.version})`);
         
         sentNotifications++;
@@ -668,8 +690,9 @@ function formatPackageName(pkg) {
       for (const pkg of changes.added) {
         if (sentNotifications >= maxIndividualNotifications) break;
         
-        const pkgTitle = `Sileo源监控 - ${formatPackageName(pkg)} 新包上架`;
-        const pkgBody = `版本: ${pkg.version}\n\n来源: ${repoInfo.name}\n\n点击查看详情`;
+        const title = "Sileo源监控";
+        const subtitle = `${formatPackageName(pkg)} 新包上架`;
+        const body = `版本: ${pkg.version}`;
         
         const notifyOptions = {
           sound: true,
@@ -682,7 +705,7 @@ function formatPackageName(pkg) {
           notifyOptions["media-url"] = pkg.icon;
         }
         
-        $notification.post(pkgTitle, "", pkgBody, notifyOptions);
+        $notification.post(title, subtitle, body, notifyOptions);
         console.log(`📬 已发送新增通知: ${formatPackageName(pkg)} (${pkg.version})`);
         
         sentNotifications++;
@@ -879,77 +902,47 @@ function formatPackageName(pkg) {
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
       
-      let title;
+      let title = "Sileo源监控";
+      let subtitle = "";
       let body = "";
       
       if (firstRunRepos.length === allChanges.length) {
         // 全部首次运行
-        title = `Sileo源监控 - 监控已启动 (${allChanges.length}个源)`;
-        body = `📦 已记录 ${totalPackageCount} 个包\n🔔 将自动监控所有源的变更\n\n`;
-        for (const repo of firstRunRepos) {
-          body += `${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repo.packageCount}个\n`;
-        }
+        subtitle = `监控已启动 (${totalPackageCount}个包)`;
+        body = firstRunRepos.map(repo => 
+          `${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repo.packageCount}个`
+        ).join("\n");
       } else if (hasAnyChanges) {
         // 有变更
         const totalChanges = totalNewPackages + totalUpdatedPackages + totalDowngradedPackages + totalRemovedPackages;
-        title = `Sileo源监控 - 更新总结 (${totalChanges}个变更)`;
-        
-        body = `📊 变更统计:\n`;
-        if (totalNewPackages > 0) body += `➕ 新增: ${totalNewPackages}\n`;
-        if (totalUpdatedPackages > 0) body += `⬆️ 更新: ${totalUpdatedPackages}\n`;
-        if (totalDowngradedPackages > 0) body += `⬇️ 降级: ${totalDowngradedPackages}\n`;
-        if (totalRemovedPackages > 0) body += `➖ 删除: ${totalRemovedPackages}\n`;
-        
-        body += `\n`;
-        
-        // 显示有变更的源
-        for (const repo of changedRepos) {
-          const changes = repo.changes;
-          const repoTotalChanges = changes.added.length + changes.updated.length + 
-                                   changes.downgraded.length + changes.removed.length;
-          body += `${repo.repoInfo.icon} ${repo.repoInfo.name}: ${repoTotalChanges}个变更\n`;
-        }
+        subtitle = `发现 ${totalChanges} 个变更`;
         
         // 显示部分更新详情
-        if (totalUpdatedPackages > 0) {
-          body += `\n🔥 热门更新:\n`;
-          let shown = 0;
-          for (const repo of changedRepos) {
-            if (shown >= 5) break;
-            for (const pkg of repo.changes.updated) {
-              if (shown >= 5) break;
-              body += `• ${formatPackageName(pkg)}: ${pkg.oldVersion} → ${pkg.version}\n`;
-              shown++;
-            }
+        let shown = 0;
+        for (const repo of changedRepos) {
+          if (shown >= 8) break;
+          for (const pkg of repo.changes.updated) {
+            if (shown >= 8) break;
+            body += `⬆️ ${formatPackageName(pkg)}: ${pkg.oldVersion} → ${pkg.version}\n`;
+            shown++;
           }
-          if (totalUpdatedPackages > 5) {
-            body += `... 还有 ${totalUpdatedPackages - 5} 个`;
+          for (const pkg of repo.changes.added) {
+            if (shown >= 8) break;
+            body += `➕ ${formatPackageName(pkg)}: ${pkg.version}\n`;
+            shown++;
           }
+        }
+        
+        const remaining = totalChanges - shown;
+        if (remaining > 0) {
+          body += `... 还有 ${remaining} 个变更`;
+        } else {
+          body = body.trim();
         }
       } else {
         // 无变更
-        title = `Sileo源监控 - 检测完成 (${allChanges.length}个源)`;
-        body = `📦 总包数: ${totalPackageCount}\n✨ 所有源均无变化`;
-      }
-      
-      body += `\n\n⏱️ 检测耗时: ${executionTime}秒`;
-      body += `\n📅 ${now.toLocaleString("zh-CN", {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      })}`;
-      
-      if (isManualTrigger) {
-        body += "\n🔄 手动刷新";
-      } else if (isCronTrigger) {
-        body += alwaysNotify ? "\n⏰ Cron定时任务 (总是通知)" : "\n⏰ Cron定时任务";
-      } else if (alwaysNotify) {
-        body += "\n🔔 自动检测 (总是通知)";
-      } else {
-        body += "\n🔔 自动检测";
+        subtitle = `检测完成 (${allChanges.length}个源)`;
+        body = `✨ 所有源均为最新 (${totalPackageCount}个包)`;
       }
       
       // 构建通知选项
@@ -999,9 +992,9 @@ function formatPackageName(pkg) {
         summaryOptions["media-url"] = summaryIcon;
       }
       
-      $notification.post(title, "", body, summaryOptions);
+      $notification.post(title, subtitle, body, summaryOptions);
       
-      console.log(`📬 已发送总结通知: ${title}`);
+      console.log(`📬 已发送总结通知: ${title} - ${subtitle}`);
     } else {
       console.log("✅ 自动检测：源无变更，无需通知");
     }

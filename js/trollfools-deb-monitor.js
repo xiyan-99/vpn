@@ -182,25 +182,37 @@ async function fetchSourceData(sourceUrl) {
       }
       sectionStats[section].total++;
       
-      newVersions[pkg.name] = {
-        version: pkg.version,
-        section: pkg.section,
-        icon_url: pkg.icon_url,
-        dylib: pkg.dylib
-      };
-      
       if (isFirstRun) {
+        // 首次运行，记录所有版本
+        newVersions[pkg.name] = {
+          version: pkg.version,
+          section: pkg.section,
+          icon_url: pkg.icon_url,
+          dylib: pkg.dylib
+        };
         results.current.push(pkg);
       } else {
         const savedVersion = savedVersions[pkg.name];
         
         if (!savedVersion) {
-          // 新增插件
+          // 新增插件，保存新版本
+          newVersions[pkg.name] = {
+            version: pkg.version,
+            section: pkg.section,
+            icon_url: pkg.icon_url,
+            dylib: pkg.dylib
+          };
           results.added.push(pkg);
           hasUpdate = true;
           sectionStats[section].added++;
         } else if (compareVersion(pkg.version, savedVersion.version) > 0) {
-          // 版本更新
+          // 版本更新，保存新版本
+          newVersions[pkg.name] = {
+            version: pkg.version,
+            section: pkg.section,
+            icon_url: pkg.icon_url,
+            dylib: pkg.dylib
+          };
           results.updated.push({
             ...pkg,
             oldVersion: savedVersion.version
@@ -208,12 +220,17 @@ async function fetchSourceData(sourceUrl) {
           hasUpdate = true;
           sectionStats[section].updated++;
         } else {
-          results.current.push(pkg);
+          // API 返回的版本 <= 已保存版本，保持使用已保存的版本
+          newVersions[pkg.name] = savedVersion;
+          results.current.push({
+            ...pkg,
+            version: savedVersion.version  // 使用已保存的版本
+          });
         }
       }
     }
     
-    // 保存当前版本
+    // 保存版本信息
     $persistentStore.write(JSON.stringify(newVersions), storageKey);
     
     // 发送单独通知
@@ -226,8 +243,9 @@ async function fetchSourceData(sourceUrl) {
       if (sentNotifications >= maxIndividualNotifications) break;
       
       const sectionIcon = pkg.section === '微信插件' ? '💬' : pkg.section === '抖音插件' ? '🎵' : pkg.section === '应用增强' ? '⚡️' : '📦';
-      const title = `巨魔DEB插件监控 - ${pkg.name} 已更新`;
-      const body = `旧版本: ${pkg.oldVersion}\n新版本: ${pkg.version}\n\n分类: ${pkg.section || '未知'}\n作者: ${pkg.author || '未知'}\n\n点击查看详情`;
+      const title = "巨魔DEB插件监控";
+      const subtitle = `${pkg.name} 已更新`;
+      const body = `${pkg.oldVersion} → ${pkg.version}`;
       
       const notifyOptions = {
         sound: true,
@@ -239,7 +257,7 @@ async function fetchSourceData(sourceUrl) {
         notifyOptions["media-url"] = pkg.icon_url;
       }
       
-      $notification.post(title, "", body, notifyOptions);
+      $notification.post(title, subtitle, body, notifyOptions);
       console.log(`📬 已发送更新通知: ${pkg.name} (${pkg.oldVersion} → ${pkg.version})`);
       
       sentNotifications++;
@@ -251,8 +269,9 @@ async function fetchSourceData(sourceUrl) {
       if (sentNotifications >= maxIndividualNotifications) break;
       
       const sectionIcon = pkg.section === '微信插件' ? '💬' : pkg.section === '抖音插件' ? '🎵' : pkg.section === '应用增强' ? '⚡️' : '📦';
-      const title = `巨魔DEB插件监控 - ${pkg.name} 新插件上架`;
-      const body = `版本: ${pkg.version}\n\n分类: ${pkg.section || '未知'}\n作者: ${pkg.author || '未知'}\n描述: ${pkg.description || '无'}\n\n点击查看详情`;
+      const title = "巨魔DEB插件监控";
+      const subtitle = `${pkg.name} 新插件上架`;
+      const body = `版本: ${pkg.version}`;
       
       const notifyOptions = {
         sound: true,
@@ -264,7 +283,7 @@ async function fetchSourceData(sourceUrl) {
         notifyOptions["media-url"] = pkg.icon_url;
       }
       
-      $notification.post(title, "", body, notifyOptions);
+      $notification.post(title, subtitle, body, notifyOptions);
       console.log(`📬 已发送新增通知: ${pkg.name} (${pkg.version})`);
       
       sentNotifications++;
@@ -354,54 +373,39 @@ async function fetchSourceData(sourceUrl) {
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
       
-      let title;
+      let title = "巨魔DEB插件监控";
+      let subtitle = "";
       let body = "";
       
       if (isFirstRun) {
-        title = `巨魔DEB插件监控 - 监控已启动`;
-        body = `📦 源名称: ${sourceData.repository_name}\n📊 已记录 ${sourceData.packages.length} 个插件\n🔔 将自动监控插件的变更`;
+        subtitle = `监控已启动 (${sourceData.packages.length}个插件)`;
+        body = `📦 ${sourceData.repository_name}`;
       } else if (hasUpdate) {
         const totalChanges = results.updated.length + results.added.length;
-        title = `巨魔DEB插件监控 - 更新总结 (${totalChanges}个变更)`;
+        subtitle = `发现 ${totalChanges} 个变更`;
         
         if (results.updated.length > 0) {
-          body += `⬆️ 插件更新 (${results.updated.length}个):\n`;
           body += results.updated.slice(0, 5).map(pkg => 
-            `${pkg.name}: ${pkg.oldVersion} → ${pkg.version}`
+            `⬆️ ${pkg.name}: ${pkg.oldVersion} → ${pkg.version}`
           ).join("\n");
           if (results.updated.length > 5) {
-            body += `\n... 还有 ${results.updated.length - 5} 个`;
+            body += `\n... 还有 ${results.updated.length - 5} 个更新`;
           }
         }
         
         if (results.added.length > 0) {
-          if (body) body += "\n\n";
-          body += `➕ 新增插件 (${results.added.length}个):\n`;
+          if (body) body += "\n";
           body += results.added.slice(0, 5).map(pkg => 
-            `${pkg.name}: ${pkg.version}`
+            `➕ ${pkg.name}: ${pkg.version}`
           ).join("\n");
           if (results.added.length > 5) {
-            body += `\n... 还有 ${results.added.length - 5} 个`;
+            body += `\n... 还有 ${results.added.length - 5} 个新增`;
           }
         }
-        
-        if (results.current.length > 0) {
-          body += `\n\n✅ 无更新: ${results.current.length} 个插件`;
-        }
       } else {
-        title = `巨魔DEB插件监控 - 检测完成`;
-        body = `📦 插件总数: ${sourceData.packages.length}\n✨ 所有插件均为最新版本`;
+        subtitle = `检测完成 (${sourceData.packages.length}个插件)`;
+        body = `✨ 所有插件均为最新版本`;
       }
-      
-      body += `\n\n⏱️ 检测耗时: ${executionTime}秒`;
-      body += `\n📅 ${now.toLocaleString("zh-CN", {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      })}`;
       
       // 获取图标和链接
       let summaryIcon = null;
@@ -428,8 +432,8 @@ async function fetchSourceData(sourceUrl) {
         summaryOptions["media-url"] = summaryIcon;
       }
       
-      $notification.post(title, "", body, summaryOptions);
-      console.log(`📬 已发送总结通知: ${title}`);
+      $notification.post(title, subtitle, body, summaryOptions);
+      console.log(`📬 已发送总结通知: ${title} - ${subtitle}`);
     }
     
     // 返回面板内容

@@ -173,36 +173,53 @@ async function fetchSourceData(sourceUrl) {
     for (const app of sourceData.apps) {
       if (!app.name || !app.version) continue;
       
-      newVersions[app.name] = {
-        version: app.version,
-        versionDate: app.versionDate,
-        iconURL: app.iconURL,
-        downloadURL: app.downloadURL
-      };
-      
       if (isFirstRun) {
+        // 首次运行，记录所有版本
+        newVersions[app.name] = {
+          version: app.version,
+          versionDate: app.versionDate,
+          iconURL: app.iconURL,
+          downloadURL: app.downloadURL
+        };
         results.current.push(app);
       } else {
         const savedVersion = savedVersions[app.name];
         
         if (!savedVersion) {
-          // 新增应用
+          // 新增应用，保存新版本
+          newVersions[app.name] = {
+            version: app.version,
+            versionDate: app.versionDate,
+            iconURL: app.iconURL,
+            downloadURL: app.downloadURL
+          };
           results.added.push(app);
           hasUpdate = true;
         } else if (compareVersion(app.version, savedVersion.version) > 0) {
-          // 版本更新
+          // 版本更新，保存新版本
+          newVersions[app.name] = {
+            version: app.version,
+            versionDate: app.versionDate,
+            iconURL: app.iconURL,
+            downloadURL: app.downloadURL
+          };
           results.updated.push({
             ...app,
             oldVersion: savedVersion.version
           });
           hasUpdate = true;
         } else {
-          results.current.push(app);
+          // API 返回的版本 <= 已保存版本，保持使用已保存的版本
+          newVersions[app.name] = savedVersion;
+          results.current.push({
+            ...app,
+            version: savedVersion.version  // 使用已保存的版本
+          });
         }
       }
     }
     
-    // 保存当前版本
+    // 保存版本信息
     $persistentStore.write(JSON.stringify(newVersions), storageKey);
     
     // 发送单独通知
@@ -214,8 +231,9 @@ async function fetchSourceData(sourceUrl) {
     for (const app of results.updated) {
       if (sentNotifications >= maxIndividualNotifications) break;
       
-      const title = `巨魔IPA源监控 - ${app.name} 已更新`;
-      const body = `旧版本: ${app.oldVersion}\n新版本: ${app.version}\n\n更新时间: ${app.versionDate || '未知'}\n\n点击安装更新`;
+      const title = "巨魔IPA源监控";
+      const subtitle = `${app.name} 已更新`;
+      const body = `${app.oldVersion} → ${app.version}`;
       
       // 构建 TrollStore 安装链接
       let installUrl = sourceUrl;
@@ -233,7 +251,7 @@ async function fetchSourceData(sourceUrl) {
         notifyOptions["media-url"] = app.iconURL;
       }
       
-      $notification.post(title, "", body, notifyOptions);
+      $notification.post(title, subtitle, body, notifyOptions);
       console.log(`📬 已发送更新通知: ${app.name} (${app.oldVersion} → ${app.version})`);
       
       sentNotifications++;
@@ -244,8 +262,9 @@ async function fetchSourceData(sourceUrl) {
     for (const app of results.added) {
       if (sentNotifications >= maxIndividualNotifications) break;
       
-      const title = `巨魔IPA源监控 - ${app.name} 新应用上架`;
-      const body = `版本: ${app.version}\n\n上架时间: ${app.versionDate || '未知'}\n\n点击立即安装`;
+      const title = "巨魔IPA源监控";
+      const subtitle = `${app.name} 新应用上架`;
+      const body = `版本: ${app.version}`;
       
       // 构建 TrollStore 安装链接
       let installUrl = sourceUrl;
@@ -263,7 +282,7 @@ async function fetchSourceData(sourceUrl) {
         notifyOptions["media-url"] = app.iconURL;
       }
       
-      $notification.post(title, "", body, notifyOptions);
+      $notification.post(title, subtitle, body, notifyOptions);
       console.log(`📬 已发送新增通知: ${app.name} (${app.version})`);
       
       sentNotifications++;
@@ -349,54 +368,39 @@ async function fetchSourceData(sourceUrl) {
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
       
-      let title;
+      let title = "巨魔IPA源监控";
+      let subtitle = "";
       let body = "";
       
       if (isFirstRun) {
-        title = `巨魔IPA源监控 - 监控已启动`;
-        body = `📦 源名称: ${sourceData.name}\n📊 已记录 ${sourceData.apps.length} 个应用\n🔔 将自动监控源的变更`;
+        subtitle = `监控已启动 (${sourceData.apps.length}个应用)`;
+        body = `📦 ${sourceData.name}`;
       } else if (hasUpdate) {
         const totalChanges = results.updated.length + results.added.length;
-        title = `巨魔IPA源监控 - 更新总结 (${totalChanges}个变更)`;
+        subtitle = `发现 ${totalChanges} 个变更`;
         
         if (results.updated.length > 0) {
-          body += `⬆️ 应用更新 (${results.updated.length}个):\n`;
           body += results.updated.slice(0, 5).map(app => 
-            `${app.name}: ${app.oldVersion} → ${app.version}`
+            `⬆️ ${app.name}: ${app.oldVersion} → ${app.version}`
           ).join("\n");
           if (results.updated.length > 5) {
-            body += `\n... 还有 ${results.updated.length - 5} 个`;
+            body += `\n... 还有 ${results.updated.length - 5} 个更新`;
           }
         }
         
         if (results.added.length > 0) {
-          if (body) body += "\n\n";
-          body += `➕ 新增应用 (${results.added.length}个):\n`;
+          if (body) body += "\n";
           body += results.added.slice(0, 5).map(app => 
-            `${app.name}: ${app.version}`
+            `➕ ${app.name}: ${app.version}`
           ).join("\n");
           if (results.added.length > 5) {
-            body += `\n... 还有 ${results.added.length - 5} 个`;
+            body += `\n... 还有 ${results.added.length - 5} 个新增`;
           }
         }
-        
-        if (results.current.length > 0) {
-          body += `\n\n✅ 无更新: ${results.current.length} 个应用`;
-        }
       } else {
-        title = `巨魔IPA源监控 - 检测完成`;
-        body = `📦 应用总数: ${sourceData.apps.length}\n✨ 所有应用均为最新版本`;
+        subtitle = `检测完成 (${sourceData.apps.length}个应用)`;
+        body = `✨ 所有应用均为最新版本`;
       }
-      
-      body += `\n\n⏱️ 检测耗时: ${executionTime}秒`;
-      body += `\n📅 ${now.toLocaleString("zh-CN", {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      })}`;
       
       // 获取图标和链接
       let summaryIcon = null;
@@ -435,8 +439,8 @@ async function fetchSourceData(sourceUrl) {
         summaryOptions["media-url"] = summaryIcon;
       }
       
-      $notification.post(title, "", body, summaryOptions);
-      console.log(`📬 已发送总结通知: ${title}`);
+      $notification.post(title, subtitle, body, summaryOptions);
+      console.log(`📬 已发送总结通知: ${title} - ${subtitle}`);
     }
     
     // 返回面板内容
