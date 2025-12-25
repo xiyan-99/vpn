@@ -5,49 +5,49 @@
 #!system=ios
 #!category=iOS夕颜
 #!homepage=https://iosxy.xin
-#!arguments=APPLIST:"#",REPOURL:"#",TROLLIPA_URL:"#",TROLLDEB_URL:"#",UPDATEINTERVAL:"3600",CRON:"0 */2 * * *",ALWAYSNOTIFY:"false",MAXSHOW:"10",MAXNOTIFY:"10"
-#!arguments-desc=━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 如何禁用某个监控？填写 # 即可\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n【📱 App Store更新监控】\nAPPLIST: 填写应用信息，多个用逗号分隔\n• Bundle ID: com.tencent.xin\n• App Store链接: https://apps.apple.com/cn/app/id414478124\n• 带备注: com.tencent.xin#微信\n• 禁用此功能: 填写 #\n\n【📦 iOS越狱源监控】\nREPOURL: 填写要监控的源地址\n• 单个源: https://repo.chariz.com/\n• 多个源（逗号分隔）: https://repo.chariz.com/,https://havoc.app/\n• 禁用此功能: 填写 #\n\n【🎯 巨魔IPA软件源监控】\nTROLLIPA_URL: 填写巨魔IPA软件源地址\n• 默认源: https://ipa.iosxy.xin/appstore\n• 自定义源: 填写完整JSON源地址\n• 禁用此功能: 填写 #\n\n【⚡️ 巨魔注入器DEB插件商店监控】\nTROLLDEB_URL: 填写巨魔deb插件商店源地址\n• 默认源: https://deb.iosxy.xin/trollpackages.json\n• 自定义源: 填写完整JSON源地址\n• 禁用此功能: 填写 #\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n【⚙️ 通用设置】\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\nUPDATEINTERVAL: 面板自动更新间隔(秒)\n• 默认3600秒(1小时)\n• 建议范围: 1800-7200秒\n\nCRON: 定时任务表达式\n• 默认: 0 */2 * * * (每2小时)\n• 格式: 分 时 日 月 星期\n• 示例:\n  - 0 */2 * * * (每2小时)\n  - 0 8,20 * * * (每天8点和20点)\n  - 30 9 * * * (每天9:30)\n  - 0 */6 * * * (每6小时)\n\nALWAYSNOTIFY: 是否每次都发送通知\n• true - 每次都通知\n• false - 仅有更新时通知（默认）\n\nMAXSHOW: 面板最多显示的变更数量\n• 默认10个\n• 适用于Cydia源监控\n\nMAXNOTIFY: 单独通知的最大数量\n• 默认10个\n• 超过此数量的变更将只在总结通知中显示\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 使用提示:\n1. 不需要定时任务可在模块管理中禁用对应的cron脚本\n2. 首次运行会记录当前版本，不会发送通知\n3. 所有监控均支持点击通知跳转到对应链接
+#!arguments=应用列表:"#",越狱源地址:"#",巨魔IPA源:"#",巨魔DEB源:"#",更新间隔:"3600",定时任务:"0 */2 * * *",总是通知:"false",最大显示:"10",最大通知:"10"
+#!arguments-desc=━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 如何禁用某个监控？填写 # 即可\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n【📱 App Store更新监控】\n应用列表: 填写应用信息，多个用逗号分隔\n• Bundle ID: com.tencent.xin\n• App Store链接: https://apps.apple.com/cn/app/id414478124\n• 带备注: com.tencent.xin#微信\n• 禁用此功能: 填写 #\n\n【📦 iOS越狱源监控】\n越狱源地址: 填写要监控的源地址\n• 单个源: https://repo.chariz.com/\n• 多个源（逗号分隔）: https://repo.chariz.com/,https://havoc.app/\n• 禁用此功能: 填写 #\n\n【🎯 巨魔IPA软件源监控】\n巨魔IPA源: 填写巨魔IPA软件源地址\n• 默认源: https://ipa.iosxy.xin/appstore\n• 自定义源: 填写完整JSON源地址\n• 禁用此功能: 填写 #\n\n【⚡️ 巨魔注入器DEB插件商店监控】\n巨魔DEB源: 填写巨魔deb插件商店源地址\n• 默认源: https://deb.iosxy.xin/trollpackages.json\n• 自定义源: 填写完整JSON源地址\n• 禁用此功能: 填写 #\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n【⚙️ 通用设置】\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n更新间隔: 面板自动更新间隔(秒)\n• 默认3600秒(1小时)\n• 建议范围: 1800-7200秒\n\n定时任务: 定时任务表达式\n• 默认: 0 */2 * * * (每2小时)\n• 格式: 分 时 日 月 星期\n• 示例:\n  - 0 */2 * * * (每2小时)\n  - 0 8,20 * * * (每天8点和20点)\n  - 30 9 * * * (每天9:30)\n  - 0 */6 * * * (每6小时)\n\n总是通知: 是否每次都发送通知\n• true - 每次都通知\n• false - 仅有更新时通知（默认）\n\n最大显示: 面板最多显示的变更数量\n• 默认10个\n• 适用于Cydia源监控\n\n最大通知: 单独通知的最大数量\n• 默认10个\n• 超过此数量的变更将只在总结通知中显示\n\n━━━━━━━━━━━━━━━━━━━━━━━━━\n💡 使用提示:\n1. 不需要定时任务可在模块管理中禁用对应的cron脚本\n2. 首次运行会记录当前版本，不会发送通知\n3. 所有监控均支持点击通知跳转到对应链接
 
 [Panel]
 # App Store 监控面板
-appstore_panel = script-name=appstore_panel,update-interval={{{UPDATEINTERVAL}}}
+appstore_panel = script-name=appstore_panel,update-interval={{{更新间隔}}}
 
 # Cydia 源监控面板
-cydia_repo_monitor = script-name=cydia_repo_monitor,update-interval={{{UPDATEINTERVAL}}}
+cydia_repo_monitor = script-name=cydia_repo_monitor,update-interval={{{更新间隔}}}
 
 # 巨魔 IPA 源监控面板
-trollstore_ipa_monitor = script-name=trollstore_ipa_monitor,update-interval={{{UPDATEINTERVAL}}}
+trollstore_ipa_monitor = script-name=trollstore_ipa_monitor,update-interval={{{更新间隔}}}
 
 # 巨魔 DEB 插件商店监控面板
-trollfools_deb_monitor = script-name=trollfools_deb_monitor,update-interval={{{UPDATEINTERVAL}}}
+trollfools_deb_monitor = script-name=trollfools_deb_monitor,update-interval={{{更新间隔}}}
 
 [Script]
 # ━━━━━ App Store 监控脚本 ━━━━━
 # 面板脚本
-appstore_panel = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/appstore-monitor.js,argument=APPLIST="{{{APPLIST}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+appstore_panel = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/appstore-monitor.js,argument=APPLIST="{{{应用列表}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 # 定时任务
-appstore_panel_cron = type=cron,cronexp="{{{CRON}}}",wake-system=1,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/appstore-monitor.js,argument=APPLIST="{{{APPLIST}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+appstore_panel_cron = type=cron,cronexp="{{{定时任务}}}",wake-system=1,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/appstore-monitor.js,argument=APPLIST="{{{应用列表}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 # ━━━━━ Cydia 源监控脚本 ━━━━━
 # 面板脚本
-cydia_repo_monitor = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/cydia-repo-monitor.js,argument=REPOURL="{{{REPOURL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXSHOW="{{{MAXSHOW}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+cydia_repo_monitor = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/cydia-repo-monitor.js,argument=REPOURL="{{{越狱源地址}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXSHOW="{{{最大显示}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 # 定时任务
-cydia_repo_monitor_cron = type=cron,cronexp="{{{CRON}}}",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/cydia-repo-monitor.js,argument=REPOURL="{{{REPOURL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXSHOW="{{{MAXSHOW}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+cydia_repo_monitor_cron = type=cron,cronexp="{{{定时任务}}}",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/cydia-repo-monitor.js,argument=REPOURL="{{{越狱源地址}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXSHOW="{{{最大显示}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 # ━━━━━ 巨魔 IPA 源监控脚本 ━━━━━
 # 面板脚本
-trollstore_ipa_monitor = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollstore-ipa-monitor.js,argument=SOURCEURL="{{{TROLLIPA_URL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+trollstore_ipa_monitor = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollstore-ipa-monitor.js,argument=SOURCEURL="{{{巨魔IPA源}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 # 定时任务
-trollstore_ipa_monitor_cron = type=cron,cronexp="{{{CRON}}}",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollstore-ipa-monitor.js,argument=SOURCEURL="{{{TROLLIPA_URL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+trollstore_ipa_monitor_cron = type=cron,cronexp="{{{定时任务}}}",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollstore-ipa-monitor.js,argument=SOURCEURL="{{{巨魔IPA源}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 # ━━━━━ 巨魔 DEB 插件商店监控脚本 ━━━━━
 # 面板脚本
-trollfools_deb_monitor = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollfools-deb-monitor.js,argument=SOURCEURL="{{{TROLLDEB_URL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+trollfools_deb_monitor = type=generic,timeout=30,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollfools-deb-monitor.js,argument=SOURCEURL="{{{巨魔DEB源}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 # 定时任务
-trollfools_deb_monitor_cron = type=cron,cronexp="{{{CRON}}}",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollfools-deb-monitor.js,argument=SOURCEURL="{{{TROLLDEB_URL}}}"&ALWAYSNOTIFY="{{{ALWAYSNOTIFY}}}"&MAXNOTIFY="{{{MAXNOTIFY}}}"
+trollfools_deb_monitor_cron = type=cron,cronexp="{{{定时任务}}}",wake-system=1,timeout=60,script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/trollfools-deb-monitor.js,argument=SOURCEURL="{{{巨魔DEB源}}}"&ALWAYSNOTIFY="{{{总是通知}}}"&MAXNOTIFY="{{{最大通知}}}"
 
 

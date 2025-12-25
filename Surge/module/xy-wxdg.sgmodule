@@ -5,8 +5,8 @@
 #!homepage=https://iosxy.xin
 #!system=ios
 #!category=iOS夕颜
-#!arguments=pick_music:选择音乐使用方式,music_url:自定义音频链接,pick_title:选择歌名使用方式,title:自定义歌名,api_title:歌名文本api接口,pick_singer:选择歌手使用方式,song_singer:自定义歌手,api_singer:歌手文本api接口,pick_cover:优先选择封面,cover:自定义封面,api_cover:api接口封面,pick_lyric:优先歌词,lyric:自定义歌词,api_lyric:api接口歌词
-#!arguments-desc=音频相关：\npick_music：音频来源，可选值：使用自定义音频 / 使用抖音解析音频 / 使用快捷指令音频\nmusic_url：自定义音频链接，仅在选择“使用自定义音频”时填写有效 mp3/m4a 链接\n\n歌名相关：\npick_title：歌名来源，可选值：使用自定义歌名 / 使用歌名API\ntitle：自定义歌名文本，配合 pick_title 使用\napi_title：歌名api API，返回纯文本的api链接\n\n歌手相关：\npick_singer：歌手来源优先级，可选值：使用自定义歌手 / 使用歌手API\nsong_singer：自定义歌手名称\napi_singer：歌手 API 接口，返回纯文本内容\n\n封面相关：\npick_cover：封面来源优先级，可选值：使用自定义封面 / 使用封面API  /使用随机举牌封面 \ncover：自定义封面图片链接，建议 https 格式的 jpg/png\napi_cover：封面 API，返回图片地址的纯文本链接\n\n歌词相关：\npick_lyric：歌词来源优先级，可选值：使用自定义歌词 / 使用歌词API\nlyric：自定义歌词内容，支持多行文本\napi_lyric：歌词 API，返回歌词纯文本，支持多行\n\n说明：\n不填写参数则使用接口原始数据；各参数互相独立，按需填写
+#!arguments=音频来源:选择音乐使用方式,音频链接:自定义音频链接,歌名来源:选择歌名使用方式,自定义歌名:自定义歌名,歌名接口:歌名文本api接口,歌手来源:选择歌手使用方式,自定义歌手:自定义歌手,歌手接口:歌手文本api接口,封面来源:优先选择封面,自定义封面:自定义封面,封面接口:api接口封面,歌词来源:优先歌词,自定义歌词:自定义歌词,歌词接口:api接口歌词
+#!arguments-desc=音频相关：\n音频来源：音频来源，可选值：使用自定义音频 / 使用抖音解析音频 / 使用快捷指令音频\n音频链接：自定义音频链接，仅在选择"使用自定义音频"时填写有效 mp3/m4a 链接\n\n歌名相关：\n歌名来源：歌名来源，可选值：使用自定义歌名 / 使用歌名API\n自定义歌名：自定义歌名文本，配合 歌名来源 使用\n歌名接口：歌名api API，返回纯文本的api链接\n\n歌手相关：\n歌手来源：歌手来源优先级，可选值：使用自定义歌手 / 使用歌手API\n自定义歌手：自定义歌手名称\n歌手接口：歌手 API 接口，返回纯文本内容\n\n封面相关：\n封面来源：封面来源优先级，可选值：使用自定义封面 / 使用封面API  /使用随机举牌封面 \n自定义封面：自定义封面图片链接，建议 https 格式的 jpg/png\n封面接口：封面 API，返回图片地址的纯文本链接\n\n歌词相关：\n歌词来源：歌词来源优先级，可选值：使用自定义歌词 / 使用歌词API\n自定义歌词：自定义歌词内容，支持多行文本\n歌词接口：歌词 API，返回歌词纯文本，支持多行\n\n说明：\n不填写参数则使用接口原始数据；各参数互相独立，按需填写
 
 [Script]
 # 捕获抖音解析音频
@@ -18,13 +18,13 @@
 
 
 # 修复 mk内部 qq点歌自定义接口
-mk QQ点歌自定义 = type=http-response, pattern=^https:\/\/a\.aa\.cab\/qq\.music\?msg=.*?(&n=1)?(&type=json)?$, script-path=https://img.iosxy.xin/js/xy-wxdgmksg.js, requires-body=true, timeout=20, argument="pick_music={{{pick_music}}}&music_url={{{music_url}}}&title={{{title}}}&pick_title={{{pick_title}}}&api_title={{{api_title}}}&song_singer={{{song_singer}}}&pick_singer={{{pick_singer}}}&api_singer={{{api_singer}}}&cover={{{cover}}}&pick_cover={{{pick_cover}}}&api_cover={{{api_cover}}}&lyric={{{lyric}}}&pick_lyric={{{pick_lyric}}}&api_lyric={{{api_lyric}}}"
+mk QQ点歌自定义 = type=http-response, pattern=^https:\/\/a\.aa\.cab\/qq\.music\?msg=.*?(&n=1)?(&type=json)?$, script-path=https://img.iosxy.xin/js/xy-wxdgmksg.js, requires-body=true, timeout=20, argument="pick_music={{{音频来源}}}&music_url={{{音频链接}}}&title={{{自定义歌名}}}&pick_title={{{歌名来源}}}&api_title={{{歌名接口}}}&song_singer={{{自定义歌手}}}&pick_singer={{{歌手来源}}}&api_singer={{{歌手接口}}}&cover={{{自定义封面}}}&pick_cover={{{封面来源}}}&api_cover={{{封面接口}}}&lyric={{{自定义歌词}}}&pick_lyric={{{歌词来源}}}&api_lyric={{{歌词接口}}}"
 
 # 修复 mk内部 汽水点歌自定义接口
-mk 汽水点歌自定义 = type=http-response, pattern=^https:\/\/api\.dragonlongzhu\.cn\/+api\/dg_qishuimusic\.php\?msg=.*?&n=\d+&type=json, script-path=https://img.iosxy.xin/js/xy-wxdgmkqssg.js, requires-body=true, timeout=20, argument="pick_music={{{pick_music}}}&music_url={{{music_url}}}&title={{{title}}}&pick_title={{{pick_title}}}&api_title={{{api_title}}}&song_singer={{{song_singer}}}&pick_singer={{{pick_singer}}}&api_singer={{{api_singer}}}&cover={{{cover}}}&pick_cover={{{pick_cover}}}&api_cover={{{api_cover}}}&lyric={{{lyric}}}&pick_lyric={{{pick_lyric}}}&api_lyric={{{api_lyric}}}"
+mk 汽水点歌自定义 = type=http-response, pattern=^https:\/\/api\.dragonlongzhu\.cn\/+api\/dg_qishuimusic\.php\?msg=.*?&n=\d+&type=json, script-path=https://img.iosxy.xin/js/xy-wxdgmkqssg.js, requires-body=true, timeout=20, argument="pick_music={{{音频来源}}}&music_url={{{音频链接}}}&title={{{自定义歌名}}}&pick_title={{{歌名来源}}}&api_title={{{歌名接口}}}&song_singer={{{自定义歌手}}}&pick_singer={{{歌手来源}}}&api_singer={{{歌手接口}}}&cover={{{自定义封面}}}&pick_cover={{{封面来源}}}&api_cover={{{封面接口}}}&lyric={{{自定义歌词}}}&pick_lyric={{{歌词来源}}}&api_lyric={{{歌词接口}}}"
 
 # 修复 黄白 点歌自定义接口
-黄白点歌自定义 = type=http-response, pattern=^https:\/\/api.dragonlongzhu.cn\/api\/joox\/.*, script-path=https://img.iosxy.xin/js/xy-wxdghbsg.js, requires-body=true, timeout=20, argument="pick_music={{{pick_music}}}&music_url={{{music_url}}}&title={{{title}}}&pick_title={{{pick_title}}}&api_title={{{api_title}}}&song_singer={{{song_singer}}}&pick_singer={{{pick_singer}}}&api_singer={{{api_singer}}}&cover={{{cover}}}&pick_cover={{{pick_cover}}}&api_cover={{{api_cover}}}&lyric={{{lyric}}}&pick_lyric={{{pick_lyric}}}&api_lyric={{{api_lyric}}}"
+黄白点歌自定义 = type=http-response, pattern=^https:\/\/api.dragonlongzhu.cn\/api\/joox\/.*, script-path=https://img.iosxy.xin/js/xy-wxdghbsg.js, requires-body=true, timeout=20, argument="pick_music={{{音频来源}}}&music_url={{{音频链接}}}&title={{{自定义歌名}}}&pick_title={{{歌名来源}}}&api_title={{{歌名接口}}}&song_singer={{{自定义歌手}}}&pick_singer={{{歌手来源}}}&api_singer={{{歌手接口}}}&cover={{{自定义封面}}}&pick_cover={{{封面来源}}}&api_cover={{{封面接口}}}&lyric={{{自定义歌词}}}&pick_lyric={{{歌词来源}}}&api_lyric={{{歌词接口}}}"
 
 
 
