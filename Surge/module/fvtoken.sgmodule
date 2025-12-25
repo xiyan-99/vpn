@@ -1,5 +1,5 @@
 #!name=FV Token 抓取 by 夕颜
-#!desc=FineShare Token 自动抓取（三端通用脚本）
+#!desc=FineShare Token 自动抓取
 #!author=夕颜 wx: 1418581664
 #!icon=https://img.iosxy.xin/xiyan.png
 #!homepage=https://iosxy.xin
@@ -7,7 +7,7 @@
 #!category=iOS夕颜
 
 [Script]
-# FV Token 抓取（三端通用脚本）
+# FV Token 抓取
 FV_Token抓取 = type=http-request, pattern=^https:\/\/usage\.fineshare\.com\/.*, script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/fvtoken.js, timeout=10, tag=FV_Token抓取
 
 [MITM]

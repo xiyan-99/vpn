@@ -1,5 +1,5 @@
 #!name=Emby解锁 by 夕颜
-#!desc=点击恢复购买即可解锁（三端通用脚本）
+#!desc=点击恢复购买即可解锁
 #!author=夕颜
 #!icon=https://img.iosxy.xin/xiyan.png
 #!homepage=https://iosxy.xin
@@ -7,7 +7,7 @@
 #!category=iOS夕颜
 
 [Script]
-# Emby 会员解锁（三端通用脚本）
+# Emby 会员解锁
 Emby解锁 = type=http-response, pattern=^https:\/\/mb3admin\.com\/admin\/service(\/registration\/validateDevice|\/appstore\/register|\/registration\/validate|\/registration\/getStatus|\/supporter\/retrievekey), script-path=https://raw.githubusercontent.com/xiyan-99/vpn/refs/heads/main/js/emby-crack.js, requires-body=true, timeout=10, tag=Emby解锁
 
 [MITM]
