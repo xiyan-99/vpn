@@ -14,7 +14,7 @@ const AI_CONFIGS = {
   "gpt.cios.top": "wxid_gewflp92k3c522",
   "gpt.9527cleo.com": "hy894476729",
   "ai.vvios.com": "wxid_5t4ypj00k66j22",
-  "ai.ssios.top": "wxid_nc0g8hupkdw212"
+  "ai.sdios.top": "wxid_nc0g8hupkdw212"
 };
 
 // 查找匹配的域名并注入 wxid
